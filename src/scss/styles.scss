@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+	font-family: 'papermario';
+	src: url('../fonts/SuperMarioScript2Demo-Regular.ttf');
+}
+
+:root {
+	font-family: 'papermario';
+	-webkit-text-stroke: 1px black;
+	stroke: 1px black;
+	color: white;
+	font-size: 20px;
+
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+}
+
+body {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+
+	// Toggle switches
+	input[type='checkbox'] {
+		height: 0;
+		width: 0;
+		visibility: hidden;
+	}
+
+	label {
+		cursor: pointer;
+		text-indent: -9999px;
+		width: 50px;
+		height: 30px;
+		background: grey;
+		display: block;
+		border-radius: 100px;
+		position: relative;
+	}
+
+	label:after {
+		content: '';
+		position: absolute;
+		top: 5px;
+		left: 5px;
+		width: 20px;
+		height: 20px;
+		background: #fff;
+		border-radius: 90px;
+		transition: 0.3s;
+	}
+
+	input:checked + label {
+		background: #0d9488;
+	}
+
+	input:checked + label:after {
+		left: calc(100% - 5px);
+		transform: translateX(-100%);
+	}
+
+	// Inputs
+	input,
+	select {
+		color: black;
+		stroke: none;
+		padding: 0 5px;
+	}
+
+	.disabled {
+		pointer-events: none;
+		filter: grayscale(60%);
+
+		input,
+		select {
+			color: #888888;
+			background-color: #cccccc;
+		}
+
+		label:after {
+			background: #444444;
+		}
+	}
+
+	.vgl-layout {
+		--vgl-placeholder-bg: ##7dd3fc;
+		--vgl-placeholder-opacity: 20%;
+		--vgl-placeholder-z-index: 2;
+
+		--vgl-item-resizing-z-index: 3;
+		--vgl-item-resizing-opacity: 60%;
+		--vgl-item-dragging-z-index: 3;
+		--vgl-item-dragging-opacity: 100%;
+
+		--vgl-resizer-size: 10px;
+		--vgl-resizer-border-color: white;
+		--vgl-resizer-border-width: 1px;
+	}
+
+	.vgl-item__resizer {
+		right: 2px;
+		bottom: 2px;
+	}
+}

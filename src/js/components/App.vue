@@ -1,0 +1,965 @@
+<template>
+	<!-- <div @contextmenu="$event.preventDefault()"> -->
+	<div>
+		<header class="flex flex-wrap gap-2 p-3">
+			<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Export progress', delay: { show: 0 } }">
+				<font-awesome-icon :icon="['fas', 'save']" />
+			</button>
+			<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Import progress', delay: { show: 0 } }">
+				<font-awesome-icon :icon="['fas', 'download']" />
+			</button>
+			<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3 mr-10" type="button" v-tooltip="{ content: 'Reset progress', delay: { show: 0 } }" @click="resetSavePrompt">
+				<font-awesome-icon :icon="['fas', 'trash']" />
+			</button>
+			<button
+				class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
+				type="button"
+				v-tooltip="{ content: 'Randomizer settings', delay: { show: 0 } }"
+				@click="randomizerSettingsModalVisible = true">
+				<font-awesome-icon :icon="['fas', 'dice']" />
+			</button>
+			<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Logic settings', delay: { show: 0 } }" @click="logicSettingsModalVisible = true">
+				<font-awesome-icon :icon="['fas', 'brain']" />
+			</button>
+			<button
+				class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
+				type="button"
+				v-tooltip="{ content: 'Edit tracker settings', delay: { show: 0 } }"
+				@click="trackerSettingsModalVisible = true">
+				<font-awesome-icon :icon="['fas', 'wrench']" />
+			</button>
+			<div class="bg-sky-950 hover:bg-sky-800 w-fit flex rounded-md p-3 items-center" type="button" v-tooltip="{ content: 'Edit tracker layout', delay: { show: 0 } }">
+				<p class="mr-5">
+					<font-awesome-icon :icon="['fas', 'table']" />
+				</p>
+				<input id="edit_tracker_layout" type="checkbox" v-model="layout.editingLayout" />
+				<label for="edit_tracker_layout" />
+			</div>
+			<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3 mr-10" type="button" v-tooltip="{ content: 'Reset configs', delay: { show: 0 } }" @click="resetConfigsPrompt">
+				<font-awesome-icon :icon="['fas', 'trash']" />
+			</button>
+		</header>
+
+		<!-- Tracker content -->
+		<div>
+			<GridLayout v-model:layout="layout.tracker" :col-num="100" :row-height="1" vertical-compact use-css-transforms :is-resizable="layout.editingLayout">
+				<template v-for="grid_item in layout.tracker" :key="grid_item.i">
+					<GridItem
+						class="relative bg-sky-950 p-3 rounded-md overflow-hidden"
+						:key="grid_item.i"
+						:x="grid_item.x"
+						:y="grid_item.y"
+						:w="grid_item.w"
+						:h="grid_item.h"
+						:i="grid_item.i"
+						drag-allow-from=".draggable-handle"
+						drag-ignore-from=".no-drag"
+						v-if="map.panelVisible(grid_item.i)">
+						<div v-if="layout.editingLayout" class="draggable-handle absolute top-[15px] right-[15px]">
+							<font-awesome-icon :icon="['fas', 'bars']" />
+						</div>
+						<div class="no-drag">
+							<template v-if="grid_item.i == 'stars'">
+								<h2>Stars</h2>
+								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.stars" :key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+											:itemName="trackerItemConfigs.name"
+											:itemKey="trackerItemKey"
+											imageFolder="stars"
+											:itemCount="save.data.items[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:initial="trackerItemConfigs.initial" />
+									</template>
+								</div>
+							</template>
+							<template v-if="grid_item.i == 'partners'">
+								<h2>Partners</h2>
+								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.partners" :key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+											:itemName="trackerItemConfigs.name"
+											:itemKey="trackerItemKey"
+											imageFolder="partners"
+											:itemCount="save.data.items[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:initial="trackerItemConfigs.initial" />
+									</template>
+								</div>
+							</template>
+							<template v-if="grid_item.i == 'equipments'">
+								<h2>Equipments</h2>
+								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.equipments" :key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+											:itemName="trackerItemConfigs.name[save.data.items[trackerItemKey]]"
+											:itemKey="trackerItemKey"
+											imageFolder="equipments"
+											:itemCount="save.data.items[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:levelItem="true"
+											:initial="trackerItemConfigs.initial" />
+									</template>
+								</div>
+							</template>
+							<template v-if="grid_item.i == 'items_compact'">
+								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.stars" :key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+											:itemName="trackerItemConfigs.name"
+											:itemKey="trackerItemKey"
+											imageFolder="stars"
+											:itemCount="save.data.items[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:initial="trackerItemConfigs.initial" />
+									</template>
+									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.partners" :key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+											:itemName="trackerItemConfigs.name"
+											:itemKey="trackerItemKey"
+											imageFolder="partners"
+											:itemCount="save.data.items[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:initial="trackerItemConfigs.initial" />
+									</template>
+									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.equipments" :key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+											:itemName="trackerItemConfigs.name[save.data.items[trackerItemKey]]"
+											:itemKey="trackerItemKey"
+											imageFolder="equipments"
+											:itemCount="save.data.items[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:levelItem="true"
+											:initial="trackerItemConfigs.initial" />
+									</template>
+									<template v-for="(chaptersItems, chapter) in tracker.items.items" :key="chapter">
+										<template v-for="(trackerItemConfigs, trackerItemKey) in chaptersItems" :key="trackerItemKey">
+											<Item
+												v-if="trackerItemConfigs.enabled"
+												@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+												@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+												:itemName="trackerItemConfigs.name"
+												:itemKey="trackerItemKey"
+												:imageFolder="'items/' + chapter"
+												:itemCount="save.data.items[trackerItemKey]"
+												:itemCountMax="trackerItemConfigs.max"
+												:initial="trackerItemConfigs.initial" />
+										</template>
+									</template>
+								</div>
+							</template>
+							<template v-if="grid_item.i == 'items_per_chapter'">
+								<div class="flex flex-col">
+									<div class="flex flex-wrap items-center gap-x-5">
+										<div class="flex-none w-5">
+											<p>P</p>
+										</div>
+										<div class="flex-1">
+											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.prologue" :key="trackerItemKey">
+													<Item
+														v-if="trackerItemConfigs.enabled"
+														@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+														@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+														:itemName="trackerItemConfigs.name"
+														:itemKey="trackerItemKey"
+														imageFolder="items/prologue"
+														:itemCount="save.data.items[trackerItemKey]"
+														:itemCountMax="trackerItemConfigs.max"
+														:initial="trackerItemConfigs.initial" />
+												</template>
+											</div>
+										</div>
+									</div>
+									<div class="flex flex-wrap items-center gap-x-5">
+										<div class="flex-none w-5">
+											<p>C1</p>
+										</div>
+										<div class="flex-1">
+											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter1" :key="trackerItemKey">
+													<Item
+														v-if="trackerItemConfigs.enabled"
+														@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+														@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+														:itemName="trackerItemConfigs.name"
+														:itemKey="trackerItemKey"
+														imageFolder="items/chapter1"
+														:itemCount="save.data.items[trackerItemKey]"
+														:itemCountMax="trackerItemConfigs.max"
+														:initial="trackerItemConfigs.initial" />
+												</template>
+											</div>
+										</div>
+									</div>
+									<div class="flex flex-wrap items-center gap-x-5">
+										<div class="flex-none w-5">
+											<p>C2</p>
+										</div>
+										<div class="flex-1">
+											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter2" :key="trackerItemKey">
+													<Item
+														v-if="trackerItemConfigs.enabled"
+														@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+														@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+														:itemName="trackerItemConfigs.name"
+														:itemKey="trackerItemKey"
+														imageFolder="items/chapter2"
+														:itemCount="save.data.items[trackerItemKey]"
+														:itemCountMax="trackerItemConfigs.max"
+														:initial="trackerItemConfigs.initial" />
+												</template>
+											</div>
+										</div>
+									</div>
+									<div class="flex flex-wrap items-center gap-x-5">
+										<div class="flex-none w-5">
+											<p>C3</p>
+										</div>
+										<div class="flex-1">
+											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter3" :key="trackerItemKey">
+													<Item
+														v-if="trackerItemConfigs.enabled"
+														@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+														@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+														:itemName="trackerItemConfigs.name"
+														:itemKey="trackerItemKey"
+														imageFolder="items/chapter3"
+														:itemCount="save.data.items[trackerItemKey]"
+														:itemCountMax="trackerItemConfigs.max"
+														:initial="trackerItemConfigs.initial" />
+												</template>
+											</div>
+										</div>
+									</div>
+									<div class="flex flex-wrap items-center gap-x-5">
+										<div class="flex-none w-5">
+											<p>C4</p>
+										</div>
+										<div class="flex-1">
+											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter4" :key="trackerItemKey">
+													<Item
+														v-if="trackerItemConfigs.enabled"
+														@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+														@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+														:itemName="trackerItemConfigs.name"
+														:itemKey="trackerItemKey"
+														imageFolder="items/chapter4"
+														:itemCount="save.data.items[trackerItemKey]"
+														:itemCountMax="trackerItemConfigs.max"
+														:initial="trackerItemConfigs.initial" />
+												</template>
+											</div>
+										</div>
+									</div>
+									<div class="flex flex-wrap items-center gap-x-5">
+										<div class="flex-none w-5">
+											<p>C5</p>
+										</div>
+										<div class="flex-1">
+											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter5" :key="trackerItemKey">
+													<Item
+														v-if="trackerItemConfigs.enabled"
+														@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+														@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+														:itemName="trackerItemConfigs.name"
+														:itemKey="trackerItemKey"
+														imageFolder="items/chapter5"
+														:itemCount="save.data.items[trackerItemKey]"
+														:itemCountMax="trackerItemConfigs.max"
+														:initial="trackerItemConfigs.initial" />
+												</template>
+											</div>
+										</div>
+									</div>
+									<div class="flex flex-wrap items-center gap-x-5">
+										<div class="flex-none w-5">
+											<p>C6</p>
+										</div>
+										<div class="flex-1">
+											<div class="flex flex-wrap gap-x-0.5 gap-y-2">
+												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter6" :key="trackerItemKey">
+													<Item
+														v-if="trackerItemConfigs.enabled"
+														@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+														@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+														:itemName="trackerItemConfigs.name"
+														:itemKey="trackerItemKey"
+														imageFolder="items/chapter6"
+														:itemCount="save.data.items[trackerItemKey]"
+														:itemCountMax="trackerItemConfigs.max"
+														:initial="trackerItemConfigs.initial" />
+												</template>
+											</div>
+										</div>
+									</div>
+									<div class="flex flex-wrap items-center gap-x-5">
+										<div class="flex-none w-5">
+											<p>C7</p>
+										</div>
+										<div class="flex-1">
+											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter7" :key="trackerItemKey">
+													<Item
+														v-if="trackerItemConfigs.enabled"
+														@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+														@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+														:itemName="trackerItemConfigs.name"
+														:itemKey="trackerItemKey"
+														imageFolder="items/chapter7"
+														:itemCount="save.data.items[trackerItemKey]"
+														:itemCountMax="trackerItemConfigs.max"
+														:initial="trackerItemConfigs.initial" />
+												</template>
+											</div>
+										</div>
+									</div>
+									<div class="flex flex-wrap items-center gap-x-5">
+										<div class="flex-none w-5">
+											<p>C8</p>
+										</div>
+										<div class="flex-1">
+											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter8" :key="trackerItemKey">
+													<Item
+														v-if="trackerItemConfigs.enabled"
+														@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+														@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+														:itemName="trackerItemConfigs.name"
+														:itemKey="trackerItemKey"
+														imageFolder="items/chapter8"
+														:itemCount="save.data.items[trackerItemKey]"
+														:itemCountMax="trackerItemConfigs.max"
+														:initial="trackerItemConfigs.initial" />
+												</template>
+											</div>
+										</div>
+									</div>
+									<div class="flex flex-wrap items-center gap-x-5">
+										<div class="flex-none w-5">
+											<p v-tooltip="'Other'">O</p>
+										</div>
+										<div class="flex-1">
+											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.other" :key="trackerItemKey">
+													<Item
+														v-if="trackerItemConfigs.enabled"
+														@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+														@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+														:itemName="trackerItemConfigs.name"
+														:itemKey="trackerItemKey"
+														imageFolder="items/other"
+														:itemCount="save.data.items[trackerItemKey]"
+														:itemCountMax="trackerItemConfigs.max"
+														:initial="trackerItemConfigs.initial" />
+												</template>
+											</div>
+										</div>
+									</div>
+								</div>
+							</template>
+							<template v-if="grid_item.i == 'prologue'">
+								<h2>Prologue</h2>
+								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.prologue" :key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+											:itemName="trackerItemConfigs.name"
+											:itemKey="trackerItemKey"
+											:imageFolder="`items/${grid_item.i}`"
+											:itemCount="save.data.items[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:initial="trackerItemConfigs.initial" />
+									</template>
+								</div>
+							</template>
+							<template v-if="grid_item.i == 'chapter1'">
+								<h2>Chapter 1</h2>
+								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter1" :key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+											:itemName="trackerItemConfigs.name"
+											:itemKey="trackerItemKey"
+											:imageFolder="`items/${grid_item.i}`"
+											:itemCount="save.data.items[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:initial="trackerItemConfigs.initial" />
+									</template>
+								</div>
+							</template>
+							<template v-if="grid_item.i == 'chapter2'">
+								<h2>Chapter 2</h2>
+								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter2" :key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+											:itemName="trackerItemConfigs.name"
+											:itemKey="trackerItemKey"
+											:imageFolder="`items/${grid_item.i}`"
+											:itemCount="save.data.items[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:initial="trackerItemConfigs.initial" />
+									</template>
+								</div>
+							</template>
+							<template v-if="grid_item.i == 'chapter3'">
+								<h2>Chapter 3</h2>
+								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter3" :key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+											:itemName="trackerItemConfigs.name"
+											:itemKey="trackerItemKey"
+											:imageFolder="`items/${grid_item.i}`"
+											:itemCount="save.data.items[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:initial="trackerItemConfigs.initial" />
+									</template>
+								</div>
+							</template>
+							<template v-if="grid_item.i == 'chapter4'">
+								<h2>Chapter 4</h2>
+								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter4" :key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+											:itemName="trackerItemConfigs.name"
+											:itemKey="trackerItemKey"
+											:imageFolder="`items/${grid_item.i}`"
+											:itemCount="save.data.items[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:initial="trackerItemConfigs.initial" />
+									</template>
+								</div>
+							</template>
+							<template v-if="grid_item.i == 'chapter5'">
+								<h2>Chapter 5</h2>
+								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter5" :key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+											:itemName="trackerItemConfigs.name"
+											:itemKey="trackerItemKey"
+											:imageFolder="`items/${grid_item.i}`"
+											:itemCount="save.data.items[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:initial="trackerItemConfigs.initial" />
+									</template>
+								</div>
+							</template>
+							<template v-if="grid_item.i == 'chapter6'">
+								<h2>Chapter 6</h2>
+								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter6" :key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+											:itemName="trackerItemConfigs.name"
+											:itemKey="trackerItemKey"
+											:imageFolder="`items/${grid_item.i}`"
+											:itemCount="save.data.items[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:initial="trackerItemConfigs.initial" />
+									</template>
+								</div>
+							</template>
+							<template v-if="grid_item.i == 'chapter7'">
+								<h2>Chapter 7</h2>
+								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter7" :key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+											:itemName="trackerItemConfigs.name"
+											:itemKey="trackerItemKey"
+											:imageFolder="`items/${grid_item.i}`"
+											:itemCount="save.data.items[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:initial="trackerItemConfigs.initial" />
+									</template>
+								</div>
+							</template>
+							<template v-if="grid_item.i == 'chapter8'">
+								<h2>Chapter 8</h2>
+								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter8" :key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+											:itemName="trackerItemConfigs.name"
+											:itemKey="trackerItemKey"
+											:imageFolder="`items/${grid_item.i}`"
+											:itemCount="save.data.items[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:initial="trackerItemConfigs.initial" />
+									</template>
+								</div>
+							</template>
+							<template v-if="grid_item.i == 'other'">
+								<h2>Other Items</h2>
+								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.other" :key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+											:itemName="trackerItemConfigs.name"
+											:itemKey="trackerItemKey"
+											:imageFolder="`items/${grid_item.i}`"
+											:itemCount="save.data.items[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:initial="trackerItemConfigs.initial" />
+									</template>
+								</div>
+							</template>
+							<template v-if="grid_item.i == 'letters'">
+								<h2>Letters</h2>
+								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+									<template v-for="(chaptersItems, chapter) in tracker.items.letters" :key="chapter">
+										<template v-for="(trackerItemConfigs, trackerItemKey) in chaptersItems" :key="trackerItemKey">
+											<Item
+												v-if="trackerItemConfigs.enabled"
+												@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
+												@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
+												:itemName="trackerItemConfigs.name"
+												:itemKey="trackerItemKey"
+												:imageFolder="`${grid_item.i}`"
+												:itemCount="save.data.items.letters[trackerItemKey]"
+												:itemCountMax="trackerItemConfigs.max"
+												:initial="trackerItemConfigs.initial"
+												:tooltipDelay="0" />
+										</template>
+									</template>
+								</div>
+							</template>
+							<template v-if="grid_item.i == 'misc'">
+								<h2>Misc</h2>
+								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.misc" :key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+											:itemName="trackerItemConfigs.name"
+											:itemKey="trackerItemKey"
+											:imageFolder="`${grid_item.i}`"
+											:itemCount="save.data.items[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:initial="trackerItemConfigs.initial" />
+									</template>
+								</div>
+							</template>
+							<template v-if="grid_item.i == 'koopa_koot_favors'">
+								<h2>Koopa Koot Favors</h2>
+								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.koopa_koot_favors" :key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
+											:itemName="trackerItemConfigs.name"
+											:itemKey="trackerItemKey"
+											:imageFolder="`${grid_item.i}`"
+											:itemCount="save.data.items.koopa_koot_favors[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:initial="trackerItemConfigs.initial" />
+									</template>
+								</div>
+							</template>
+							<template v-if="grid_item.i == 'trading_event_toad'">
+								<h2>Trading Event Toad</h2>
+								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.trading_event_toad" :key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
+											:itemName="trackerItemConfigs.name"
+											:itemKey="trackerItemKey"
+											:imageFolder="`${grid_item.i}`"
+											:itemCount="save.data.items.trading_event_toad[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:initial="trackerItemConfigs.initial" />
+									</template>
+								</div>
+							</template>
+							<template v-if="grid_item.i == 'map'">
+								<div class="flex justify-between mb-3">
+									<h2>Map</h2>
+									<p>Total checks: {{ logic.getTotalCheckedChecksOnMap() }} / {{ logic.getTotalChecksOnMap() }}</p>
+								</div>
+
+								<!-- Map colors: Nothing: bg-slate-600 hover:bg-slate-500 | Available: bg-green-800 hover:bg-green-700 | Unavailable: bg-red-900 hover:bg-red-800 | Selected: bg-sky-600 -->
+								<div class="flex flex-wrap items-center justify-center gap-1">
+									<div
+										class="border-2 border-black rounded-md px-2"
+										:class="[map.getMapColorClasses(mapCategoryKey)]"
+										v-for="(mapCategoryConfigs, mapCategoryKey) in logic.checks"
+										:key="mapCategoryKey"
+										@click="map.selectMapCategory(mapCategoryKey)">
+										<p class="text-center">{{ mapCategoryConfigs.name }}</p>
+									</div>
+								</div>
+								<div class="bg-white h-[1px] my-4" />
+								<div class="flex justify-between mb-3">
+									<h3>{{ logic.checks[map.currentMapCategory].name }}</h3>
+									<p>Checks: {{ logic.getTotalCheckedChecksOnMap(map.currentMapCategory) }} / {{ logic.getTotalChecksOnMap(map.currentMapCategory) }}</p>
+								</div>
+
+								<div
+									class="grid grid-flow-col gap-0.5"
+									:class="[`grid-cols-${map.getHighestXForMap(map.currentMapCategory)}`, `grid-rows-${map.getHighestYForMap(map.currentMapCategory)}`]">
+									<template v-for="y in map.getHighestYForMap(map.currentMapCategory)">
+										<template v-for="x in map.getHighestXForMap(map.currentMapCategory)">
+											<div
+												v-if="map.getMapByCoordinates(map.currentMapCategory, x, y) !== null"
+												class="flex items-center justify-center rounded-md p-1.5"
+												:class="[
+													map.getMapColorClasses(map.currentMapCategory, map.getMapByCoordinates(map.currentMapCategory, x, y).key),
+													`col-start-${x}`,
+													`col-span-${map.getMapByCoordinates(map.currentMapCategory, x, y).w}`,
+													`row-start-${y}`,
+													`row-span-${map.getMapByCoordinates(map.currentMapCategory, x, y).h}`,
+													{
+														'border-2 border-black': !map.getMapByCoordinates(map.currentMapCategory, x, y).transparent
+													}
+												]"
+												@click="map.selectMap(map.getMapByCoordinates(map.currentMapCategory, x, y).key)">
+												<p class="text-center" v-html="map.getMapByCoordinates(map.currentMapCategory, x, y).name" />
+											</div>
+										</template>
+									</template>
+								</div>
+								<div v-if="map.currentMapCategory && map.currentMap" class="bg-white h-[1px] my-4" />
+								<div v-if="map.currentMapCategory && map.currentMap">
+									<h2>{{ logic.checks[map.currentMapCategory].maps[map.currentMap].name }}</h2>
+									<div class="flex flex-wrap gap-2 mt-3">
+										<template v-for="(check, checkKey) in logic.checks[map.currentMapCategory].maps[map.currentMap].checks">
+											<div
+												v-if="check.exists()"
+												class="flex items-center border-2 border-black rounded-md px-2 py-1 cursor-pointer"
+												:class="[map.getCheckColorClasses(map.currentMapCategory, map.currentMap, checkKey, check)]"
+												@click="map.selectCheck(map.currentMapCategory, map.currentMap, checkKey)"
+												@contextmenu="map.unselectCheck(map.currentMapCategory, map.currentMap, checkKey)"
+												v-tooltip="check.tooltip !== undefined ? check.tooltip : null">
+												<img
+													v-if="check.icon"
+													class="h-3 mr-2"
+													:src="`/images/checks/${check.icon}.webp`"
+													v-tooltip="{ content: check.icon.titlize().capitalize(), delay: { show: 200 } }" />
+												{{ check.name }}
+											</div>
+										</template>
+									</div>
+								</div>
+								<!-- Tailwind bug // Tailwind apparently won't generate the col and row span css if they do not always exists... -->
+								<div class="hidden grid grid-cols-1 grid-rows-1">
+									<div class="flex items-center justify-center bg-sky-600 w-full h-16 rounded-md border-2 border-black col-span-1 col-start-1 row-span-1 row-start-1">
+										<p>Playground</p>
+									</div>
+									<div class="flex items-center justify-center bg-sky-600 w-full h-16 rounded-md border-2 border-black col-span-2 col-start-2 row-span-2 row-start-2">
+										<p>Playground</p>
+									</div>
+									<div class="flex items-center justify-center bg-sky-600 w-full h-16 rounded-md border-2 border-black col-span-3 col-start-3 row-span-3 row-start-3">
+										<p>Playground</p>
+									</div>
+									<div class="flex items-center justify-center bg-sky-600 w-full h-16 rounded-md border-2 border-black col-span-4 col-start-4 row-span-4 row-start-4">
+										<p>Playground</p>
+									</div>
+									<div class="flex items-center justify-center bg-sky-600 w-full h-16 rounded-md border-2 border-black col-span-5 col-start-5 row-span-5 row-start-5">
+										<p>Playground</p>
+									</div>
+									<div class="flex items-center justify-center bg-sky-600 w-full h-16 rounded-md border-2 border-black col-span-6 col-start-6 row-span-6 row-start-6">
+										<p>Playground</p>
+									</div>
+									<div class="flex items-center justify-center bg-sky-600 w-full h-16 rounded-md border-2 border-black col-span-7 col-start-7 row-span-7 row-start-7">
+										<p>Playground</p>
+									</div>
+									<div class="flex items-center justify-center bg-sky-600 w-full h-16 rounded-md border-2 border-black col-span-8 col-start-8 row-span-8 row-start-8">
+										<p>Playground</p>
+									</div>
+									<div class="flex items-center justify-center bg-sky-600 w-full h-16 rounded-md border-2 border-black col-span-9 col-start-9 row-span-9 row-start-9">
+										<p>Playground</p>
+									</div>
+									<div class="flex items-center justify-center bg-sky-600 w-full h-16 rounded-md border-2 border-black col-span-10 col-start-10 row-span-10 row-start-10">
+										<p>Playground</p>
+									</div>
+									<div class="flex items-center justify-center bg-sky-600 w-full h-16 rounded-md border-2 border-black col-span-11 col-start-11 row-span-11 row-start-11">
+										<p>Playground</p>
+									</div>
+									<div class="flex items-center justify-center bg-sky-600 w-full h-16 rounded-md border-2 border-black col-span-12 col-start-12 row-span-12 row-start-12">
+										<p>Playground</p>
+									</div>
+								</div>
+								<div class="hidden grid grid-cols-10 grid-rows-2"></div>
+								<div class="hidden grid grid-cols-10 grid-rows-3"></div>
+								<div class="hidden grid grid-cols-10 grid-rows-4"></div>
+								<div class="hidden grid grid-cols-10 grid-rows-5"></div>
+								<div class="hidden grid grid-cols-10 grid-rows-6"></div>
+								<div class="hidden grid grid-cols-10 grid-rows-7"></div>
+								<div class="hidden grid grid-cols-10 grid-rows-8"></div>
+								<div class="hidden grid grid-cols-10 grid-rows-9"></div>
+								<div class="hidden grid grid-cols-10 grid-rows-10"></div>
+								<div class="hidden grid grid-cols-10 grid-rows-11"></div>
+								<div class="hidden grid grid-cols-10 grid-rows-12"></div>
+								<div class="hidden grid grid-cols-10 grid-rows-13"></div>
+								<div class="hidden grid grid-cols-10 grid-rows-14"></div>
+								<div class="hidden grid grid-cols-10 grid-rows-15"></div>
+								<div class="hidden grid grid-cols-10 grid-rows-16"></div>
+								<div class="hidden grid grid-cols-2 grid-rows-2"></div>
+								<div class="hidden grid grid-cols-3 grid-rows-3"></div>
+								<div class="hidden grid grid-cols-4 grid-rows-4"></div>
+								<div class="hidden grid grid-cols-5 grid-rows-5"></div>
+								<div class="hidden grid grid-cols-6 grid-rows-6"></div>
+								<div class="hidden grid grid-cols-7 grid-rows-7"></div>
+								<div class="hidden grid grid-cols-8 grid-rows-8"></div>
+								<div class="hidden grid grid-cols-9 grid-rows-9"></div>
+								<div class="hidden grid grid-cols-10 grid-rows-10"></div>
+								<div class="hidden grid grid-cols-11 grid-rows-11"></div>
+								<div class="hidden grid grid-cols-12 grid-rows-12"></div>
+								<div class="hidden grid grid-cols-13 grid-rows-13"></div>
+								<div class="hidden grid grid-cols-14 grid-rows-14"></div>
+								<div class="hidden grid grid-cols-15 grid-rows-15"></div>
+								<div class="hidden grid grid-cols-16 grid-rows-16"></div>
+							</template>
+						</div>
+					</GridItem>
+				</template>
+			</GridLayout>
+		</div>
+
+		<!-- Randomizer Modal -->
+		<Modal :show="randomizerSettingsModalVisible" @onClose="randomizerSettingsModalVisible = false">
+			<div
+				class="flex justify-between w-30"
+				:class="{
+					'mb-3': configIndex < Object.keys(tracker.configs.randomizer).length - 1,
+					disabled: !configConfigs.enabled
+				}"
+				v-for="(configConfigs, config, configIndex) in tracker.configs.randomizer"
+				:key="config">
+				<p class="capitalize">{{ config.titlize() }}</p>
+				<div class="flex" v-if="configConfigs.type == 'switch'">
+					<input :id="`config_${config}`" type="checkbox" v-model="save.data.configs.randomizer[config]" />
+					<label :for="`config_${config}`" />
+				</div>
+				<select :id="`config_${config}`" class="rounded-md" v-if="configConfigs.type == 'select'" v-model="save.data.configs.randomizer[config]">
+					<option v-for="(option, optionIndex) in configConfigs.options" :key="optionIndex" :value="option.value">
+						{{ option.text }}
+					</option>
+				</select>
+				<input
+					:id="`config_${config}`"
+					class="rounded-md"
+					type="number"
+					v-if="configConfigs.type == 'number'"
+					:min="configConfigs.min"
+					:max="configConfigs.max"
+					v-model="save.data.configs.randomizer[config]" />
+			</div>
+		</Modal>
+
+		<!-- Logic Settings Modal -->
+		<Modal :show="logicSettingsModalVisible" @onClose="logicSettingsModalVisible = false">
+			<div
+				class="flex justify-between w-30"
+				:class="{
+					'mb-3': configIndex < Object.keys(tracker.configs.logic).length - 1,
+					disabled: !configValue.enabled
+				}"
+				v-for="(configValue, config, configIndex) in tracker.configs.logic"
+				:key="config">
+				<p class="capitalize">{{ config.titlize() }}</p>
+				<div class="flex" v-if="configValue.type == 'switch'">
+					<input :id="`config_${config}`" type="checkbox" v-model="save.data.configs.logic[config]" />
+					<label :for="`config_${config}`" />
+				</div>
+				<select :id="`config_${config}`" class="rounded-md" v-if="configValue.type == 'select'" v-model="save.data.configs.logic[config]">
+					<option v-for="(option, optionIndex) in configValue.options" :key="optionIndex" :value="option.value">
+						{{ option.text }}
+					</option>
+				</select>
+				<input
+					:id="`config_${config}`"
+					class="rounded-md"
+					type="number"
+					v-if="configValue.type == 'number'"
+					:min="configValue.min"
+					:max="configValue.max"
+					v-model="save.data.configs.logic[config]" />
+			</div>
+		</Modal>
+
+		<!-- Tracker Modal -->
+		<Modal :show="trackerSettingsModalVisible" @onClose="trackerSettingsModalVisible = false">
+			<div
+				class="flex justify-between w-30"
+				:class="{
+					'mb-3': configIndex < Object.keys(tracker.configs.tracker).length - 1,
+					disabled: !configValue.enabled
+				}"
+				v-for="(configValue, config, configIndex) in tracker.configs.tracker"
+				:key="config">
+				<p class="capitalize">{{ config.titlize() }}</p>
+				<div class="flex" v-if="configValue.type == 'switch'">
+					<input :id="`config_${config}`" type="checkbox" v-model="save.data.configs.tracker[config]" />
+					<label :for="`config_${config}`"></label>
+				</div>
+				<select :id="`config_${config}`" class="rounded-md" v-if="configValue.type == 'select'" v-model="save.data.configs.tracker[config]">
+					<option v-for="(option, optionIndex) in configValue.options" :key="optionIndex" :value="option.value">
+						{{ option.text }}
+					</option>
+				</select>
+				<input
+					:id="`config_${config}`"
+					class="rounded-md"
+					type="number"
+					v-if="configValue.type == 'number'"
+					:min="configValue.min"
+					:max="configValue.max"
+					v-model="save.data.configs.tracker[config]" />
+			</div>
+			<div class="bg-white h-[1px] my-4" />
+			<div>
+				<button
+					class="border-2 border-sky-800 bg-sky-900 rounded-md p-1"
+					@click="
+						layout.restoreDefaultLayout();
+						trackerSettingsModalVisible = false;
+					">
+					<font-awesome-icon :icon="['fas', 'trash']" />
+					Reset tracker layout
+				</button>
+			</div>
+		</Modal>
+	</div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+import { useSaveStore } from '../stores/save';
+import { useTrackerStore } from '../stores/tracker';
+import { useLayoutStore } from '../stores/layout';
+import { useLogicStore } from '../stores/logic';
+import { useMapStore } from '../stores/map';
+
+import Modal from './Modal.vue';
+import Item from './tracker/Item.vue';
+
+const save = useSaveStore();
+const tracker = useTrackerStore();
+const layout = useLayoutStore();
+const logic = useLogicStore();
+const map = useMapStore();
+
+const randomizerSettingsModalVisible = ref(false);
+const logicSettingsModalVisible = ref(false);
+const trackerSettingsModalVisible = ref(false);
+
+const trackerLeftClick = (event, key, configs, itemSubCategory = null) => {
+	if (configs.max == 1) {
+		if (itemSubCategory === null) {
+			if (save.data.items[key] !== undefined) {
+				save.data.items[key] = true;
+			}
+		} else {
+			if (save.data.items[itemSubCategory][key] !== undefined) {
+				save.data.items[itemSubCategory][key] = true;
+			}
+		}
+	} else if (configs.max > 1) {
+		if (itemSubCategory === null) {
+			if (save.data.items[key] < configs.max) {
+				save.data.items[key]++;
+			}
+		} else {
+			if (save.data.items[itemSubCategory][key] < configs.max) {
+				save.data.items[itemSubCategory][key]++;
+			}
+		}
+	} else {
+		console.log('Error: Max value is not a number');
+	}
+};
+
+const trackerRightClick = (event, key, configs, itemSubCategory = null) => {
+	if (configs.max == 1) {
+		if (itemSubCategory === null) {
+			if (save.data.items[key] !== undefined) {
+				save.data.items[key] = false;
+			}
+		} else {
+			if (save.data.items[itemSubCategory][key] !== undefined) {
+				save.data.items[itemSubCategory][key] = false;
+			}
+		}
+	} else if (configs.max > 1) {
+		if (itemSubCategory === null) {
+			if (save.data.items[key] > 0) {
+				save.data.items[key]--;
+			}
+		} else {
+			if (save.data.items[itemSubCategory][key] > 0) {
+				save.data.items[itemSubCategory][key]--;
+			}
+		}
+	} else {
+		console.log('Error: Max value is not a number');
+	}
+};
+
+const resetSavePrompt = () => {
+	if (confirm('Are you sure you want to reset your save? This will reset only your tracker progression, not your configs.')) {
+		save.resetSave();
+	}
+};
+
+const resetConfigsPrompt = () => {
+	if (confirm('Are you sure you want to reset your configs? This will reset only your configs, not your tracker progression.')) {
+		save.resetConfigs();
+	}
+};
+
+//OnLoad Function Calls
+layout.loadLayout();
+save.loadSave();
+</script>
