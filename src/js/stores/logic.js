@@ -301,6 +301,26 @@ export const useLogicStore = defineStore('logic', () => {
 		tubba_blubba_castle: () => {
 			return flags.gusty_gulch() && save.data.items.parakarry;
 		},
+		toybox: (requireBoots = true) => {
+			if (save.data.configs.randomizer.toybox_open) {
+				return true;
+			}
+
+			if (requireBoots) {
+				if (save.data.items.boots < 1) {
+					return false;
+				}
+			}
+
+			if (flags.toad_town() && flags.jump_ledges() && save.data.items.bow) {
+				return true;
+			}
+
+			return false;
+		},
+		toybox_jack_in_a_box: () => {
+			return flags.toybox() && (save.data.items.boots >= 2 || save.data.items.hammer >= 1);
+		},
 		shiver_city: () => {
 			if (flags.toad_town()) {
 				if (
@@ -1797,7 +1817,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Super block behind ultra blocks',
 							icon: 'super_blocks',
 							exists: () => {
-								return save.data.configs.logic.super_blocks_randomized_randomized || save.data.configs.tracker.always_show_super_blocks;
+								return save.data.configs.logic.super_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
 							available: () => {
 								return flags.sewers() && flags.stone_blocks();
@@ -6101,7 +6121,18 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 5,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'On the table',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.tubba_blubba_castle();
+							}
+						}
+					]
 				},
 				spring_and_tables: {
 					name: 'Spring and tables',
@@ -6109,7 +6140,18 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 5,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Left table',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.tubba_blubba_castle() && save.data.items.tubba_castle_key >= 1;
+							}
+						}
+					]
 				},
 				table: {
 					name: 'Table',
@@ -6117,7 +6159,19 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 6,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'On the table',
+							tooltip: 'Fall from above',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.tubba_blubba_castle();
+							}
+						}
+					]
 				},
 				abandoned_basement_stairwell: {
 					name: 'Abandoned basement stairwell',
@@ -6133,7 +6187,18 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 6,
 					w: 1,
 					h: 2,
-					checks: []
+					checks: [
+						{
+							name: 'Super block',
+							icon: 'super_blocks',
+							exists: () => {
+								return save.data.configs.logic.super_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
+							},
+							available: () => {
+								return flags.tubba_blubba_castle();
+							}
+						}
+					]
 				},
 				basement: {
 					name: 'Basement',
@@ -6141,7 +6206,18 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 7,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Chest',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.tubba_blubba_castle() && flags.panels();
+							}
+						}
+					]
 				},
 				stairwell_1f: {
 					name: '1F stairwell',
@@ -6165,7 +6241,18 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 3,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Chest',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.tubba_blubba_castle() && save.data.items.tubba_castle_key >= 1 && save.data.items.bow;
+							}
+						}
+					]
 				},
 				floor_panel: {
 					name: 'Floor panel',
@@ -6189,7 +6276,78 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 3,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Behind the wall on the shelf on the west side of the room',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.tubba_blubba_castle() && save.data.items.tubba_castle_key >= 1;
+							}
+						},
+						{
+							name: 'Coin on the bed 1',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.tubba_blubba_castle() && save.data.items.tubba_castle_key >= 1;
+							}
+						},
+						{
+							name: 'Coin on the bed 2',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.tubba_blubba_castle() && save.data.items.tubba_castle_key >= 1;
+							}
+						},
+						{
+							name: 'Coin on the bed 3',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.tubba_blubba_castle() && save.data.items.tubba_castle_key >= 1;
+							}
+						},
+						{
+							name: 'Coin on the bed 4',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.tubba_blubba_castle() && save.data.items.tubba_castle_key >= 1;
+							}
+						},
+						{
+							name: 'Coin on the bed 5',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.tubba_blubba_castle() && save.data.items.tubba_castle_key >= 1;
+							}
+						},
+						{
+							name: 'Coin on the bed 6',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.tubba_blubba_castle() && save.data.items.tubba_castle_key >= 1;
+							}
+						}
+					]
 				},
 				stairwell_2f: {
 					name: '2F stairwell',
@@ -6197,7 +6355,18 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 2,
 					w: 1,
 					h: 3,
-					checks: []
+					checks: [
+						{
+							name: '? block down the stairs',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.tubba_blubba_castle() && save.data.items.tubba_castle_key >= 2;
+							}
+						}
+					]
 				},
 				chase_hallway: {
 					name: 'Chase hallway',
@@ -6213,7 +6382,18 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 1,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Item at the end of the hallway',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.tubba_blubba_castle() && save.data.items.tubba_castle_key >= 2;
+							}
+						}
+					]
 				},
 				save_block: {
 					name: 'Save block',
@@ -6230,6 +6410,892 @@ export const useLogicStore = defineStore('logic', () => {
 					w: 1,
 					h: 1,
 					checks: []
+				}
+			}
+		},
+		toybox: {
+			name: "Shy Guy's Toybox",
+			maps: {
+				blue_station: {
+					name: 'Blue Station',
+					x: 3,
+					y: 1,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Invisible block east of the room',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox(false) && flags.jump_coin_blocks();
+							}
+						},
+						{
+							name: 'In front of the station',
+							icon: 'panels_randomized',
+							exists: () => {
+								return save.data.configs.logic.panels;
+							},
+							available: () => {
+								return flags.toybox() && flags.panels();
+							}
+						}
+					]
+				},
+				block_city: {
+					name: 'Block City',
+					x: 4,
+					y: 1,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Item 1 on the left spring',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.toybox_jack_in_a_box();
+							}
+						},
+						{
+							name: 'Item 2 on the left spring',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.toybox_jack_in_a_box();
+							}
+						},
+						{
+							name: 'Item 3 on the left spring',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.toybox_jack_in_a_box();
+							}
+						},
+						{
+							name: 'Item 1 on the spring of top of the first wall',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.toybox_jack_in_a_box();
+							}
+						},
+						{
+							name: 'Item 2 on the spring of top of the first wall',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.toybox_jack_in_a_box();
+							}
+						},
+						{
+							name: 'Item 3 on the spring of top of the first wall',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.toybox_jack_in_a_box();
+							}
+						},
+						{
+							name: 'Item 4 on the spring of top of the first wall',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.toybox_jack_in_a_box();
+							}
+						},
+						{
+							name: 'Item 5 on the spring of top of the first wall',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.toybox_jack_in_a_box();
+							}
+						},
+						{
+							name: 'Item behind the fallen blocks',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox_jack_in_a_box();
+							}
+						},
+						{
+							name: 'Item of the roof of the west most building',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox_jack_in_a_box() && save.data.items.parakarry;
+							}
+						},
+						{
+							name: '? block on the west side of the last wall',
+							icon: 'coin_blocks',
+							exists: () => {
+								return save.data.configs.logic.coin_blocks;
+							},
+							available: () => {
+								return flags.toybox_jack_in_a_box();
+							}
+						},
+						{
+							name: '? block on the east side of the last wall',
+							icon: 'coin_blocks',
+							exists: () => {
+								return save.data.configs.logic.coin_blocks;
+							},
+							available: () => {
+								return flags.toybox_jack_in_a_box();
+							}
+						},
+						{
+							name: '? block on the ledge at the end of the room',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox_jack_in_a_box();
+							}
+						},
+						{
+							name: 'Item that Kammy spawns',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox_jack_in_a_box();
+							}
+						},
+						{
+							name: 'Chest',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox_jack_in_a_box();
+							}
+						}
+					]
+				},
+				anti_guy: {
+					name: 'Anti Guy',
+					x: 2,
+					y: 1,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Invisible block near the east exit',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox(false) && flags.jump_coin_blocks();
+							}
+						},
+						{
+							name: "Anti Guy's chest",
+							tooltip: 'In logic if you can make a Lemon Candy (Lemon + Cake Mix)',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox(false) && save.data.items.anti_guy;
+							}
+						},
+						{
+							name: '? block near the west exit',
+							icon: 'coin_blocks',
+							exists: () => {
+								return save.data.configs.logic.coin_blocks;
+							},
+							available: () => {
+								return flags.toybox(false) && flags.jump_coin_blocks();
+							}
+						}
+					]
+				},
+				playroom: {
+					name: 'Playroom',
+					x: 1,
+					y: 1,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Eastern invisible block',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox(false) && flags.jump_coin_blocks();
+							}
+						},
+						{
+							name: 'Western invisible block',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox(false) && flags.jump_coin_blocks();
+							}
+						},
+						{
+							name: 'Yellow Shy Guy 1',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox(false);
+							}
+						},
+						{
+							name: 'Yellow Shy Guy 2',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox(false);
+							}
+						},
+						{
+							name: 'Red Shy Guy',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox(false);
+							}
+						},
+						{
+							name: 'Blue Shy Guy',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox(false);
+							}
+						},
+						{
+							name: 'Green Shy Guy',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox(false);
+							}
+						}
+					]
+				},
+				pink_station: {
+					name: 'Pink Station',
+					x: 3,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Chest on the east of the station',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train;
+							}
+						},
+						{
+							name: 'Invisible block by the pink lever',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						},
+						{
+							name: 'In front of the station',
+							icon: 'panels_randomized',
+							exists: () => {
+								return save.data.configs.logic.panels;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && flags.panels();
+							}
+						}
+					]
+				},
+				playhouse: {
+					name: 'Playhouse',
+					x: 4,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Chest on the wall near the west exit',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox_jack_in_a_box() && save.data.items.toy_train;
+							}
+						},
+						{
+							name: '? block in the alley past the house',
+							name: 'coin_blocks',
+							exists: () => {
+								return save.data.configs.logic.coin_blocks;
+							},
+							available: () => {
+								return flags.toybox_jack_in_a_box() && save.data.items.toy_train;
+							}
+						},
+						{
+							name: 'Chest past the alley and past the house',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox_jack_in_a_box() && save.data.items.toy_train;
+							}
+						},
+						{
+							name: 'Item that Kammy spawns',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox_jack_in_a_box() && save.data.items.toy_train;
+							}
+						},
+						{
+							name: 'Chest at the end of the room',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox_jack_in_a_box() && save.data.items.toy_train;
+							}
+						}
+					]
+				},
+				tracks_hallway: {
+					name: 'Tracks Hallway',
+					x: 2,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: '? block on top of the podium south of the tracks',
+							icon: 'coin_blocks',
+							exists: () => {
+								return save.data.configs.logic.coin_blocks;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train;
+							}
+						},
+						{
+							name: 'West ? block north of the tracks',
+							icon: 'coin_blocks',
+							exists: () => {
+								return save.data.configs.logic.coin_blocks;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						},
+						{
+							name: 'East ? block north of the tracks',
+							icon: 'coin_blocks',
+							exists: () => {
+								return save.data.configs.logic.coin_blocks;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						}
+					]
+				},
+				gourmet_guy: {
+					name: 'Gourmet Guy',
+					x: 1,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Give the cake to Gourmet Guy',
+							tooltip: 'You can find a cake or cook a Cake Mix',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						},
+						{
+							name: '? block north of the tracks, left of the Gourmet Guy Gate',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						},
+						{
+							name: 'Left ? block north of the tracks, right of the Gourmet Guy Gate',
+							icon: 'coin_blocks',
+							exists: () => {
+								return save.data.configs.logic.coin_blocks;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						},
+						{
+							name: 'Middle invisible block north of the tracks, right of the Gourmet Guy Gate',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						},
+						{
+							name: 'Right ? block north of the tracks, right of the Gourmet Guy Gate',
+							icon: 'coin_blocks',
+							exists: () => {
+								return save.data.configs.logic.coin_blocks;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						}
+					]
+				},
+				green_station: {
+					name: 'Green Station',
+					x: 3,
+					y: 3,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'In front of the station',
+							icon: 'panels_randomized',
+							exists: () => {
+								return save.data.configs.logic.panels;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.panels();
+							}
+						},
+						{
+							name: 'Invisible block east of the station',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						}
+					]
+				},
+				treadmills: {
+					name: 'Treadmills',
+					x: 4,
+					y: 3,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Item 1 on the first threadmill',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						},
+						{
+							name: 'Item 2 on the first threadmill',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						},
+						{
+							name: 'Item 3 on the first threadmill',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						},
+						{
+							name: 'Item 1 on the second threadmill',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						},
+						{
+							name: 'Item 2 on the second threadmill',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						},
+						{
+							name: 'Item 3 on the second threadmill',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						},
+						{
+							name: 'Yellow Shy Guy on the last threadmill',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow;
+							}
+						},
+						{
+							name: 'Coin 1 inside the fort',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow;
+							}
+						},
+						{
+							name: 'Coin 2 inside the fort',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow;
+							}
+						},
+						{
+							name: 'Coin 3 inside the fort',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow;
+							}
+						},
+						{
+							name: 'Coin 4 inside the fort',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow;
+							}
+						},
+						{
+							name: 'Coin 5 inside the fort',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow;
+							}
+						},
+						{
+							name: 'Coin 6 inside the fort',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow;
+							}
+						},
+						{
+							name: 'Item in the fort',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow;
+							}
+						},
+						{
+							name: 'Item that Kammy spawns',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow && save.data.items.parakarry;
+							}
+						},
+						{
+							name: 'Chest at the end of the room',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow && save.data.items.parakarry;
+							}
+						}
+					]
+				},
+				red_station: {
+					name: 'Red Station',
+					x: 3,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'In front of the station',
+							icon: 'panels_randomized',
+							exists: () => {
+								return save.data.configs.logic.panels;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.panels();
+							}
+						},
+						{
+							name: 'Invisible block west of the station',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						}
+					]
+				},
+				moving_platforms: {
+					name: 'Moving Platforms',
+					x: 2,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Invisible block next of the east exit',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						},
+						{
+							name: 'Left ? block in the middle of the room',
+							icon: 'coin_blocks',
+							exists: () => {
+								return save.data.configs.logic.coin_blocks;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						},
+						{
+							name: 'Middle invisible block in the middle of the room',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						},
+						{
+							name: 'Right ? block in the middle of the room',
+							icon: 'coin_blocks',
+							exists: () => {
+								return save.data.configs.logic.coin_blocks;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						},
+						{
+							name: 'Hidden block near the west exit',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						}
+					]
+				},
+				lantern_ghost: {
+					name: 'Lantern Ghost',
+					x: 1,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Watt',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						}
+					]
+				},
+				shy_guys_baricade: {
+					name: 'Shy Guys Baricade',
+					x: 4,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Item on top of the brick block',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return (
+									flags.toybox() &&
+									save.data.items.toy_train &&
+									save.data.items.cake &&
+									save.data.items.bombette &&
+									(save.data.items.boots >= 3 || (flags.toybox_jack_in_a_box() && save.data.items.kooper))
+								);
+							}
+						},
+						{
+							name: 'Invisible ? block near the item on top of the brick block',
+							icon: 'coin_blocks',
+							exists: () => {
+								return save.data.configs.logic.coin_blocks;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bombette;
+							}
+						},
+						{
+							name: '? block near the east exit',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bombette;
+							}
+						}
+					]
+				},
+				dark_room: {
+					name: 'Dark Room',
+					x: 5,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				general_guy: {
+					name: 'General Guy',
+					x: 6,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Muskular',
+							icon: 'stars/muskular',
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bombette && save.data.items.watt;
+							}
+						}
+					]
 				}
 			}
 		}

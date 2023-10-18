@@ -6,7 +6,10 @@
 				'opacity-50': !itemCount
 			}"
 			:src="levelItem ? `/images/${imageFolder}/${itemKey}_${itemCount}.webp` : `/images/${imageFolder}/${itemKey}.webp`" />
-		<p v-if="itemCountMax > 1 && !levelItem" class="absolute w-fit whitespace-nowrap bottom-[-10px] right-0">{{ itemCount }}/{{ itemCountMax }}</p>
+		<template v-if="imageFolder == 'partners' && itemCount > 1" v-for="i in itemCount - 1" :key="i">
+			<img class="absolute bottom-0 h-[15px]" :class="[`right-level${i}`]" src="/images/partners/partner_level.webp" />
+		</template>
+		<p v-if="imageFolder != 'partners' && itemCountMax > 1 && !levelItem" class="absolute w-fit whitespace-nowrap bottom-[-10px] right-0">{{ itemCount }}/{{ itemCountMax }}</p>
 		<p v-if="initial" class="absolute w-fit whitespace-nowrap top-[-10px] left-0">{{ initial }}</p>
 	</div>
 </template>

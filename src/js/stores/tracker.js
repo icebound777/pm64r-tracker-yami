@@ -62,42 +62,42 @@ export const useTrackerStore = defineStore('tracker', () => {
 			goombario: {
 				name: 'Goombario',
 				enabled: true,
-				max: 1
+				max: 3
 			},
 			kooper: {
 				name: 'Kooper',
 				enabled: true,
-				max: 1
+				max: 3
 			},
 			bombette: {
 				name: 'Bombette',
 				enabled: true,
-				max: 1
+				max: 3
 			},
 			parakarry: {
 				name: 'Parakarry',
 				enabled: true,
-				max: 1
+				max: 3
 			},
 			bow: {
 				name: 'Bow',
 				enabled: true,
-				max: 1
+				max: 3
 			},
 			watt: {
 				name: 'Watt',
 				enabled: true,
-				max: 1
+				max: 3
 			},
 			sushie: {
 				name: 'Sushie',
 				enabled: true,
-				max: 1
+				max: 3
 			},
 			lakilester: {
 				name: 'Lakilester',
 				enabled: true,
-				max: 1
+				max: 3
 			},
 			ultra_stone: {
 				name: 'Ultra Stone',
@@ -248,7 +248,7 @@ export const useTrackerStore = defineStore('tracker', () => {
 					required: true
 				},
 				cake: {
-					name: 'Cake',
+					name: 'Cake (Cook a Cake Mix)',
 					enabled: true,
 					max: 1,
 					required: true

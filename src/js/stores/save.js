@@ -8,48 +8,9 @@ export const useSaveStore = defineStore('save', () => {
 
 	const currentSave = reactive({
 		configs: {
-			randomizer: {
-				prologue_open: false,
-				mt_rugged_open: false,
-				forever_forest_open: false,
-				toybox_open: false,
-				whale_open: false,
-				chapter_7_bridge_visible: false,
-				blue_house_open: false,
-				magical_seed_required: 4,
-				starting_location: 65796,
-				star_hunt_enabled: false,
-				star_hunt_star_count: 120
-			},
-			logic: {
-				fast_bowser_castle: false,
-				super_blocks_randomized: false,
-				shopsanity: false,
-				rowf_shop: false,
-				merlow: false,
-				merlow_reward_cost_1: 1,
-				merlow_reward_cost_2: 1,
-				merlow_reward_cost_3: 1,
-				merlow_reward_cost_4: 1,
-				merlow_reward_cost_5: 1,
-				merlow_reward_cost_6: 1,
-				rip_cheato: 0,
-				panels: false,
-				overworld_coins: false,
-				coin_blocks: false,
-				foliage_coins: false,
-				letters_randomized: false,
-				koopa_koot: false,
-				koopa_koot_coins: false,
-				dojo_randomized: false,
-				trading_event_randomized: false
-			},
-			tracker: {
-				map: true,
-				always_show_super_blocks: false,
-				compact_items: false,
-				compact_items_per_chapters: false
-			}
+			randomizer: {},
+			logic: {},
+			tracker: {}
 		}
 	});
 
@@ -64,14 +25,14 @@ export const useSaveStore = defineStore('save', () => {
 			klevar: false,
 			kalmar: false,
 			starrod: false,
-			goombario: false,
-			kooper: false,
-			bombette: false,
-			parakarry: false,
-			bow: false,
-			watt: false,
-			sushie: false,
-			lakilester: false,
+			goombario: 0,
+			kooper: 0,
+			bombette: 0,
+			parakarry: 0,
+			bow: 0,
+			watt: 0,
+			sushie: 0,
+			lakilester: 0,
 			ultra_stone: false,
 			boots: 1,
 			hammer: 1,
