@@ -188,6 +188,7 @@ export const useSaveStore = defineStore('save', () => {
 				map: true,
 				always_show_super_blocks: false,
 				compact_items: false,
+				compact_item_background_hex_color: '#000000',
 				compact_items_per_chapters: false
 			}
 		}

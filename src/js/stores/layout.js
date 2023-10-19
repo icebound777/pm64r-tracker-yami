@@ -9,11 +9,13 @@ export const useLayoutStore = defineStore('layout', () => {
 	const editingLayout = ref(false);
 	const trackerLayout = ref([]);
 
+	const compactItemBackgroundColor = ref('#082f49');
+
 	//Default layouts
 	const starsLayout = { x: 0, y: 0, w: 25, h: 12, i: 'stars' };
 	const partnersLayout = { x: 25, y: 0, w: 29, h: 12, i: 'partners' };
 	const equipmentsLayout = { x: 0, y: 12, w: 8, h: 12, i: 'equipments' };
-	const itemsCompactLayout = { x: 0, y: 0, w: 30, h: 36, i: 'items_compact' };
+	const itemsCompactLayout = { x: 0, y: 0, w: 30, h: 50, i: 'items_compact' };
 	const itemsPerChapterLayout = { x: 0, y: 13, w: 41, h: 61, i: 'items_per_chapter' };
 
 	const prologueLayout = { x: 8, y: 12, w: 6, h: 12, i: 'prologue' };
@@ -83,36 +85,14 @@ export const useLayoutStore = defineStore('layout', () => {
 
 				//Add compact items layout
 				trackerLayout.value.push(Object.assign({}, itemsCompactLayout));
-				trackerLayout.value.push(Object.assign({}, miscLayout));
-				trackerLayout.value.push(Object.assign({}, lettersLayout));
-				trackerLayout.value.push(Object.assign({}, koopaKootLayout));
 				trackerLayout.value.push(Object.assign({}, mapLayout));
-				trackerLayout.value.push(Object.assign({}, tradingEventToadLayout));
 
 				save.data.configs.tracker.compact_items_per_chapters = false;
 			} else {
 				//Add normal items layouts
 				if (!save.data.configs.tracker.compact_items_per_chapters) {
 					trackerLayout.value = [];
-					trackerLayout.value.push(Object.assign({}, starsLayout));
-					trackerLayout.value.push(Object.assign({}, partnersLayout));
-					trackerLayout.value.push(Object.assign({}, equipmentsLayout));
-					trackerLayout.value.push(Object.assign({}, prologueLayout));
-					trackerLayout.value.push(Object.assign({}, chapter1Layout));
-					trackerLayout.value.push(Object.assign({}, chapter2Layout));
-					trackerLayout.value.push(Object.assign({}, chapter3Layout));
-					trackerLayout.value.push(Object.assign({}, chapter4Layout));
-					trackerLayout.value.push(Object.assign({}, chapter5Layout));
-					trackerLayout.value.push(Object.assign({}, chapter6Layout));
-					trackerLayout.value.push(Object.assign({}, chapter7Layout));
-					trackerLayout.value.push(Object.assign({}, chapter8Layout));
-					trackerLayout.value.push(Object.assign({}, otherLayout));
-
-					trackerLayout.value.push(Object.assign({}, miscLayout));
-					trackerLayout.value.push(Object.assign({}, lettersLayout));
-					trackerLayout.value.push(Object.assign({}, koopaKootLayout));
-					trackerLayout.value.push(Object.assign({}, mapLayout));
-					trackerLayout.value.push(Object.assign({}, tradingEventToadLayout));
+					restoreDefaultLayout();
 				}
 			}
 		}
@@ -141,25 +121,7 @@ export const useLayoutStore = defineStore('layout', () => {
 				//Add normal items layouts
 				if (!save.data.configs.tracker.compact_items) {
 					trackerLayout.value = [];
-					trackerLayout.value.push(Object.assign({}, starsLayout));
-					trackerLayout.value.push(Object.assign({}, partnersLayout));
-					trackerLayout.value.push(Object.assign({}, equipmentsLayout));
-					trackerLayout.value.push(Object.assign({}, prologueLayout));
-					trackerLayout.value.push(Object.assign({}, chapter1Layout));
-					trackerLayout.value.push(Object.assign({}, chapter2Layout));
-					trackerLayout.value.push(Object.assign({}, chapter3Layout));
-					trackerLayout.value.push(Object.assign({}, chapter4Layout));
-					trackerLayout.value.push(Object.assign({}, chapter5Layout));
-					trackerLayout.value.push(Object.assign({}, chapter6Layout));
-					trackerLayout.value.push(Object.assign({}, chapter7Layout));
-					trackerLayout.value.push(Object.assign({}, chapter8Layout));
-					trackerLayout.value.push(Object.assign({}, otherLayout));
-
-					trackerLayout.value.push(Object.assign({}, miscLayout));
-					trackerLayout.value.push(Object.assign({}, lettersLayout));
-					trackerLayout.value.push(Object.assign({}, koopaKootLayout));
-					trackerLayout.value.push(Object.assign({}, mapLayout));
-					trackerLayout.value.push(Object.assign({}, tradingEventToadLayout));
+					restoreDefaultLayout();
 				}
 			}
 		}

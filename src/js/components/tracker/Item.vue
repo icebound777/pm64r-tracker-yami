@@ -43,12 +43,12 @@ const props = defineProps({
 
 const size = computed(() => {
 	return {
-		xs: 'min-w-[1.5rem] w-auto h-6',
-		sm: 'min-w-[2rem] w-auto h-8',
-		md: 'min-w-[2.5rem] w-auto h-10',
-		lg: 'min-w-[3rem] w-auto h-12',
-		xl: 'min-w-[3.5rem] w-auto h-14',
-		'2xl': 'min-w-[4rem] w-auto h-16'
+		xs: 'min-w-[1.5rem] w-6 h-6',
+		sm: 'min-w-[2rem] w-8 h-8',
+		md: 'min-w-[2.5rem] w-10 h-10',
+		lg: 'min-w-[3rem] w-12 h-12',
+		xl: 'min-w-[3.5rem] w-14 h-14',
+		'2xl': 'min-w-[4rem] w-16 h-16'
 	}[props.size];
 });
 </script>

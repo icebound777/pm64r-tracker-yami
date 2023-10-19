@@ -948,6 +948,10 @@ export const useTrackerStore = defineStore('tracker', () => {
 				enabled: true,
 				type: 'switch'
 			},
+			compact_item_background_hex_color: {
+				enabled: true,
+				type: 'text'
+			},
 			compact_items_per_chapters: {
 				enabled: true,
 				type: 'switch'

@@ -7298,6 +7298,12 @@ export const useLogicStore = defineStore('logic', () => {
 					]
 				}
 			}
+		},
+		yoshi_island: {
+			name: 'Yoshi Island',
+			maps:{
+				
+			}
 		}
 	});
 

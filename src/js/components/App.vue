@@ -3,7 +3,7 @@
 	<div>
 		<header class="flex flex-wrap gap-2 p-3">
 			<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Export progress', delay: { show: 0 } }">
-				<font-awesome-icon :icon="['fas', 'save']" />
+				<font-awesome-icon :icon="['fas', 'floppy-disk']" />
 			</button>
 			<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Import progress', delay: { show: 0 } }">
 				<font-awesome-icon :icon="['fas', 'download']" />
@@ -46,6 +46,12 @@
 				<template v-for="grid_item in layout.tracker" :key="grid_item.i">
 					<GridItem
 						class="relative bg-sky-950 p-3 rounded-md overflow-hidden"
+						:class="{
+							'bg-sky-950': !(save.data.configs.tracker.compact_items && grid_item.i == 'items_compact')
+						}"
+						:style="{
+							backgroundColor: save.data.configs.tracker.compact_items && grid_item.i == 'items_compact' ? save.data.configs.tracker.compact_item_background_hex_color : '#082f49'
+						}"
 						:key="grid_item.i"
 						:x="grid_item.x"
 						:y="grid_item.y"
@@ -163,6 +169,60 @@
 												:itemCountMax="trackerItemConfigs.max"
 												:initial="trackerItemConfigs.initial" />
 										</template>
+									</template>
+									<template v-if="save.data.configs.logic.letters_randomized" v-for="(chaptersItems, chapter) in tracker.items.letters" :key="chapter">
+										<template v-for="(trackerItemConfigs, trackerItemKey) in chaptersItems" :key="trackerItemKey">
+											<Item
+												v-if="trackerItemConfigs.enabled"
+												@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
+												@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
+												:itemName="trackerItemConfigs.name"
+												:itemKey="trackerItemKey"
+												imageFolder="letters"
+												:itemCount="save.data.items.letters[trackerItemKey]"
+												:itemCountMax="trackerItemConfigs.max"
+												:initial="trackerItemConfigs.initial"
+												:tooltipDelay="0" />
+										</template>
+									</template>
+									<template v-if="save.data.configs.logic.koopa_koot" v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.koopa_koot_favors" :key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
+											:itemName="trackerItemConfigs.name"
+											:itemKey="trackerItemKey"
+											imageFolder="koopa_koot_favors"
+											:itemCount="save.data.items.koopa_koot_favors[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:initial="trackerItemConfigs.initial" />
+									</template>
+									<template
+										v-if="save.data.configs.logic.trading_event_randomized"
+										v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.trading_event_toad"
+										:key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
+											:itemName="trackerItemConfigs.name"
+											:itemKey="trackerItemKey"
+											imageFolder="trading_event_toad"
+											:itemCount="save.data.items.trading_event_toad[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:initial="trackerItemConfigs.initial" />
+									</template>
+									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.misc" :key="trackerItemKey">
+										<Item
+											v-if="trackerItemConfigs.enabled"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+											:itemName="trackerItemConfigs.name"
+											:itemKey="trackerItemKey"
+											imageFolder="misc"
+											:itemCount="save.data.items[trackerItemKey]"
+											:itemCountMax="trackerItemConfigs.max"
+											:initial="trackerItemConfigs.initial" />
 									</template>
 								</div>
 							</template>
@@ -787,6 +847,7 @@
 					:min="configValue.min"
 					:max="configValue.max"
 					v-model="save.data.configs.tracker[config]" />
+				<input :id="`config_${config}`" class="rounded-md" type="text" v-if="configValue.type == 'text'" v-model="save.data.configs.tracker[config]" />
 			</div>
 			<div class="bg-white h-[1px] my-4" />
 			<div>
