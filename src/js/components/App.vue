@@ -1,11 +1,11 @@
 <template>
-	<!-- <div @contextmenu="$event.preventDefault()"> -->
-	<div>
+	<div @contextmenu="$event.preventDefault()">
+		<!-- <div> -->
 		<header class="flex flex-wrap gap-2 p-3">
-			<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Export progress', delay: { show: 0 } }">
+			<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Export progress (NOT WORKING YET)', delay: { show: 0 } }">
 				<font-awesome-icon :icon="['fas', 'floppy-disk']" />
 			</button>
-			<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Import progress', delay: { show: 0 } }">
+			<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Import progress (NOT WORKING YET)', delay: { show: 0 } }">
 				<font-awesome-icon :icon="['fas', 'download']" />
 			</button>
 			<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3 mr-10" type="button" v-tooltip="{ content: 'Reset progress', delay: { show: 0 } }" @click="resetSavePrompt">
@@ -888,54 +888,98 @@ const logicSettingsModalVisible = ref(false);
 const trackerSettingsModalVisible = ref(false);
 
 const trackerLeftClick = (event, key, configs, itemSubCategory = null) => {
-	if (configs.max == 1) {
-		if (itemSubCategory === null) {
-			if (save.data.items[key] !== undefined) {
-				save.data.items[key] = true;
+	if (event.ctrlKey) {
+		if (key == 'eldstar' || key == 'mamar' || key == 'skolar' || key == 'muskular' || key == 'misstar' || key == 'klevar' || key == 'kalmar') {
+			if (save.data.items[`${key}_difficulty`] == undefined) {
+				save.data.items[`${key}_difficulty`] = 0;
 			}
-		} else {
-			if (save.data.items[itemSubCategory][key] !== undefined) {
-				save.data.items[itemSubCategory][key] = true;
-			}
-		}
-	} else if (configs.max > 1) {
-		if (itemSubCategory === null) {
-			if (save.data.items[key] < configs.max) {
-				save.data.items[key]++;
-			}
-		} else {
-			if (save.data.items[itemSubCategory][key] < configs.max) {
-				save.data.items[itemSubCategory][key]++;
+
+			if (save.data.items[`${key}_difficulty`] >= 8) {
+				save.data.items[`${key}_difficulty`] = 0;
+			} else {
+				save.data.items[`${key}_difficulty`]++;
 			}
 		}
 	} else {
-		console.log('Error: Max value is not a number');
+		if (configs.max == 1) {
+			if (itemSubCategory === null) {
+				if (save.data.items[key]) {
+					if (save.data.configs.tracker.single_click_mode) {
+						save.data.items[key] = false;
+					}
+				} else {
+					save.data.items[key] = true;
+				}
+			} else {
+				if (save.data.items[itemSubCategory][key]) {
+					if (save.data.configs.tracker.single_click_mode) {
+						save.data.items[itemSubCategory][key] = false;
+					}
+				} else {
+					save.data.items[itemSubCategory][key] = true;
+				}
+			}
+		} else if (configs.max > 1) {
+			if (itemSubCategory === null) {
+				if (save.data.items[key] < configs.max) {
+					save.data.items[key]++;
+				} else {
+					if (save.data.configs.tracker.single_click_mode) {
+						save.data.items[key] = 0;
+					}
+				}
+			} else {
+				if (save.data.items[itemSubCategory][key] < configs.max) {
+					save.data.items[itemSubCategory][key]++;
+				} else {
+					if (save.data.configs.tracker.single_click_mode) {
+						save.data.items[itemSubCategory][key] = 0;
+					}
+				}
+			}
+		} else {
+			console.log('Error: Max value is not a number');
+		}
 	}
 };
 
 const trackerRightClick = (event, key, configs, itemSubCategory = null) => {
-	if (configs.max == 1) {
-		if (itemSubCategory === null) {
-			if (save.data.items[key] !== undefined) {
-				save.data.items[key] = false;
+	if (event.ctrlKey) {
+		if (key == 'eldstar' || key == 'mamar' || key == 'skolar' || key == 'muskular' || key == 'misstar' || key == 'klevar' || key == 'kalmar') {
+			if (save.data.items[`${key}_difficulty`] == undefined) {
+				save.data.items[`${key}_difficulty`] = 0;
 			}
-		} else {
-			if (save.data.items[itemSubCategory][key] !== undefined) {
-				save.data.items[itemSubCategory][key] = false;
-			}
-		}
-	} else if (configs.max > 1) {
-		if (itemSubCategory === null) {
-			if (save.data.items[key] > 0) {
-				save.data.items[key]--;
-			}
-		} else {
-			if (save.data.items[itemSubCategory][key] > 0) {
-				save.data.items[itemSubCategory][key]--;
+
+			if (save.data.items[`${key}_difficulty`] <= 0) {
+				save.data.items[`${key}_difficulty`] = 8;
+			} else {
+				save.data.items[`${key}_difficulty`]--;
 			}
 		}
 	} else {
-		console.log('Error: Max value is not a number');
+		if (configs.max == 1) {
+			if (itemSubCategory === null) {
+				if (save.data.items[key] !== undefined) {
+					save.data.items[key] = false;
+				}
+			} else {
+				if (save.data.items[itemSubCategory][key] !== undefined) {
+					save.data.items[itemSubCategory][key] = false;
+				}
+			}
+		} else if (configs.max > 1) {
+			if (itemSubCategory === null) {
+				if (save.data.items[key] > 0) {
+					save.data.items[key]--;
+				}
+			} else {
+				if (save.data.items[itemSubCategory][key] > 0) {
+					save.data.items[itemSubCategory][key]--;
+				}
+			}
+		} else {
+			console.log('Error: Max value is not a number');
+		}
 	}
 };
 

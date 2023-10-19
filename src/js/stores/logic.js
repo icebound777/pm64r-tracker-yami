@@ -445,6 +445,16 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.goomba_village() && flags.jump_ledges() && flags.yellow_blocks();
 							}
+						},
+						{
+							name: 'Block on the ground',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.goomba_village() && flags.jump_ledges() && flags.ground_blocks();
+							}
 						}
 					]
 				},
@@ -1508,6 +1518,16 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.koopa_village() && flags.toad_town() && flags.star_spirits_count() >= 5 && save.data.items.trading_event_toad.coconut;
 							}
+						},
+						{
+							name: 'Block on the crates south-west of the area',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.toad_town() && save.data.items.boots >= 1;
+							}
 						}
 					]
 				},
@@ -1856,6 +1876,16 @@ export const useLogicStore = defineStore('logic', () => {
 							icon: null,
 							exists: () => {
 								return true;
+							},
+							available: () => {
+								return flags.sewers() && flags.jump_coin_blocks() && flags.yellow_blocks();
+							}
+						},
+						{
+							name: 'Third brick from the left',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.sewers() && flags.jump_coin_blocks() && flags.yellow_blocks();
@@ -2394,6 +2424,16 @@ export const useLogicStore = defineStore('logic', () => {
 							},
 							available: () => {
 								return flags.koopa_village();
+							}
+						},
+						{
+							name: 'Last block near the east exit',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.koopa_village() && flags.jump_coin_blocks();
 							}
 						}
 					]
@@ -4087,6 +4127,16 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.dry_dry_desert() && flags.trees();
 							}
+						},
+						{
+							name: 'Block near the tree',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.dry_dry_desert() && flags.jump_coin_blocks();
+							}
 						}
 					]
 				},
@@ -4158,6 +4208,16 @@ export const useLogicStore = defineStore('logic', () => {
 							},
 							available: () => {
 								return flags.dry_dry_desert() && flags.ground_blocks();
+							}
+						},
+						{
+							name: 'Block in the center of the room',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.dry_dry_desert() && flags.jump_coin_blocks();
 							}
 						}
 					]
@@ -4312,12 +4372,33 @@ export const useLogicStore = defineStore('logic', () => {
 					]
 				},
 				3_6: {
-					name: '',
+					name: 'Seven brick blocks',
 					x: 7,
 					y: 3,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Second block from the right',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.dry_dry_desert() && flags.jump_coin_blocks();
+							}
+						},
+						{
+							name: 'Third block from the right',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.dry_dry_desert() && flags.jump_coin_blocks();
+							}
+						}
+					]
 				},
 				3_7: {
 					name: 'Tree',
@@ -4490,12 +4571,23 @@ export const useLogicStore = defineStore('logic', () => {
 					]
 				},
 				5_1: {
-					name: '',
+					name: 'South of the camp',
 					x: 2,
 					y: 5,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Center block',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.dry_dry_desert() && flags.jump_coin_blocks();
+							}
+						}
+					]
 				},
 				5_2: {
 					name: '',
@@ -4571,7 +4663,7 @@ export const useLogicStore = defineStore('logic', () => {
 					]
 				},
 				5_7: {
-					name: 'Top of the oasis',
+					name: 'North of the oasis',
 					x: 8,
 					y: 5,
 					w: 1,
@@ -4631,7 +4723,18 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 6,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Block in the center',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.dry_dry_desert() && flags.jump_coin_blocks();
+							}
+						}
+					]
 				},
 				6_4: {
 					name: '',
@@ -4674,6 +4777,16 @@ export const useLogicStore = defineStore('logic', () => {
 							},
 							available: () => {
 								return flags.dry_dry_desert();
+							}
+						},
+						{
+							name: 'Block near the tree',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.dry_dry_desert() && flags.jump_coin_blocks();
 							}
 						}
 					]
@@ -4822,6 +4935,66 @@ export const useLogicStore = defineStore('logic', () => {
 							},
 							available: () => {
 								return flags.dry_dry_desert() && flags.trees();
+							}
+						},
+						{
+							name: 'Brick block 1',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.dry_dry_desert() && flags.jump_coin_blocks();
+							}
+						},
+						{
+							name: 'Brick block 2',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.dry_dry_desert() && flags.jump_coin_blocks();
+							}
+						},
+						{
+							name: 'Brick block 3',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.dry_dry_desert() && flags.jump_coin_blocks();
+							}
+						},
+						{
+							name: 'Brick block 4',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.dry_dry_desert() && flags.jump_coin_blocks();
+							}
+						},
+						{
+							name: 'Brick block 5',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.dry_dry_desert() && flags.jump_coin_blocks();
+							}
+						},
+						{
+							name: 'Brick block 6',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.dry_dry_desert() && flags.jump_coin_blocks();
 							}
 						}
 					]
@@ -6083,6 +6256,16 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.tubba_blubba_castle();
 							}
+						},
+						{
+							name: 'Near the east exit',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.tubba_blubba_castle();
+							}
 						}
 					]
 				},
@@ -6857,6 +7040,16 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
 							}
+						},
+						{
+							name: 'Block between the two ? blocks north of the tracks',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
 						}
 					]
 				},
@@ -7027,6 +7220,16 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
+							name: 'Block on the pink moving platform',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow && save.data.items.parakarry;
+							}
+						},
+						{
 							name: 'Coin 1 inside the fort',
 							icon: 'overworld_coins',
 							exists: () => {
@@ -7165,6 +7368,16 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
+							name: 'On top of the wheel',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						},
+						{
 							name: 'Left ? block in the middle of the room',
 							icon: 'coin_blocks',
 							exists: () => {
@@ -7202,6 +7415,16 @@ export const useLogicStore = defineStore('logic', () => {
 							},
 							available: () => {
 								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+							}
+						},
+						{
+							name: 'Super block',
+							icon: 'super_blocks',
+							exists: () => {
+								return save.data.configs.logic.super_blocks_randomized;
+							},
+							available: () => {
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.parakarry;
 							}
 						}
 					]
@@ -7301,9 +7524,7 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		yoshi_island: {
 			name: 'Yoshi Island',
-			maps:{
-				
-			}
+			maps: {}
 		}
 	});
 

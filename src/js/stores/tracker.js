@@ -621,6 +621,12 @@ export const useTrackerStore = defineStore('tracker', () => {
 				enabled: true,
 				max: 96,
 				required: true
+			},
+			rip_cheato: {
+				name: 'Rip Cheato',
+				enabled: true,
+				max: 11,
+				required: false
 			}
 		},
 		koopa_koot_favors: {
@@ -910,6 +916,10 @@ export const useTrackerStore = defineStore('tracker', () => {
 				enabled: true,
 				type: 'switch'
 			},
+			multicoin_blocks_randomized: {
+				enabled: true,
+				type: 'switch'
+			},
 			foliage_coins: {
 				enabled: true,
 				type: 'switch'
@@ -953,6 +963,10 @@ export const useTrackerStore = defineStore('tracker', () => {
 				type: 'text'
 			},
 			compact_items_per_chapters: {
+				enabled: true,
+				type: 'switch'
+			},
+			single_click_mode: {
 				enabled: true,
 				type: 'switch'
 			}

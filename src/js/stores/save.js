@@ -1,10 +1,12 @@
 import { defineStore } from 'pinia';
-import { reactive, watch } from 'vue';
+import { reactive, ref, watch } from 'vue';
 
 import { useTrackerStore } from './tracker';
 
 export const useSaveStore = defineStore('save', () => {
 	const tracker = useTrackerStore();
+
+	const welcomeMessageShown = ref(false);
 
 	const currentSave = reactive({
 		configs: {
@@ -24,6 +26,13 @@ export const useSaveStore = defineStore('save', () => {
 			misstar: false,
 			klevar: false,
 			kalmar: false,
+			eldstar_difficulty: 0,
+			mamar_difficulty: 0,
+			skolar_difficulty: 0,
+			muskular_difficulty: 0,
+			misstar_difficulty: 0,
+			klevar_difficulty: 0,
+			kalmar_difficulty: 0,
 			starrod: false,
 			goombario: 0,
 			kooper: 0,
@@ -177,6 +186,7 @@ export const useSaveStore = defineStore('save', () => {
 				panels: false,
 				overworld_coins: false,
 				coin_blocks: false,
+				multicoin_blocks_randomized: false,
 				foliage_coins: false,
 				letters_randomized: false,
 				koopa_koot: false,
@@ -189,7 +199,8 @@ export const useSaveStore = defineStore('save', () => {
 				always_show_super_blocks: false,
 				compact_items: false,
 				compact_item_background_hex_color: '#000000',
-				compact_items_per_chapters: false
+				compact_items_per_chapters: false,
+				single_click_mode: false
 			}
 		}
 	};
@@ -248,10 +259,10 @@ export const useSaveStore = defineStore('save', () => {
 	watch(
 		() => currentSave.configs.randomizer.magical_seed_required,
 		(newValue, oldValue) => {
-			tracker.items.items.chapter6.pink_magical_seed.enabled = newValue >= 1;
-			tracker.items.items.chapter6.purple_magical_seed.enabled = newValue >= 2;
-			tracker.items.items.chapter6.green_magical_seed.enabled = newValue >= 3;
-			tracker.items.items.chapter6.yellow_magical_seed.enabled = newValue >= 4;
+			tracker.items.items.chapter6.yellow_magical_seed.enabled = newValue >= 1;
+			tracker.items.items.chapter6.green_magical_seed.enabled = newValue >= 2;
+			tracker.items.items.chapter6.purple_magical_seed.enabled = newValue >= 3;
+			tracker.items.items.chapter6.pink_magical_seed.enabled = newValue >= 4;
 
 			currentSave.items.pink_magical_seed = false;
 			currentSave.items.purple_magical_seed = false;
@@ -337,6 +348,10 @@ export const useSaveStore = defineStore('save', () => {
 			currentSave.items.parakarry_letters = 0;
 		}
 	);
+
+	watch(welcomeMessageShown, (newValue, oldValue) => {
+		localStorage.setItem('welcomeMessageShown', true);
+	});
 
 	return {
 		data: currentSave,
