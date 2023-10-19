@@ -1250,6 +1250,16 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.toad_town() && flags.star_spirits_count() >= 5;
 							}
+						},
+						{
+							name: 'Super block',
+							icon: 'super_blocks',
+							exists: () => {
+								return save.data.configs.logic.super_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
+							},
+							available: () => {
+								return flags.toad_town() && flags.jump_coin_blocks() && flags.jump_ledges() && save.data.items.sushie;
+							}
 						}
 					]
 				},
