@@ -216,8 +216,8 @@
 										<template v-for="(trackerItemConfigs, trackerItemKey) in chaptersItems" :key="trackerItemKey">
 											<Item
 												v-if="trackerItemConfigs.enabled"
-												@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
-												@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
+												@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, 'letters')"
+												@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs, 'letters')"
 												:itemName="trackerItemConfigs.name"
 												:itemKey="trackerItemKey"
 												imageFolder="letters"
@@ -233,8 +233,8 @@
 										:key="trackerItemKey">
 										<Item
 											v-if="trackerItemConfigs.enabled"
-											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
-											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, 'koopa_koot_favors')"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs, 'koopa_koot_favors')"
 											:itemName="trackerItemConfigs.name"
 											:itemKey="trackerItemKey"
 											imageFolder="koopa_koot_favors"
@@ -248,8 +248,8 @@
 										:key="trackerItemKey">
 										<Item
 											v-if="trackerItemConfigs.enabled"
-											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
-											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
+											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, 'trading_event_toad')"
+											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs, 'trading_event_toad')"
 											:itemName="trackerItemConfigs.name"
 											:itemKey="trackerItemKey"
 											imageFolder="trading_event_toad"
