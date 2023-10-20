@@ -15,6 +15,26 @@
 		</template>
 		<p v-if="imageFolder == 'stars' && save.data.items[`${itemKey}_difficulty`]" class="absolute w-fit whitespace-nowrap bottom-[-10px] right-0">{{ save.data.items[`${itemKey}_difficulty`] }}</p>
 		<p v-if="imageFolder != 'partners' && itemCountMax > 1 && !levelItem" class="absolute w-fit whitespace-nowrap bottom-[-10px] right-0">{{ itemCount }}/{{ itemCountMax }}</p>
+		<template v-if="save.data.configs.tracker.competitive_mode && save.data.items.hand_ins !== undefined && save.data.items.hand_ins[itemKey] !== undefined && imageFolder != 'misc'">
+			<div class="absolute top-0 right-0">
+				<div class="flex flex-wrap w-full w-10 justify-end">
+					<font-awesome-icon v-for="i in save.data.items.hand_ins[itemKey]" :key="i" class="text-green-600" :icon="['fas', 'check']" />
+				</div>
+			</div>
+		</template>
+		<template
+			v-if="
+				save.data.configs.tracker.competitive_mode &&
+				save.data.items.hand_ins !== undefined &&
+				save.data.items.hand_ins[imageFolder] !== undefined &&
+				save.data.items.hand_ins[imageFolder][itemKey] !== undefined
+			">
+			<div class="absolute top-0 right-0">
+				<div class="flex flex-wrap w-full w-10 justify-end">
+					<font-awesome-icon v-for="i in save.data.items.hand_ins[imageFolder][itemKey]" :key="i" class="text-green-600" :icon="['fas', 'check']" />
+				</div>
+			</div>
+		</template>
 		<p v-if="initial" class="absolute w-fit whitespace-nowrap top-[-10px] left-0">{{ initial }}</p>
 	</div>
 </template>

@@ -1080,8 +1080,7 @@ const trackerRightClick = (event, key, configs, itemSubCategory = null) => {
 			} else {
 				save.data.items[`${key}_difficulty`]++;
 			}
-		}
-		if (key == 'goombario' || key == 'kooper' || key == 'bombette' || key == 'parakarry' || key == 'bow' || key == 'watt' || key == 'sushie' || key == 'lakilester') {
+		} else if (key == 'goombario' || key == 'kooper' || key == 'bombette' || key == 'parakarry' || key == 'bow' || key == 'watt' || key == 'sushie' || key == 'lakilester') {
 			if (save.data.items[`${key}_rank`] == undefined) {
 				save.data.items[`${key}_rank`] = 0;
 			}
@@ -1090,6 +1089,34 @@ const trackerRightClick = (event, key, configs, itemSubCategory = null) => {
 				save.data.items[`${key}_rank`] = 0;
 			} else {
 				save.data.items[`${key}_rank`]++;
+			}
+		} else {
+			if (save.data.items.hand_ins === undefined) {
+				save.data.items.hand_ins = {};
+			}
+			if (itemSubCategory === null) {
+				if (save.data.items.hand_ins[key] == undefined) {
+					save.data.items.hand_ins[key] = 0;
+				}
+
+				if (save.data.items.hand_ins[key] >= configs.max) {
+					save.data.items.hand_ins[key] = 0;
+				} else {
+					save.data.items.hand_ins[key]++;
+				}
+			} else {
+				if (save.data.items.hand_ins[itemSubCategory] == undefined) {
+					save.data.items.hand_ins[itemSubCategory] = {};
+				}
+				if (save.data.items.hand_ins[itemSubCategory][key] == undefined) {
+					save.data.items.hand_ins[itemSubCategory][key] = 0;
+				}
+
+				if (save.data.items.hand_ins[itemSubCategory][key] >= configs.max) {
+					save.data.items.hand_ins[itemSubCategory][key] = 0;
+				} else {
+					save.data.items.hand_ins[itemSubCategory][key]++;
+				}
 			}
 		}
 	} else {

@@ -163,7 +163,8 @@ export const useSaveStore = defineStore('save', () => {
 				koopa_leaf: false,
 				coconut: false,
 				nutty_cake: false
-			}
+			},
+			hand_ins: {}
 		},
 		checks: {}
 	});
