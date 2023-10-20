@@ -962,11 +962,27 @@ export const useTrackerStore = defineStore('tracker', () => {
 				enabled: true,
 				type: 'text'
 			},
+			compact_item_show_letters: {
+				enabled: true,
+				type: 'switch'
+			},
+			compact_item_show_favors: {
+				enabled: true,
+				type: 'switch'
+			},
+			compact_item_show_trading_events: {
+				enabled: true,
+				type: 'switch'
+			},
 			compact_items_per_chapters: {
 				enabled: true,
 				type: 'switch'
 			},
-			single_click_mode: {
+			competitive_mode: {
+				enabled: true,
+				type: 'switch'
+			},
+			missing_items_in_grayscale: {
 				enabled: true,
 				type: 'switch'
 			}

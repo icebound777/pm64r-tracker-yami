@@ -18,7 +18,7 @@ export const useLogicStore = defineStore('logic', () => {
 	const flags = reactive({
 		//Active
 		yellow_blocks: () => {
-			return save.data.items.hammer >= 1 || save.data.items.bombette;
+			return save.data.items.hammer >= 1 || flags.partner('bombette');
 		},
 		stone_blocks: () => {
 			return save.data.items.hammer >= 2;
@@ -27,10 +27,10 @@ export const useLogicStore = defineStore('logic', () => {
 			return save.data.items.hammer >= 3;
 		},
 		jump_coin_blocks: () => {
-			return save.data.items.boots >= 1 || save.data.items.kooper;
+			return save.data.items.boots >= 1 || flags.partner('kooper');
 		},
 		jump_ledges: () => {
-			return save.data.items.boots >= 1 || save.data.items.parakarry;
+			return save.data.items.boots >= 1 || flags.partner('parakarry');
 		},
 		ultra_jump_blocks: () => {
 			return save.data.items.boots >= 2;
@@ -39,13 +39,20 @@ export const useLogicStore = defineStore('logic', () => {
 			return save.data.items.boots >= 2;
 		},
 		trees: () => {
-			return save.data.items.hammer >= 1 || save.data.items.bombette;
+			return save.data.items.hammer >= 1 || flags.partner('bombette');
 		},
 		ground_blocks: () => {
-			return save.data.items.hammer >= 1 || save.data.items.kooper || save.data.items.bombette;
+			return save.data.items.hammer >= 1 || flags.partner('kooper') || flags.partner('bombette');
 		},
 
 		//Passives
+		partner(name) {
+			if (save.data.configs.logic.partners_always_usable) {
+				return true;
+			} else {
+				return save.data.items[name];
+			}
+		},
 		star_spirits_count: () => {
 			let star_spirits = 0;
 
@@ -80,7 +87,7 @@ export const useLogicStore = defineStore('logic', () => {
 			return star_spirits;
 		},
 		deliver_letters: () => {
-			return save.data.items.parakarry;
+			return flags.partner('parakarry');
 		},
 		letters_count: () => {
 			if (save.data.configs.logic.letters_randomized) {
@@ -216,7 +223,7 @@ export const useLogicStore = defineStore('logic', () => {
 				if (save.data.items.odd_key && flags.jump_ledges()) {
 					return true;
 				} else {
-					if (save.data.items.boots >= 2 && save.data.items.bombette && save.data.items.sushie) {
+					if (save.data.items.boots >= 2 && flags.partner('bombette') && flags.partner('sushie')) {
 						return true;
 					}
 				}
@@ -248,7 +255,7 @@ export const useLogicStore = defineStore('logic', () => {
 						return true;
 					}
 
-					if (save.data.items.boots >= 1 && (save.data.items.bombette || flags.stone_blocks())) {
+					if (save.data.items.boots >= 1 && (flags.partner('bombette') || flags.stone_blocks())) {
 						return true;
 					}
 			}
@@ -261,7 +268,7 @@ export const useLogicStore = defineStore('logic', () => {
 					return true;
 
 				default:
-					if ((flags.mt_rugged() && save.data.items.parakarry) || (flags.sewers() && flags.stone_blocks())) {
+					if ((flags.mt_rugged() && flags.partner('parakarry')) || (flags.sewers() && flags.stone_blocks())) {
 						return true;
 					}
 			}
@@ -299,7 +306,7 @@ export const useLogicStore = defineStore('logic', () => {
 			return flags.boo_mansion() && save.data.items.boo_portrait;
 		},
 		tubba_blubba_castle: () => {
-			return flags.gusty_gulch() && save.data.items.parakarry;
+			return flags.gusty_gulch() && flags.partner('parakarry');
 		},
 		toybox: (requireBoots = true) => {
 			if (save.data.configs.randomizer.toybox_open) {
@@ -312,7 +319,7 @@ export const useLogicStore = defineStore('logic', () => {
 				}
 			}
 
-			if (flags.toad_town() && flags.jump_ledges() && save.data.items.bow) {
+			if (flags.toad_town() && flags.jump_ledges() && flags.partner('bow')) {
 				return true;
 			}
 
@@ -324,7 +331,7 @@ export const useLogicStore = defineStore('logic', () => {
 		shiver_city: () => {
 			if (flags.toad_town()) {
 				if (
-					((flags.panels() && save.data.items.sushie) || (flags.rip_cheato() && save.data.items.bombette)) &&
+					((flags.panels() && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette'))) &&
 					((save.data.configs.randomizer.chapter_7_bridge_visible && flags.jump_ledges()) || flags.ultra_jump_blocks())
 				) {
 					return true;
@@ -1158,7 +1165,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.sushie;
+								return flags.toad_town() && flags.partner('sushie');
 							}
 						},
 						{
@@ -1258,7 +1265,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
 							available: () => {
-								return flags.toad_town() && flags.jump_coin_blocks() && flags.jump_ledges() && save.data.items.sushie;
+								return flags.toad_town() && flags.jump_coin_blocks() && flags.jump_ledges() && flags.partner('sushie');
 							}
 						}
 					]
@@ -1812,7 +1819,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.sewers() && flags.stone_blocks() && (save.data.items.boots >= 1 || (save.data.items.kooper && save.data.items.parakarry));
+								return flags.sewers() && flags.stone_blocks() && (save.data.items.boots >= 1 || (flags.partner('kooper') && flags.partner('parakarry')));
 							}
 						}
 					]
@@ -1955,7 +1962,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return (
 									flags.sewers() &&
 									flags.jump_coin_blocks() &&
-									(flags.panels() || ((save.data.items.odd_key || save.data.configs.randomizer.blue_house_open) && save.data.items.bombette && save.data.items.sushie))
+									(flags.panels() || ((save.data.items.odd_key || save.data.configs.randomizer.blue_house_open) && flags.partner('bombette') && flags.partner('sushie')))
 								);
 							}
 						},
@@ -1969,7 +1976,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return (
 									flags.sewers() &&
 									flags.jump_coin_blocks() &&
-									(flags.panels() || ((save.data.items.odd_key || save.data.configs.randomizer.blue_house_open) && save.data.items.bombette && save.data.items.sushie))
+									(flags.panels() || ((save.data.items.odd_key || save.data.configs.randomizer.blue_house_open) && flags.partner('bombette') && flags.partner('sushie')))
 								);
 							}
 						},
@@ -1983,7 +1990,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return (
 									flags.sewers() &&
 									flags.jump_coin_blocks() &&
-									(flags.panels() || ((save.data.items.odd_key || save.data.configs.randomizer.blue_house_open) && save.data.items.bombette && save.data.items.sushie))
+									(flags.panels() || ((save.data.items.odd_key || save.data.configs.randomizer.blue_house_open) && flags.partner('bombette') && flags.partner('sushie')))
 								);
 							}
 						},
@@ -1997,7 +2004,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return (
 									flags.sewers() &&
 									flags.jump_coin_blocks() &&
-									(flags.panels() || ((save.data.items.odd_key || save.data.configs.randomizer.blue_house_open) && save.data.items.bombette && save.data.items.sushie))
+									(flags.panels() || ((save.data.items.odd_key || save.data.configs.randomizer.blue_house_open) && flags.partner('bombette') && flags.partner('sushie')))
 								);
 							}
 						}
@@ -2017,7 +2024,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.sewers() && flags.ultra_jump_blocks() && ((flags.panels() && save.data.items.sushie) || (flags.rip_cheato() && save.data.items.bombette));
+								return flags.sewers() && flags.ultra_jump_blocks() && ((flags.panels() && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette')));
 							}
 						}
 					]
@@ -2039,8 +2046,8 @@ export const useLogicStore = defineStore('logic', () => {
 								return (
 									flags.sewers() &&
 									save.data.items.boots >= 1 &&
-									((flags.panels() && save.data.items.sushie) || (flags.rip_cheato() && save.data.items.bombette)) &&
-									save.data.items.lakilester
+									((flags.panels() && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette'))) &&
+									flags.partner('lakilester')
 								);
 							}
 						},
@@ -2054,8 +2061,8 @@ export const useLogicStore = defineStore('logic', () => {
 								return (
 									flags.sewers() &&
 									save.data.items.boots >= 1 &&
-									((flags.panels() && save.data.items.sushie) || (flags.rip_cheato() && save.data.items.bombette)) &&
-									save.data.items.lakilester
+									((flags.panels() && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette'))) &&
+									flags.partner('lakilester')
 								);
 							}
 						},
@@ -2069,8 +2076,8 @@ export const useLogicStore = defineStore('logic', () => {
 								return (
 									flags.sewers() &&
 									save.data.items.boots >= 1 &&
-									((flags.panels() && save.data.items.sushie) || (flags.rip_cheato() && save.data.items.bombette)) &&
-									save.data.items.lakilester
+									((flags.panels() && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette'))) &&
+									flags.partner('lakilester')
 								);
 							}
 						},
@@ -2084,8 +2091,8 @@ export const useLogicStore = defineStore('logic', () => {
 								return (
 									flags.sewers() &&
 									save.data.items.boots >= 1 &&
-									((flags.panels() && save.data.items.sushie) || (flags.rip_cheato() && save.data.items.bombette)) &&
-									save.data.items.lakilester
+									((flags.panels() && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette'))) &&
+									flags.partner('lakilester')
 								);
 							}
 						}
@@ -2109,7 +2116,7 @@ export const useLogicStore = defineStore('logic', () => {
 									flags.sewers() &&
 									flags.ultra_jump_blocks() &&
 									flags.stone_blocks() &&
-									((flags.panels() && save.data.items.sushie) || (flags.rip_cheato() && save.data.items.bombette))
+									((flags.panels() && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette')))
 								);
 							}
 						},
@@ -2124,7 +2131,7 @@ export const useLogicStore = defineStore('logic', () => {
 									flags.sewers() &&
 									flags.ultra_jump_blocks() &&
 									flags.stone_blocks() &&
-									((flags.panels() && save.data.items.sushie) || (flags.rip_cheato() && save.data.items.bombette))
+									((flags.panels() && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette')))
 								);
 							}
 						},
@@ -2139,7 +2146,7 @@ export const useLogicStore = defineStore('logic', () => {
 									flags.sewers() &&
 									flags.ultra_jump_blocks() &&
 									flags.stone_blocks() &&
-									((flags.panels() && save.data.items.sushie) || (flags.rip_cheato() && save.data.items.bombette))
+									((flags.panels() && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette')))
 								);
 							}
 						}
@@ -2163,7 +2170,7 @@ export const useLogicStore = defineStore('logic', () => {
 									flags.sewers() &&
 									save.data.items.boots >= 1 &&
 									flags.ultra_blocks() &&
-									((flags.panels() && save.data.items.sushie) || (flags.rip_cheato() && save.data.items.bombette))
+									((flags.panels() && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette')))
 								);
 							}
 						}
@@ -2423,7 +2430,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.koopa_village() && save.data.items.kooper;
+								return flags.koopa_village() && flags.partner('kooper');
 							}
 						},
 						{
@@ -2501,7 +2508,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.koopa_village() && (save.data.items.kooper || save.data.items.boots >= 3);
+								return flags.koopa_village() && (flags.partner('kooper') || save.data.items.boots >= 3);
 							}
 						},
 						{
@@ -3132,7 +3139,7 @@ export const useLogicStore = defineStore('logic', () => {
 									save.data.items.koopa_koot_favors.life_shroom &&
 									save.data.items.koopa_koot_favors.nutty_cake &&
 									save.data.items.eldstar &&
-									save.data.items.bombette
+									flags.partner('bombette')
 								);
 							}
 						},
@@ -3158,7 +3165,7 @@ export const useLogicStore = defineStore('logic', () => {
 									save.data.items.koopa_koot_favors.life_shroom &&
 									save.data.items.koopa_koot_favors.nutty_cake &&
 									save.data.items.eldstar &&
-									save.data.items.bombette &&
+									flags.partner('bombette') &&
 									save.data.items.koopa_koot_favors.old_photo
 								);
 							}
@@ -3185,7 +3192,7 @@ export const useLogicStore = defineStore('logic', () => {
 									save.data.items.koopa_koot_favors.life_shroom &&
 									save.data.items.koopa_koot_favors.nutty_cake &&
 									save.data.items.eldstar &&
-									save.data.items.bombette &&
+									flags.partner('bombette') &&
 									save.data.items.koopa_koot_favors.old_photo &&
 									save.data.items.koopa_koot_favors.koopasta
 								);
@@ -3213,7 +3220,7 @@ export const useLogicStore = defineStore('logic', () => {
 									save.data.items.koopa_koot_favors.life_shroom &&
 									save.data.items.koopa_koot_favors.nutty_cake &&
 									save.data.items.eldstar &&
-									save.data.items.bombette &&
+									flags.partner('bombette') &&
 									save.data.items.koopa_koot_favors.old_photo &&
 									save.data.items.koopa_koot_favors.koopasta &&
 									save.data.items.koopa_koot_favors.glasses
@@ -3242,7 +3249,7 @@ export const useLogicStore = defineStore('logic', () => {
 									save.data.items.koopa_koot_favors.life_shroom &&
 									save.data.items.koopa_koot_favors.nutty_cake &&
 									save.data.items.eldstar &&
-									save.data.items.bombette &&
+									flags.partner('bombette') &&
 									save.data.items.koopa_koot_favors.old_photo &&
 									save.data.items.koopa_koot_favors.koopasta &&
 									save.data.items.koopa_koot_favors.glasses &&
@@ -3272,7 +3279,7 @@ export const useLogicStore = defineStore('logic', () => {
 									save.data.items.koopa_koot_favors.life_shroom &&
 									save.data.items.koopa_koot_favors.nutty_cake &&
 									save.data.items.eldstar &&
-									save.data.items.bombette &&
+									flags.partner('bombette') &&
 									save.data.items.koopa_koot_favors.old_photo &&
 									save.data.items.koopa_koot_favors.koopasta &&
 									save.data.items.koopa_koot_favors.glasses &&
@@ -3303,7 +3310,7 @@ export const useLogicStore = defineStore('logic', () => {
 									save.data.items.koopa_koot_favors.life_shroom &&
 									save.data.items.koopa_koot_favors.nutty_cake &&
 									save.data.items.eldstar &&
-									save.data.items.bombette &&
+									flags.partner('bombette') &&
 									save.data.items.koopa_koot_favors.old_photo &&
 									save.data.items.koopa_koot_favors.koopasta &&
 									save.data.items.koopa_koot_favors.glasses &&
@@ -3335,7 +3342,7 @@ export const useLogicStore = defineStore('logic', () => {
 									save.data.items.koopa_koot_favors.life_shroom &&
 									save.data.items.koopa_koot_favors.nutty_cake &&
 									save.data.items.eldstar &&
-									save.data.items.bombette &&
+									flags.partner('bombette') &&
 									save.data.items.koopa_koot_favors.old_photo &&
 									save.data.items.koopa_koot_favors.koopasta &&
 									save.data.items.koopa_koot_favors.glasses &&
@@ -3368,7 +3375,7 @@ export const useLogicStore = defineStore('logic', () => {
 									save.data.items.koopa_koot_favors.life_shroom &&
 									save.data.items.koopa_koot_favors.nutty_cake &&
 									save.data.items.eldstar &&
-									save.data.items.bombette &&
+									flags.partner('bombette') &&
 									save.data.items.koopa_koot_favors.old_photo &&
 									save.data.items.koopa_koot_favors.koopasta &&
 									save.data.items.koopa_koot_favors.glasses &&
@@ -3396,7 +3403,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.koopa_village() && flags.jump_ledges() && (save.data.items.kooper || save.data.items.parakarry);
+								return flags.koopa_village() && flags.jump_ledges() && (flags.partner('kooper') || flags.partner('parakarry'));
 							}
 						}
 					]
@@ -3439,7 +3446,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.koopa_bros_fortress() && save.data.items.bombette;
+								return flags.koopa_bros_fortress() && flags.partner('bombette');
 							}
 						}
 					]
@@ -3495,7 +3502,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.koopa_bros_fortress() && flags.jump_ledges() && (save.data.items.bombette || save.data.items.fortress_key >= 3);
+								return flags.koopa_bros_fortress() && flags.jump_ledges() && (flags.partner('bombette') || save.data.items.fortress_key >= 3);
 							}
 						},
 						{
@@ -3515,7 +3522,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.koopa_bros_fortress() && save.data.items.fortress_key >= 1 && save.data.items.bombette;
+								return flags.koopa_bros_fortress() && save.data.items.fortress_key >= 1 && flags.partner('bombette');
 							}
 						}
 					]
@@ -3550,7 +3557,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.koopa_bros_fortress() && save.data.items.fortress_key >= 2 && save.data.items.bombette;
+								return flags.koopa_bros_fortress() && save.data.items.fortress_key >= 2 && flags.partner('bombette');
 							}
 						}
 					]
@@ -3604,7 +3611,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.koopa_bros_fortress() && (save.data.items.bombette || save.data.items.fortress_key >= 2);
+								return flags.koopa_bros_fortress() && (flags.partner('bombette') || save.data.items.fortress_key >= 2);
 							}
 						}
 					]
@@ -3623,7 +3630,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.koopa_bros_fortress() && flags.jump_ledges() && save.data.items.bombette && save.data.items.fortress_key >= 4;
+								return flags.koopa_bros_fortress() && flags.jump_ledges() && flags.partner('bombette') && save.data.items.fortress_key >= 4;
 							}
 						}
 					]
@@ -3834,7 +3841,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.mt_rugged() && flags.jump_ledges() && save.data.items.parakarry;
+								return flags.mt_rugged() && flags.jump_ledges() && flags.partner('parakarry');
 							}
 						},
 						{
@@ -3844,7 +3851,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.mt_rugged() && flags.jump_ledges() && save.data.items.parakarry;
+								return flags.mt_rugged() && flags.jump_ledges() && flags.partner('parakarry');
 							}
 						},
 						{
@@ -3854,7 +3861,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.mt_rugged() && flags.jump_ledges() && save.data.items.parakarry;
+								return flags.mt_rugged() && flags.jump_ledges() && flags.partner('parakarry');
 							}
 						},
 						{
@@ -3864,7 +3871,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.mt_rugged() && flags.jump_ledges() && save.data.items.parakarry;
+								return flags.mt_rugged() && flags.jump_ledges() && flags.partner('parakarry');
 							}
 						},
 						{
@@ -3874,7 +3881,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.mt_rugged() && flags.jump_ledges() && save.data.items.parakarry;
+								return flags.mt_rugged() && flags.jump_ledges() && flags.partner('parakarry');
 							}
 						},
 						{
@@ -3884,7 +3891,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.mt_rugged() && flags.jump_ledges() && save.data.items.parakarry;
+								return flags.mt_rugged() && flags.jump_ledges() && flags.partner('parakarry');
 							}
 						},
 						{
@@ -3894,7 +3901,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.mt_rugged() && flags.jump_ledges() && save.data.items.parakarry;
+								return flags.mt_rugged() && flags.jump_ledges() && flags.partner('parakarry');
 							}
 						},
 						{
@@ -3953,7 +3960,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.mt_rugged() && (save.data.items.kooper || save.data.items.parakarry);
+								return flags.mt_rugged() && (flags.partner('kooper') || flags.partner('parakarry'));
 							}
 						},
 						{
@@ -3963,7 +3970,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.mt_rugged() && save.data.items.parakarry;
+								return flags.mt_rugged() && flags.partner('parakarry');
 							}
 						}
 					]
@@ -3992,7 +3999,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.mt_rugged() && save.data.items.parakarry;
+								return flags.mt_rugged() && flags.partner('parakarry');
 							}
 						}
 					]
@@ -4667,7 +4674,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.dry_dry_desert() && ((flags.jump_ledges() && save.data.items.kooper) || flags.ultra_jump_blocks());
+								return flags.dry_dry_desert() && ((flags.jump_ledges() && flags.partner('kooper')) || flags.ultra_jump_blocks());
 							}
 						}
 					]
@@ -5239,7 +5246,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.dry_dry_ruins() && save.data.items.ruins_key >= 1 && save.data.items.parakarry && save.data.item.bombette;
+								return flags.dry_dry_ruins() && save.data.items.ruins_key >= 1 && flags.partner('parakarry') && flags.partner('bombette');
 							}
 						}
 					]
@@ -5258,7 +5265,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.dry_dry_ruins() && save.data.items.ruins_key >= 1 && save.data.items.parakarry && save.data.item.bombette;
+								return flags.dry_dry_ruins() && save.data.items.ruins_key >= 1 && flags.partner('parakarry') && flags.partner('bombette');
 							}
 						}
 					]
@@ -5334,7 +5341,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.dry_dry_ruins() && save.data.items.ruins_key >= 3 && save.data.items.parakarry;
+								return flags.dry_dry_ruins() && save.data.items.ruins_key >= 3 && flags.partner('parakarry');
 							}
 						},
 						{
@@ -5344,7 +5351,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.dry_dry_ruins() && save.data.items.ruins_key >= 3 && save.data.items.parakarry;
+								return flags.dry_dry_ruins() && save.data.items.ruins_key >= 3 && flags.partner('parakarry');
 							}
 						}
 					]
@@ -5382,7 +5389,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.dry_dry_ruins() && save.data.items.ruins_key >= 3 && save.data.items.bombette;
+								return flags.dry_dry_ruins() && save.data.items.ruins_key >= 3 && flags.partner('bombette');
 							}
 						}
 					]
@@ -5822,7 +5829,7 @@ export const useLogicStore = defineStore('logic', () => {
 									save.data.items.koopa_koot_favors.life_shroom &&
 									save.data.items.koopa_koot_favors.nutty_cake &&
 									save.data.items.eldstar &&
-									save.data.items.bombette
+									flags.partner('bombette')
 								);
 							}
 						}
@@ -5919,7 +5926,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && save.data.items.parakarry;
+								return flags.boo_mansion() && flags.panels() && flags.partner('parakarry');
 							}
 						},
 						{
@@ -5948,7 +5955,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && (save.data.items.bombette || save.data.items.weight);
+								return flags.boo_mansion() && flags.panels() && (flags.partner('bombette') || save.data.items.weight);
 							}
 						}
 					]
@@ -5967,7 +5974,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.boo_mansion() && ((flags.panels() && save.data.items.bombette) || save.data.items.weight);
+								return flags.boo_mansion() && ((flags.panels() && flags.partner('bombette')) || save.data.items.weight);
 							}
 						},
 						{
@@ -5977,7 +5984,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && (save.data.items.bombette || save.data.items.weight);
+								return flags.boo_mansion() && flags.panels() && (flags.partner('bombette') || save.data.items.weight);
 							}
 						},
 						{
@@ -5987,7 +5994,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.panels;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && (save.data.items.bombette || save.data.items.weight);
+								return flags.boo_mansion() && flags.panels() && (flags.partner('bombette') || save.data.items.weight);
 							}
 						}
 					]
@@ -6006,7 +6013,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.shopsanity;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && (save.data.items.bombette || save.data.items.weight);
+								return flags.boo_mansion() && flags.panels() && (flags.partner('bombette') || save.data.items.weight);
 							}
 						},
 						{
@@ -6016,7 +6023,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.shopsanity;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && (save.data.items.bombette || save.data.items.weight);
+								return flags.boo_mansion() && flags.panels() && (flags.partner('bombette') || save.data.items.weight);
 							}
 						},
 						{
@@ -6026,7 +6033,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.shopsanity;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && (save.data.items.bombette || save.data.items.weight);
+								return flags.boo_mansion() && flags.panels() && (flags.partner('bombette') || save.data.items.weight);
 							}
 						},
 						{
@@ -6036,7 +6043,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.shopsanity;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && (save.data.items.bombette || save.data.items.weight);
+								return flags.boo_mansion() && flags.panels() && (flags.partner('bombette') || save.data.items.weight);
 							}
 						},
 						{
@@ -6046,7 +6053,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.shopsanity;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && (save.data.items.bombette || save.data.items.weight);
+								return flags.boo_mansion() && flags.panels() && (flags.partner('bombette') || save.data.items.weight);
 							}
 						},
 						{
@@ -6056,7 +6063,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.shopsanity;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && (save.data.items.bombette || save.data.items.weight);
+								return flags.boo_mansion() && flags.panels() && (flags.partner('bombette') || save.data.items.weight);
 							}
 						},
 						{
@@ -6066,7 +6073,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.letters_randomized;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && (save.data.items.bombette || save.data.items.weight) && flags.deliver_letters() && save.data.items.letters.igor;
+								return flags.boo_mansion() && flags.panels() && (flags.partner('bombette') || save.data.items.weight) && flags.deliver_letters() && save.data.items.letters.igor;
 							}
 						}
 					]
@@ -6152,7 +6159,7 @@ export const useLogicStore = defineStore('logic', () => {
 									save.data.items.koopa_koot_favors.life_shroom &&
 									save.data.items.koopa_koot_favors.nutty_cake &&
 									save.data.items.eldstar &&
-									save.data.items.bombette &&
+									flags.partner('bombette') &&
 									save.data.items.koopa_koot_favors.old_photo &&
 									save.data.items.koopa_koot_favors.koopasta &&
 									save.data.items.koopa_koot_favors.glasses &&
@@ -6195,7 +6202,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.gusty_gulch() && (save.data.items.kooper || save.data.items.parakarry);
+								return flags.gusty_gulch() && (flags.partner('kooper') || flags.partner('parakarry'));
 							}
 						},
 						{
@@ -6442,7 +6449,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.tubba_blubba_castle() && save.data.items.tubba_castle_key >= 1 && save.data.items.bow;
+								return flags.tubba_blubba_castle() && save.data.items.tubba_castle_key >= 1 && flags.partner('bow');
 							}
 						}
 					]
@@ -6742,7 +6749,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox_jack_in_a_box() && save.data.items.parakarry;
+								return flags.toybox_jack_in_a_box() && flags.partner('parakarry');
 							}
 						},
 						{
@@ -7226,7 +7233,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('bow');
 							}
 						},
 						{
@@ -7236,7 +7243,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow && save.data.items.parakarry;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('bow') && flags.partner('parakarry');
 							}
 						},
 						{
@@ -7246,7 +7253,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('bow');
 							}
 						},
 						{
@@ -7256,7 +7263,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('bow');
 							}
 						},
 						{
@@ -7266,7 +7273,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('bow');
 							}
 						},
 						{
@@ -7276,7 +7283,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('bow');
 							}
 						},
 						{
@@ -7286,7 +7293,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('bow');
 							}
 						},
 						{
@@ -7296,7 +7303,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('bow');
 							}
 						},
 						{
@@ -7306,7 +7313,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('bow');
 							}
 						},
 						{
@@ -7316,7 +7323,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow && save.data.items.parakarry;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('bow') && flags.partner('parakarry');
 							}
 						},
 						{
@@ -7326,7 +7333,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow && save.data.items.parakarry;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('bow') && flags.partner('parakarry');
 							}
 						}
 					]
@@ -7434,7 +7441,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.parakarry;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('parakarry');
 							}
 						}
 					]
@@ -7476,8 +7483,8 @@ export const useLogicStore = defineStore('logic', () => {
 									flags.toybox() &&
 									save.data.items.toy_train &&
 									save.data.items.cake &&
-									save.data.items.bombette &&
-									(save.data.items.boots >= 3 || (flags.toybox_jack_in_a_box() && save.data.items.kooper))
+									flags.partner('bombette') &&
+									(save.data.items.boots >= 3 || (flags.toybox_jack_in_a_box() && flags.partner('kooper')))
 								);
 							}
 						},
@@ -7488,7 +7495,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.coin_blocks;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bombette;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('bombette');
 							}
 						},
 						{
@@ -7498,7 +7505,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bombette;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('bombette');
 							}
 						}
 					]
@@ -7525,7 +7532,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bombette && save.data.items.watt;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('bombette') && flags.partner('watt');
 							}
 						}
 					]

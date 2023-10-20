@@ -209,7 +209,10 @@
 												:initial="trackerItemConfigs.initial" />
 										</template>
 									</template>
-									<template v-if="save.data.configs.logic.letters_randomized" v-for="(chaptersItems, chapter) in tracker.items.letters" :key="chapter">
+									<template
+										v-if="save.data.configs.logic.letters_randomized && save.data.configs.tracker.compact_item_show_letters"
+										v-for="(chaptersItems, chapter) in tracker.items.letters"
+										:key="chapter">
 										<template v-for="(trackerItemConfigs, trackerItemKey) in chaptersItems" :key="trackerItemKey">
 											<Item
 												v-if="trackerItemConfigs.enabled"
@@ -224,7 +227,10 @@
 												:tooltipDelay="0" />
 										</template>
 									</template>
-									<template v-if="save.data.configs.logic.koopa_koot" v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.koopa_koot_favors" :key="trackerItemKey">
+									<template
+										v-if="save.data.configs.logic.koopa_koot && save.data.configs.tracker.compact_item_show_favors"
+										v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.koopa_koot_favors"
+										:key="trackerItemKey">
 										<Item
 											v-if="trackerItemConfigs.enabled"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
@@ -237,7 +243,7 @@
 											:initial="trackerItemConfigs.initial" />
 									</template>
 									<template
-										v-if="save.data.configs.logic.trading_event_randomized"
+										v-if="save.data.configs.logic.trading_event_randomized && save.data.configs.tracker.compact_item_show_trading_events"
 										v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.trading_event_toad"
 										:key="trackerItemKey">
 										<Item
@@ -1023,7 +1029,7 @@ const trackerLeftClick = (event, key, configs, itemSubCategory = null) => {
 		if (configs.max == 1) {
 			if (itemSubCategory === null) {
 				if (save.data.items[key]) {
-					if (save.data.configs.tracker.single_click_mode) {
+					if (save.data.configs.tracker.competitive_mode) {
 						save.data.items[key] = false;
 					}
 				} else {
@@ -1031,7 +1037,7 @@ const trackerLeftClick = (event, key, configs, itemSubCategory = null) => {
 				}
 			} else {
 				if (save.data.items[itemSubCategory][key]) {
-					if (save.data.configs.tracker.single_click_mode) {
+					if (save.data.configs.tracker.competitive_mode) {
 						save.data.items[itemSubCategory][key] = false;
 					}
 				} else {
@@ -1043,7 +1049,7 @@ const trackerLeftClick = (event, key, configs, itemSubCategory = null) => {
 				if (save.data.items[key] < configs.max) {
 					save.data.items[key]++;
 				} else {
-					if (save.data.configs.tracker.single_click_mode) {
+					if (save.data.configs.tracker.competitive_mode) {
 						save.data.items[key] = 0;
 					}
 				}
@@ -1051,7 +1057,7 @@ const trackerLeftClick = (event, key, configs, itemSubCategory = null) => {
 				if (save.data.items[itemSubCategory][key] < configs.max) {
 					save.data.items[itemSubCategory][key]++;
 				} else {
-					if (save.data.configs.tracker.single_click_mode) {
+					if (save.data.configs.tracker.competitive_mode) {
 						save.data.items[itemSubCategory][key] = 0;
 					}
 				}
@@ -1063,16 +1069,16 @@ const trackerLeftClick = (event, key, configs, itemSubCategory = null) => {
 };
 
 const trackerRightClick = (event, key, configs, itemSubCategory = null) => {
-	if (event.ctrlKey) {
+	if (save.data.configs.tracker.competitive_mode) {
 		if (key == 'eldstar' || key == 'mamar' || key == 'skolar' || key == 'muskular' || key == 'misstar' || key == 'klevar' || key == 'kalmar') {
 			if (save.data.items[`${key}_difficulty`] == undefined) {
 				save.data.items[`${key}_difficulty`] = 0;
 			}
 
-			if (save.data.items[`${key}_difficulty`] <= 0) {
-				save.data.items[`${key}_difficulty`] = 8;
+			if (save.data.items[`${key}_difficulty`] >= 8) {
+				save.data.items[`${key}_difficulty`] = 0;
 			} else {
-				save.data.items[`${key}_difficulty`]--;
+				save.data.items[`${key}_difficulty`]++;
 			}
 		}
 		if (key == 'goombario' || key == 'kooper' || key == 'bombette' || key == 'parakarry' || key == 'bow' || key == 'watt' || key == 'sushie' || key == 'lakilester') {
@@ -1080,35 +1086,60 @@ const trackerRightClick = (event, key, configs, itemSubCategory = null) => {
 				save.data.items[`${key}_rank`] = 0;
 			}
 
-			if (save.data.items[`${key}_rank`] <= 0) {
-				save.data.items[`${key}_rank`] = 2;
+			if (save.data.items[`${key}_rank`] >= 2) {
+				save.data.items[`${key}_rank`] = 0;
 			} else {
-				save.data.items[`${key}_rank`]--;
+				save.data.items[`${key}_rank`]++;
 			}
 		}
 	} else {
-		if (configs.max == 1) {
-			if (itemSubCategory === null) {
-				if (save.data.items[key] !== undefined) {
-					save.data.items[key] = false;
+		if (event.ctrlKey) {
+			if (key == 'eldstar' || key == 'mamar' || key == 'skolar' || key == 'muskular' || key == 'misstar' || key == 'klevar' || key == 'kalmar') {
+				if (save.data.items[`${key}_difficulty`] == undefined) {
+					save.data.items[`${key}_difficulty`] = 0;
 				}
-			} else {
-				if (save.data.items[itemSubCategory][key] !== undefined) {
-					save.data.items[itemSubCategory][key] = false;
+
+				if (save.data.items[`${key}_difficulty`] <= 0) {
+					save.data.items[`${key}_difficulty`] = 8;
+				} else {
+					save.data.items[`${key}_difficulty`]--;
 				}
 			}
-		} else if (configs.max > 1) {
-			if (itemSubCategory === null) {
-				if (save.data.items[key] > 0) {
-					save.data.items[key]--;
+			if (key == 'goombario' || key == 'kooper' || key == 'bombette' || key == 'parakarry' || key == 'bow' || key == 'watt' || key == 'sushie' || key == 'lakilester') {
+				if (save.data.items[`${key}_rank`] == undefined) {
+					save.data.items[`${key}_rank`] = 0;
 				}
-			} else {
-				if (save.data.items[itemSubCategory][key] > 0) {
-					save.data.items[itemSubCategory][key]--;
+
+				if (save.data.items[`${key}_rank`] <= 0) {
+					save.data.items[`${key}_rank`] = 2;
+				} else {
+					save.data.items[`${key}_rank`]--;
 				}
 			}
 		} else {
-			console.log('Error: Max value is not a number');
+			if (configs.max == 1) {
+				if (itemSubCategory === null) {
+					if (save.data.items[key] !== undefined) {
+						save.data.items[key] = false;
+					}
+				} else {
+					if (save.data.items[itemSubCategory][key] !== undefined) {
+						save.data.items[itemSubCategory][key] = false;
+					}
+				}
+			} else if (configs.max > 1) {
+				if (itemSubCategory === null) {
+					if (save.data.items[key] > 0) {
+						save.data.items[key]--;
+					}
+				} else {
+					if (save.data.items[itemSubCategory][key] > 0) {
+						save.data.items[itemSubCategory][key]--;
+					}
+				}
+			} else {
+				console.log('Error: Max value is not a number');
+			}
 		}
 	}
 };

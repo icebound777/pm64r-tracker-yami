@@ -3,7 +3,8 @@
 		<img
 			class="h-full w-auto"
 			:class="{
-				'opacity-50': !itemCount
+				'opacity-50': !itemCount && !save.data.configs.tracker.missing_items_in_grayscale,
+				grayscale: !itemCount && save.data.configs.tracker.missing_items_in_grayscale
 			}"
 			:src="levelItem ? `/images/${imageFolder}/${itemKey}_${itemCount}.webp` : `/images/${imageFolder}/${itemKey}.webp`" />
 		<template v-if="imageFolder == 'partners' && save.data.items[itemKey + '_rank'] !== undefined" v-for="i in save.data.items[itemKey + '_rank']" :key="i">
