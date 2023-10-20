@@ -102,7 +102,12 @@ export default {
 
 		//Partners levels
 		'right-level1',
-		'right-level2'
+		'right-level2',
+
+		//Font size
+		'text-base',
+		'text-sm',
+		'text-xs'
 	],
 	theme: {
 		extend: {

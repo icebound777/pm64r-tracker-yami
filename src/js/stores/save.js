@@ -211,18 +211,23 @@ export const useSaveStore = defineStore('save', () => {
 
 	const defaultTrackerConfigs = {
 		map: true,
+		map_text_size: 'base',
 		always_show_super_blocks: false,
 		compact_items: false,
 		compact_item_background_hex_color: '#000000',
+		compact_item_show_letters: false,
+		compact_item_show_favors: false,
+		compact_item_show_trading_events: false,
 		compact_items_per_chapters: false,
-		single_click_mode: false
+		compact_items_per_chapters: false,
+		competitive_mode: false,
+		missing_items_in_grayscale: false,
+		deactivate_items_tooltips: false
 	};
 
 	const resetTrackerConfigs = () => {
 		const defaultTrackerConfigsToApply = JSON.parse(JSON.stringify(defaultTrackerConfigs));
 		Object.assign(currentSave.configs.tracker, defaultTrackerConfigsToApply);
-
-		resetTrackerLayout.value = true;
 	};
 
 	const resetConfigs = () => {
@@ -231,7 +236,7 @@ export const useSaveStore = defineStore('save', () => {
 		const defaultLogicConfigsToApply = JSON.parse(JSON.stringify(defaultLogicConfigs));
 		Object.assign(currentSave.configs.logic, defaultLogicConfigsToApply);
 
-		if (currentSave.configs.tracker !== undefined && currentSave.configs.tracker.length == undefined) {
+		if (currentSave.configs.tracker !== undefined && Object.keys(currentSave.configs.tracker).length <= 0) {
 			resetTrackerConfigs();
 		}
 	};

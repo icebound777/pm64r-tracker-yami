@@ -950,6 +950,24 @@ export const useTrackerStore = defineStore('tracker', () => {
 				enabled: true,
 				type: 'switch'
 			},
+			map_text_size: {
+				enabled: true,
+				type: 'select',
+				options: [
+					{
+						value: 'base',
+						text: 'Default'
+					},
+					{
+						value: 'sm',
+						text: 'Smaller'
+					},
+					{
+						value: 'xs',
+						text: 'Way too small lol'
+					}
+				]
+			},
 			always_show_super_blocks: {
 				enabled: true,
 				type: 'switch'

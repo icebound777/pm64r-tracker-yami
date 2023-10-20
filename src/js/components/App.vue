@@ -64,14 +64,17 @@
 							@click="trackerSettingsModalVisible = true">
 							<font-awesome-icon :icon="['fas', 'wrench']" />
 						</button>
-						<div class="bg-sky-950 hover:bg-sky-800 w-fit flex rounded-md p-3 items-center" type="button" v-tooltip="{ content: 'Edit tracker layout', delay: { show: 0 } }">
+						<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Reset tracker configs', delay: { show: 0 } }" @click="resetTrackerPrompt">
+							<font-awesome-icon :icon="['fas', 'trash']" />
+						</button>
+						<div class="bg-sky-950 hover:bg-sky-800 w-fit flex rounded-md p-3 items-center ml-10" type="button" v-tooltip="{ content: 'Edit tracker layout', delay: { show: 0 } }">
 							<p class="mr-5">
 								<font-awesome-icon :icon="['fas', 'table']" />
 							</p>
 							<input id="edit_tracker_layout" type="checkbox" v-model="layout.editingLayout" />
 							<label for="edit_tracker_layout" />
 						</div>
-						<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Reset tracker configs', delay: { show: 0 } }" @click="resetTrackerPrompt">
+						<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Restore default layout', delay: { show: 0 } }" @click="resetLayoutPrompt">
 							<font-awesome-icon :icon="['fas', 'trash']" />
 						</button>
 					</div>
@@ -740,7 +743,9 @@
 										v-for="(mapCategoryConfigs, mapCategoryKey) in logic.checks"
 										:key="mapCategoryKey"
 										@click="map.selectMapCategory(mapCategoryKey)">
-										<p class="text-center">{{ mapCategoryConfigs.name }}</p>
+										<p class="text-center" :class="[save.data.configs.tracker.map_text_size == undefined ? 'text-base' : `text-${save.data.configs.tracker.map_text_size}`]">
+											{{ mapCategoryConfigs.name }}
+										</p>
 									</div>
 								</div>
 								<div class="bg-white h-[1px] my-4" />
@@ -756,7 +761,7 @@
 										<template v-for="x in map.getHighestXForMap(map.currentMapCategory)">
 											<div
 												v-if="map.getMapByCoordinates(map.currentMapCategory, x, y) !== null"
-												class="flex items-center justify-center rounded-md p-1.5"
+												class="flex items-center justify-center rounded-md px-1.5 py-0.5"
 												:class="[
 													map.getMapColorClasses(map.currentMapCategory, map.getMapByCoordinates(map.currentMapCategory, x, y).key),
 													`col-start-${x}`,
@@ -768,7 +773,10 @@
 													}
 												]"
 												@click="map.selectMap(map.getMapByCoordinates(map.currentMapCategory, x, y).key)">
-												<p class="text-center" v-html="map.getMapByCoordinates(map.currentMapCategory, x, y).name" />
+												<p
+													class="text-center"
+													:class="[save.data.configs.tracker.map_text_size == undefined ? 'text-base' : `text-${save.data.configs.tracker.map_text_size}`]"
+													v-html="map.getMapByCoordinates(map.currentMapCategory, x, y).name" />
 											</div>
 										</template>
 									</template>
@@ -790,7 +798,9 @@
 													class="h-3 mr-2"
 													:src="`/images/checks/${check.icon}.webp`"
 													v-tooltip="{ content: check.icon.titlize().capitalize(), delay: { show: 200 } }" />
-												{{ check.name }}
+												<p :class="[save.data.configs.tracker.map_text_size == undefined ? 'text-base' : `text-${save.data.configs.tracker.map_text_size}`]">
+													{{ check.name }}
+												</p>
 											</div>
 										</template>
 									</div>
@@ -1184,8 +1194,14 @@ const resetConfigsPrompt = () => {
 };
 
 const resetTrackerPrompt = () => {
-	if (confirm('Are you sure you want to reset your tracker settings? It will revert to the default layout. It will not reset any progression or logic configs.')) {
+	if (confirm('Are you sure you want to reset your tracker settings? It will not reset any progression, logic or tracker layout configs.')) {
 		save.resetTrackerConfigs();
+	}
+};
+
+const resetLayoutPrompt = () => {
+	if (confirm('Are you sure you want to reset your tracker layout? It will revert to the default layout. It will not reset any progression, logic or tracker configs.')) {
+		save.resetTrackerLayout = true;
 	}
 };
 
