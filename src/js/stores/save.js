@@ -16,7 +16,8 @@ export const useSaveStore = defineStore('save', () => {
 			tracker: {
 				compact_items: false,
 				compact_items_per_chapters: false
-			}
+			},
+			invisible_items: {}
 		}
 	});
 
@@ -336,6 +337,27 @@ export const useSaveStore = defineStore('save', () => {
 		} else {
 			resetSave();
 			resetConfigs();
+			resetTrackerConfigs();
+		}
+	};
+
+	const initInvisibleItems = () => {
+		if (currentSave.configs.invisible_items === undefined) {
+			currentSave.configs.invisible_items = {};
+		}
+
+		for (const [key, value] of Object.entries(tracker.items)) {
+			if (currentSave.configs.invisible_items[key] === undefined) {
+				currentSave.configs.invisible_items[key] = {};
+			}
+
+			if (key == 'items' || key == 'letters') {
+				for (const [key2, value2] of Object.entries(value)) {
+					if (currentSave.configs.invisible_items[key][key2] === undefined) {
+						currentSave.configs.invisible_items[key][key2] = {};
+					}
+				}
+			}
 		}
 	};
 
@@ -470,6 +492,7 @@ export const useSaveStore = defineStore('save', () => {
 		resetSave: resetSave,
 		resetConfigs: resetConfigs,
 		resetTrackerConfigs: resetTrackerConfigs,
-		loadSave: loadSave
+		loadSave: loadSave,
+		initInvisibleItems: initInvisibleItems
 	};
 });

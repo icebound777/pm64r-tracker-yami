@@ -60,6 +60,13 @@
 						<button
 							class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
 							type="button"
+							v-tooltip="{ content: 'Disable items', delay: { show: 0 } }"
+							@click="disableItemsModalVisible = true">
+							<font-awesome-icon :icon="['fas', 'braille']" />
+						</button>
+						<button
+							class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
+							type="button"
 							v-tooltip="{ content: 'Edit tracker settings', delay: { show: 0 } }"
 							@click="trackerSettingsModalVisible = true">
 							<font-awesome-icon :icon="['fas', 'wrench']" />
@@ -112,7 +119,7 @@
 								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.stars" :key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items[grid_item.i][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 											:itemName="trackerItemConfigs.name"
@@ -129,7 +136,7 @@
 								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.partners" :key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items[grid_item.i][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 											:itemName="trackerItemConfigs.name"
@@ -146,7 +153,7 @@
 								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.equipments" :key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items[grid_item.i][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 											:itemName="trackerItemConfigs.name[save.data.items[trackerItemKey]]"
@@ -163,7 +170,7 @@
 								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.stars" :key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['stars'][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 											:itemName="trackerItemConfigs.name"
@@ -175,7 +182,7 @@
 									</template>
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.partners" :key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['partners'][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 											:itemName="trackerItemConfigs.name"
@@ -187,7 +194,7 @@
 									</template>
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.equipments" :key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['equipments'][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 											:itemName="trackerItemConfigs.name[save.data.items[trackerItemKey]]"
@@ -201,7 +208,7 @@
 									<template v-for="(chaptersItems, chapter) in tracker.items.items" :key="chapter">
 										<template v-for="(trackerItemConfigs, trackerItemKey) in chaptersItems" :key="trackerItemKey">
 											<Item
-												v-if="trackerItemConfigs.enabled"
+												v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][chapter][trackerItemKey]"
 												@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 												@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 												:itemName="trackerItemConfigs.name"
@@ -218,7 +225,7 @@
 										:key="chapter">
 										<template v-for="(trackerItemConfigs, trackerItemKey) in chaptersItems" :key="trackerItemKey">
 											<Item
-												v-if="trackerItemConfigs.enabled"
+												v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['letters'][chapter][trackerItemKey]"
 												@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, 'letters')"
 												@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs, 'letters')"
 												:itemName="trackerItemConfigs.name"
@@ -235,7 +242,7 @@
 										v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.koopa_koot_favors"
 										:key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['koopa_koot_favors'][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, 'koopa_koot_favors')"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs, 'koopa_koot_favors')"
 											:itemName="trackerItemConfigs.name"
@@ -250,7 +257,7 @@
 										v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.trading_event_toad"
 										:key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['trading_event_toad'][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, 'trading_event_toad')"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs, 'trading_event_toad')"
 											:itemName="trackerItemConfigs.name"
@@ -262,7 +269,7 @@
 									</template>
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.misc" :key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['misc'][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 											:itemName="trackerItemConfigs.name"
@@ -284,7 +291,7 @@
 											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.prologue" :key="trackerItemKey">
 													<Item
-														v-if="trackerItemConfigs.enabled"
+														v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items']['prologue'][trackerItemKey]"
 														@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 														@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 														:itemName="trackerItemConfigs.name"
@@ -305,7 +312,7 @@
 											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter1" :key="trackerItemKey">
 													<Item
-														v-if="trackerItemConfigs.enabled"
+														v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items']['chapter1'][trackerItemKey]"
 														@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 														@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 														:itemName="trackerItemConfigs.name"
@@ -326,7 +333,7 @@
 											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter2" :key="trackerItemKey">
 													<Item
-														v-if="trackerItemConfigs.enabled"
+														v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items']['chapter2'][trackerItemKey]"
 														@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 														@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 														:itemName="trackerItemConfigs.name"
@@ -347,7 +354,7 @@
 											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter3" :key="trackerItemKey">
 													<Item
-														v-if="trackerItemConfigs.enabled"
+														v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items']['chapter3'][trackerItemKey]"
 														@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 														@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 														:itemName="trackerItemConfigs.name"
@@ -368,7 +375,7 @@
 											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter4" :key="trackerItemKey">
 													<Item
-														v-if="trackerItemConfigs.enabled"
+														v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items']['chapter4'][trackerItemKey]"
 														@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 														@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 														:itemName="trackerItemConfigs.name"
@@ -389,7 +396,7 @@
 											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter5" :key="trackerItemKey">
 													<Item
-														v-if="trackerItemConfigs.enabled"
+														v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items']['chapter5'][trackerItemKey]"
 														@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 														@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 														:itemName="trackerItemConfigs.name"
@@ -410,7 +417,7 @@
 											<div class="flex flex-wrap gap-x-0.5 gap-y-2">
 												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter6" :key="trackerItemKey">
 													<Item
-														v-if="trackerItemConfigs.enabled"
+														v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items']['chapter6'][trackerItemKey]"
 														@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 														@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 														:itemName="trackerItemConfigs.name"
@@ -431,7 +438,7 @@
 											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter7" :key="trackerItemKey">
 													<Item
-														v-if="trackerItemConfigs.enabled"
+														v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items']['chapter7'][trackerItemKey]"
 														@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 														@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 														:itemName="trackerItemConfigs.name"
@@ -452,7 +459,7 @@
 											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter8" :key="trackerItemKey">
 													<Item
-														v-if="trackerItemConfigs.enabled"
+														v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items']['chapter8'][trackerItemKey]"
 														@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 														@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 														:itemName="trackerItemConfigs.name"
@@ -473,7 +480,7 @@
 											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.other" :key="trackerItemKey">
 													<Item
-														v-if="trackerItemConfigs.enabled"
+														v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items']['other'][trackerItemKey]"
 														@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 														@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 														:itemName="trackerItemConfigs.name"
@@ -493,7 +500,7 @@
 								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.prologue" :key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][grid_item.i][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 											:itemName="trackerItemConfigs.name"
@@ -510,7 +517,7 @@
 								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter1" :key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][grid_item.i][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 											:itemName="trackerItemConfigs.name"
@@ -527,7 +534,7 @@
 								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter2" :key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][grid_item.i][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 											:itemName="trackerItemConfigs.name"
@@ -544,7 +551,7 @@
 								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter3" :key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][grid_item.i][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 											:itemName="trackerItemConfigs.name"
@@ -561,7 +568,7 @@
 								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter4" :key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][grid_item.i][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 											:itemName="trackerItemConfigs.name"
@@ -578,7 +585,7 @@
 								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter5" :key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][grid_item.i][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 											:itemName="trackerItemConfigs.name"
@@ -595,7 +602,7 @@
 								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter6" :key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][grid_item.i][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 											:itemName="trackerItemConfigs.name"
@@ -612,7 +619,7 @@
 								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter7" :key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][grid_item.i][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 											:itemName="trackerItemConfigs.name"
@@ -629,7 +636,7 @@
 								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter8" :key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][grid_item.i][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 											:itemName="trackerItemConfigs.name"
@@ -646,7 +653,7 @@
 								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.other" :key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][grid_item.i][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 											:itemName="trackerItemConfigs.name"
@@ -664,7 +671,7 @@
 									<template v-for="(chaptersItems, chapter) in tracker.items.letters" :key="chapter">
 										<template v-for="(trackerItemConfigs, trackerItemKey) in chaptersItems" :key="trackerItemKey">
 											<Item
-												v-if="trackerItemConfigs.enabled"
+												v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items[grid_item.i][chapter][trackerItemKey]"
 												@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
 												@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
 												:itemName="trackerItemConfigs.name"
@@ -683,7 +690,7 @@
 								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.misc" :key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items[grid_item.i][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 											:itemName="trackerItemConfigs.name"
@@ -700,7 +707,7 @@
 								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.koopa_koot_favors" :key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items[grid_item.i][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
 											:itemName="trackerItemConfigs.name"
@@ -717,7 +724,7 @@
 								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.trading_event_toad" :key="trackerItemKey">
 										<Item
-											v-if="trackerItemConfigs.enabled"
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items[grid_item.i][trackerItemKey]"
 											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
 											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs, grid_item.i)"
 											:itemName="trackerItemConfigs.name"
@@ -983,6 +990,34 @@
 				Reset tracker layout
 			</button>
 		</Modal>
+
+		<!-- Disable Items Modal -->
+		<!-- :class="{
+					'mb-3': itemIndex < Object.keys(tracker.items.stars).length - 1
+				}" -->
+		<Modal :show="disableItemsModalVisible" @onClose="disableItemsModalVisible = false">
+			<template v-for="(itemCategoryItems, itemCategoryKey, itemCategoryIndex) in tracker.items">
+				<div v-if="itemCategoryIndex > 0" class="bg-white h-[1px] my-4" />
+				<h2 class="mb-3 capitalize">{{ itemCategoryKey.titlize() }}</h2>
+				<div v-if="itemCategoryKey != 'items' && itemCategoryKey != 'letters'" class="flex justify-between w-30 mb-3" v-for="(itemConfigs, item) in itemCategoryItems" :key="item">
+					<p v-if="itemCategoryKey == 'equipments'" class="capitalize">{{ itemConfigs.name[0] }}</p>
+					<p v-else class="capitalize">{{ itemConfigs.name }}</p>
+					<div class="flex">
+						<input :id="`config_${item}`" type="checkbox" v-model="save.data.configs.invisible_items[itemCategoryKey][item]" />
+						<label :for="`config_${item}`" />
+					</div>
+				</div>
+				<template v-else v-for="(itemSubcategoryItems, itemSubcategoryKey) in itemCategoryItems">
+					<div class="flex justify-between w-30 mb-3" v-for="(itemConfigs, item) in itemSubcategoryItems" :key="item">
+						<p class="capitalize">{{ itemConfigs.name }}</p>
+						<div class="flex">
+							<input :id="`config_${item}`" type="checkbox" v-model="save.data.configs.invisible_items[itemCategoryKey][itemSubcategoryKey][item]" />
+							<label :for="`config_${item}`" />
+						</div>
+					</div>
+				</template>
+			</template>
+		</Modal>
 	</div>
 </template>
 
@@ -1008,6 +1043,7 @@ const loadNewSeedModal = ref(false);
 const randomizerSettingsModalVisible = ref(false);
 const logicSettingsModalVisible = ref(false);
 const trackerSettingsModalVisible = ref(false);
+const disableItemsModalVisible = ref(false);
 
 const _importSaveFileInput = ref(null);
 
@@ -1208,4 +1244,5 @@ const resetLayoutPrompt = () => {
 //OnLoad Function Calls
 layout.loadLayout();
 save.loadSave();
+save.initInvisibleItems();
 </script>

@@ -14,9 +14,9 @@ import FloatingVue from 'floating-vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-import { faBars, faBrain, faCheck, faDownload, faDice, faFileCirclePlus, faFloppyDisk, faSpinner, faTable, faTrash, faWrench } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faBrain, faBraille, faCheck, faDownload, faDice, faFileCirclePlus, faFloppyDisk, faSpinner, faTable, faTrash, faWrench } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faBars, faBrain, faCheck, faDownload, faDice, faFileCirclePlus, faFloppyDisk, faSpinner, faTable, faTrash, faWrench);
+library.add(faBars, faBrain, faBraille, faCheck, faDownload, faDice, faFileCirclePlus, faFloppyDisk, faSpinner, faTable, faTrash, faWrench);
 
 const pinia = createPinia();
 const app = createApp(App)
