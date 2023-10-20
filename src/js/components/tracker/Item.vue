@@ -1,5 +1,8 @@
 <template>
-	<div class="relative flex items-center justify-center cursor-pointer" :class="size" v-tooltip="{ content: itemName, delay: { show: tooltipDelay } }">
+	<div
+		class="relative flex items-center justify-center cursor-pointer"
+		:class="size"
+		v-tooltip="save.data.configs.tracker.deactivate_items_tooltips ? null : { content: itemName, delay: { show: tooltipDelay } }">
 		<img
 			class="h-full w-auto"
 			:class="{

@@ -985,6 +985,10 @@ export const useTrackerStore = defineStore('tracker', () => {
 			missing_items_in_grayscale: {
 				enabled: true,
 				type: 'switch'
+			},
+			deactivate_items_tooltips: {
+				enabled: true,
+				type: 'switch'
 			}
 		}
 	});
