@@ -13,6 +13,7 @@
 		<template v-if="imageFolder == 'partners' && save.data.items[itemKey + '_rank'] !== undefined" v-for="i in save.data.items[itemKey + '_rank']" :key="i">
 			<img class="absolute bottom-0 h-[15px]" :class="[`right-level${i}`]" src="/images/partners/partner_level.webp" />
 		</template>
+		<img v-if="imageFolder == 'stars' && stars_dungeon_shuffle_images" class="absolute top-0 left-0 h-[20px]" :src="`/images/stars/${stars_dungeon_shuffle_images}.webp`" />
 		<p v-if="imageFolder == 'stars' && save.data.items[`${itemKey}_difficulty`]" class="absolute w-fit whitespace-nowrap bottom-[-10px] right-0">{{ save.data.items[`${itemKey}_difficulty`] }}</p>
 		<p v-if="imageFolder != 'partners' && itemCountMax > 1 && !levelItem" class="absolute w-fit whitespace-nowrap bottom-[-10px] right-0">{{ itemCount }}/{{ itemCountMax }}</p>
 		<template v-if="save.data.configs.tracker.competitive_mode && save.data.items.hand_ins !== undefined && save.data.items.hand_ins[itemKey] !== undefined && imageFolder != 'misc'">
@@ -78,5 +79,22 @@ const size = computed(() => {
 		xl: 'min-w-[3.5rem] w-14 h-14',
 		'2xl': 'min-w-[4rem] w-16 h-16'
 	}[props.size];
+});
+
+const stars_dungeon_shuffle_images = computed(() => {
+	if (props.imageFolder == 'stars') {
+		return {
+			0: null,
+			1: 'eldstar',
+			2: 'mamar',
+			3: 'skolar',
+			4: 'muskular',
+			5: 'misstar',
+			6: 'klevar',
+			7: 'kalmar'
+		}[save.data.items[`${props.itemKey}_dungeon_shuffle`]];
+	} else {
+		return null;
+	}
 });
 </script>

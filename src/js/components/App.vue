@@ -1071,6 +1071,18 @@ const trackerLeftClick = (event, key, configs, itemSubCategory = null) => {
 				save.data.items[`${key}_rank`]++;
 			}
 		}
+	} else if (event.shiftKey) {
+		if (key == 'eldstar' || key == 'mamar' || key == 'skolar' || key == 'muskular' || key == 'misstar' || key == 'klevar' || key == 'kalmar') {
+			if (save.data.items[`${key}_dungeon_shuffle`] == undefined) {
+				save.data.items[`${key}_dungeon_shuffle`] = 0;
+			}
+
+			if (save.data.items[`${key}_dungeon_shuffle`] >= 7) {
+				save.data.items[`${key}_dungeon_shuffle`] = 0;
+			} else {
+				save.data.items[`${key}_dungeon_shuffle`]++;
+			}
+		}
 	} else {
 		if (configs.max == 1) {
 			if (itemSubCategory === null) {
@@ -1117,14 +1129,26 @@ const trackerLeftClick = (event, key, configs, itemSubCategory = null) => {
 const trackerRightClick = (event, key, configs, itemSubCategory = null) => {
 	if (save.data.configs.tracker.competitive_mode) {
 		if (key == 'eldstar' || key == 'mamar' || key == 'skolar' || key == 'muskular' || key == 'misstar' || key == 'klevar' || key == 'kalmar') {
-			if (save.data.items[`${key}_difficulty`] == undefined) {
-				save.data.items[`${key}_difficulty`] = 0;
-			}
+			if (event.buttons == 1) {
+				if (save.data.items[`${key}_dungeon_shuffle`] == undefined) {
+					save.data.items[`${key}_dungeon_shuffle`] = 0;
+				}
 
-			if (save.data.items[`${key}_difficulty`] >= 8) {
-				save.data.items[`${key}_difficulty`] = 0;
+				if (save.data.items[`${key}_dungeon_shuffle`] >= 7) {
+					save.data.items[`${key}_dungeon_shuffle`] = 0;
+				} else {
+					save.data.items[`${key}_dungeon_shuffle`]++;
+				}
 			} else {
-				save.data.items[`${key}_difficulty`]++;
+				if (save.data.items[`${key}_difficulty`] == undefined) {
+					save.data.items[`${key}_difficulty`] = 0;
+				}
+
+				if (save.data.items[`${key}_difficulty`] >= 8) {
+					save.data.items[`${key}_difficulty`] = 0;
+				} else {
+					save.data.items[`${key}_difficulty`]++;
+				}
 			}
 		} else if (key == 'goombario' || key == 'kooper' || key == 'bombette' || key == 'parakarry' || key == 'bow' || key == 'watt' || key == 'sushie' || key == 'lakilester') {
 			if (save.data.items[`${key}_rank`] == undefined) {
