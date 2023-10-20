@@ -7,17 +7,22 @@ export const useSaveStore = defineStore('save', () => {
 	const tracker = useTrackerStore();
 
 	const welcomeMessageShown = ref(false);
+	const resetTrackerLayout = ref(false);
 
 	const currentSave = reactive({
 		configs: {
 			randomizer: {},
 			logic: {},
-			tracker: {}
+			tracker: {
+				compact_items: false,
+				compact_items_per_chapters: false
+			}
 		}
 	});
 
 	const defaultSave = reactive({
 		randomizer_seed: null,
+		randomizer_seed_hash_items: null,
 		items: {
 			eldstar: false,
 			mamar: false,
@@ -34,14 +39,22 @@ export const useSaveStore = defineStore('save', () => {
 			klevar_difficulty: 0,
 			kalmar_difficulty: 0,
 			starrod: false,
-			goombario: 0,
-			kooper: 0,
-			bombette: 0,
-			parakarry: 0,
-			bow: 0,
-			watt: 0,
-			sushie: 0,
-			lakilester: 0,
+			goombario: false,
+			kooper: false,
+			bombette: false,
+			parakarry: false,
+			bow: false,
+			watt: false,
+			sushie: false,
+			lakilester: false,
+			goombario_rank: 0,
+			kooper_rank: 0,
+			bombette_rank: 0,
+			parakarry_rank: 0,
+			bow_rank: 0,
+			watt_rank: 0,
+			sushie_rank: 0,
+			lakilester_rank: 0,
 			ultra_stone: false,
 			boots: 1,
 			hammer: 1,
@@ -155,59 +168,71 @@ export const useSaveStore = defineStore('save', () => {
 		checks: {}
 	});
 
-	const defaultConfigs = {
-		configs: {
-			randomizer: {
-				prologue_open: false,
-				mt_rugged_open: false,
-				forever_forest_open: false,
-				toybox_open: false,
-				whale_open: false,
-				chapter_7_bridge_open: false,
-				blue_house_open: false,
-				magical_seed_required: 4,
-				starting_location: 65796,
-				star_hunt_enabled: false,
-				star_hunt_star_count: 120
-			},
-			logic: {
-				fast_bowser_castle: false,
-				super_blocks_randomized: false,
-				shopsanity: false,
-				rowf_shop: false,
-				merlow: false,
-				merlow_reward_cost_1: 1,
-				merlow_reward_cost_2: 1,
-				merlow_reward_cost_3: 1,
-				merlow_reward_cost_4: 1,
-				merlow_reward_cost_5: 1,
-				merlow_reward_cost_6: 1,
-				rip_cheato: 0,
-				panels: false,
-				overworld_coins: false,
-				coin_blocks: false,
-				multicoin_blocks_randomized: false,
-				foliage_coins: false,
-				letters_randomized: false,
-				koopa_koot: false,
-				koopa_koot_coins: false,
-				dojo_randomized: false,
-				trading_event_randomized: false
-			},
-			tracker: {
-				map: true,
-				always_show_super_blocks: false,
-				compact_items: false,
-				compact_item_background_hex_color: '#000000',
-				compact_items_per_chapters: false,
-				single_click_mode: false
-			}
-		}
+	const defaultRandomizerConfigs = {
+		prologue_open: false,
+		mt_rugged_open: false,
+		forever_forest_open: false,
+		toybox_open: false,
+		whale_open: false,
+		chapter_7_bridge_open: false,
+		blue_house_open: false,
+		magical_seed_required: 4,
+		starting_location: 65796,
+		star_hunt_enabled: false,
+		star_hunt_star_count: 120
+	};
+
+	const defaultLogicConfigs = {
+		fast_bowser_castle: false,
+		super_blocks_randomized: false,
+		shopsanity: false,
+		rowf_shop: false,
+		merlow: false,
+		merlow_reward_cost_1: 5,
+		merlow_reward_cost_2: 10,
+		merlow_reward_cost_3: 15,
+		merlow_reward_cost_4: 20,
+		merlow_reward_cost_5: 25,
+		merlow_reward_cost_6: 30,
+		rip_cheato: 0,
+		panels: false,
+		overworld_coins: false,
+		coin_blocks: false,
+		super_and_multicoin_blocks_randomized: false,
+		foliage_coins: false,
+		partners_always_usable: false,
+		letters_randomized: false,
+		koopa_koot: false,
+		koopa_koot_coins: false,
+		dojo_randomized: false,
+		trading_event_randomized: false
+	};
+
+	const defaultTrackerConfigs = {
+		map: true,
+		always_show_super_blocks: false,
+		compact_items: false,
+		compact_item_background_hex_color: '#000000',
+		compact_items_per_chapters: false,
+		single_click_mode: false
+	};
+
+	const resetTrackerConfigs = () => {
+		const defaultTrackerConfigsToApply = JSON.parse(JSON.stringify(defaultTrackerConfigs));
+		Object.assign(currentSave.configs.tracker, defaultTrackerConfigsToApply);
+
+		resetTrackerLayout.value = true;
 	};
 
 	const resetConfigs = () => {
-		const defaultConfigsClone = JSON.parse(JSON.stringify(defaultConfigs));
-		Object.assign(currentSave, defaultConfigsClone);
+		const defaultRandomizerConfigsToApply = JSON.parse(JSON.stringify(defaultRandomizerConfigs));
+		Object.assign(currentSave.configs.randomizer, defaultRandomizerConfigsToApply);
+		const defaultLogicConfigsToApply = JSON.parse(JSON.stringify(defaultLogicConfigs));
+		Object.assign(currentSave.configs.logic, defaultLogicConfigsToApply);
+
+		if (currentSave.configs.tracker !== undefined && currentSave.configs.tracker.length == undefined) {
+			resetTrackerConfigs();
+		}
 	};
 
 	const resetSave = () => {
@@ -215,11 +240,86 @@ export const useSaveStore = defineStore('save', () => {
 		Object.assign(currentSave, defaultSaveClone);
 	};
 
+	const exportSave = () => {
+		let json = JSON.stringify(currentSave);
+
+		let fileName = 'pm64_randomizer_save';
+
+		if (currentSave.randomizer_seed) {
+			fileName += '_' + currentSave.randomizer_seed;
+		}
+
+		var dataString = 'data:text/json;charset=utf-8,' + encodeURIComponent(json);
+		var downloadAnchorNode = document.createElement('a');
+		downloadAnchorNode.setAttribute('href', dataString);
+		downloadAnchorNode.setAttribute('download', fileName + '.json');
+		document.body.appendChild(downloadAnchorNode); // required for firefox
+		downloadAnchorNode.click();
+		downloadAnchorNode.remove();
+	};
+
+	const importSave = (htmlEvent) => {
+		const file = htmlEvent.target.files;
+		if (file && file.length > 0) {
+			if (confirm('Are you sure you want to import your progress? This will restore everything (configs and progression) from the file.')) {
+				const reader = new FileReader();
+				reader.readAsText(file[0], 'UTF-8');
+				reader.onload = (readerEvent) => {
+					Object.assign(currentSave, JSON.parse(readerEvent.target.result));
+				};
+				reader.onerror = (readerEvent) => {
+					console.error('Error reading file');
+				};
+			}
+		}
+	};
+
 	const loadSeed = () => {
-		const pmr_endpoint = 'https://paper-mario-randomizer-server.ue.r.appspot.com/randomizer_settings/';
-		axios.get(pmr_endpoint + currentSave.randomizer_seed).then((response) => {
-			console.log(response);
-		});
+		if (
+			confirm(
+				'Are you sure you want to load a new seed? This will delete everything (configs and progression) from the file. If you want to keep this run progression, you can always export your save first.'
+			)
+		) {
+			let randomizer_seed = currentSave.randomizer_seed;
+			const pmr_endpoint = 'https://paper-mario-randomizer-server.ue.r.appspot.com/randomizer_settings/';
+			axios.get(pmr_endpoint + currentSave.randomizer_seed).then((response) => {
+				let randomizerData = response.data;
+
+				resetConfigs();
+				resetSave();
+
+				currentSave.randomizer_seed = randomizer_seed;
+				currentSave.randomizer_seed_hash_items = randomizerData.SeedHashItems.join(' | ');
+
+				currentSave.configs.randomizer.prologue_open = randomizerData.PrologueOpen;
+				currentSave.configs.randomizer.mt_rugged_open = randomizerData.MtRuggedOpen;
+				currentSave.configs.randomizer.forever_forest_open = randomizerData.ForeverForestOpen;
+				currentSave.configs.randomizer.toybox_open = randomizerData.ToyboxOpen;
+				currentSave.configs.randomizer.whale_open = randomizerData.WhaleOpen;
+				currentSave.configs.randomizer.chapter_7_bridge_open = randomizerData.Ch7BridgeVisible;
+				currentSave.configs.randomizer.magical_seed_required = randomizerData.MagicalSeedsRequired;
+				currentSave.configs.randomizer.starting_location = randomizerData.StartingMap;
+				currentSave.configs.randomizer.star_hunt_enabled = randomizerData.StarHunt;
+				currentSave.configs.randomizer.star_hunt_star_count = randomizerData.StarHuntRequired;
+
+				currentSave.configs.logic.fast_bowser_castle = randomizerData.BowsersCastleMode != 0 ? true : false;
+				currentSave.configs.logic.shopsanity = randomizerData.IncludeShops;
+				currentSave.configs.logic.rowf_shop = randomizerData.ProgressionOnRowf;
+				currentSave.configs.logic.merlow = randomizerData.ProgressionOnMerlow;
+				currentSave.configs.logic.rip_cheato = randomizerData.RipCheatoItemsInLogic;
+				currentSave.configs.logic.panels = randomizerData.IncludePanels;
+				currentSave.configs.logic.overworld_coins = randomizerData.IncludeCoinsOverworld;
+				currentSave.configs.logic.coin_blocks = randomizerData.IncludeCoinsBlocks;
+				currentSave.configs.logic.super_and_multicoin_blocks_randomized = randomizerData.ShuffleBlocks;
+				currentSave.configs.logic.foliage_coins = randomizerData.IncludeCoinsFoliage;
+				currentSave.configs.logic.partners_always_usable = randomizerData.PartnersAlwaysUsable;
+				currentSave.configs.logic.letters_randomized = randomizerData.IncludeLettersMode == 2 || randomizerData.IncludeLettersMode == 3 ? true : false;
+				currentSave.configs.logic.koopa_koot = randomizerData.IncludeFavorsMode == 2 ? true : false;
+				currentSave.configs.logic.koopa_koot_coins = randomizerData.IncludeCoinsFavors;
+				currentSave.configs.logic.dojo_randomized = randomizerData.IncludeDojo;
+				currentSave.configs.logic.trading_event_randomized = randomizerData.IncludeRadioTradeEvent;
+			});
+		}
 	};
 
 	const loadSave = () => {
@@ -319,26 +419,27 @@ export const useSaveStore = defineStore('save', () => {
 		}
 	);
 
-	watch(
-		() => currentSave.configs.logic.merlow,
-		(newValue, oldValue) => {
-			if (newValue) {
-				tracker.configs.logic.merlow_reward_cost_1.enabled = true;
-				tracker.configs.logic.merlow_reward_cost_2.enabled = true;
-				tracker.configs.logic.merlow_reward_cost_3.enabled = true;
-				tracker.configs.logic.merlow_reward_cost_4.enabled = true;
-				tracker.configs.logic.merlow_reward_cost_5.enabled = true;
-				tracker.configs.logic.merlow_reward_cost_6.enabled = true;
-			} else {
-				tracker.configs.logic.merlow_reward_cost_1.enabled = false;
-				tracker.configs.logic.merlow_reward_cost_2.enabled = false;
-				tracker.configs.logic.merlow_reward_cost_3.enabled = false;
-				tracker.configs.logic.merlow_reward_cost_4.enabled = false;
-				tracker.configs.logic.merlow_reward_cost_5.enabled = false;
-				tracker.configs.logic.merlow_reward_cost_6.enabled = false;
-			}
-		}
-	);
+	//Merlow cost randomized
+	// watch(
+	// 	() => currentSave.configs.logic.merlow,
+	// 	(newValue, oldValue) => {
+	// 		if (newValue) {
+	// 			tracker.configs.logic.merlow_reward_cost_1.enabled = true;
+	// 			tracker.configs.logic.merlow_reward_cost_2.enabled = true;
+	// 			tracker.configs.logic.merlow_reward_cost_3.enabled = true;
+	// 			tracker.configs.logic.merlow_reward_cost_4.enabled = true;
+	// 			tracker.configs.logic.merlow_reward_cost_5.enabled = true;
+	// 			tracker.configs.logic.merlow_reward_cost_6.enabled = true;
+	// 		} else {
+	// 			tracker.configs.logic.merlow_reward_cost_1.enabled = false;
+	// 			tracker.configs.logic.merlow_reward_cost_2.enabled = false;
+	// 			tracker.configs.logic.merlow_reward_cost_3.enabled = false;
+	// 			tracker.configs.logic.merlow_reward_cost_4.enabled = false;
+	// 			tracker.configs.logic.merlow_reward_cost_5.enabled = false;
+	// 			tracker.configs.logic.merlow_reward_cost_6.enabled = false;
+	// 		}
+	// 	}
+	// );
 
 	watch(
 		() => currentSave.configs.logic.letters_randomized,
@@ -356,8 +457,13 @@ export const useSaveStore = defineStore('save', () => {
 	return {
 		data: currentSave,
 		defaultSave: defaultSave,
+		resetTrackerLayout: resetTrackerLayout,
+		loadSeed: loadSeed,
+		exportSave: exportSave,
+		importSave: importSave,
 		resetSave: resetSave,
 		resetConfigs: resetConfigs,
+		resetTrackerConfigs: resetTrackerConfigs,
 		loadSave: loadSave
 	};
 });

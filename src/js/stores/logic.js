@@ -450,7 +450,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Block on the ground',
 							icon: 'multicoin_blocks_randomized',
 							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.goomba_village() && flags.jump_ledges() && flags.ground_blocks();
@@ -1255,7 +1255,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Super block',
 							icon: 'super_blocks',
 							exists: () => {
-								return save.data.configs.logic.super_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
 							available: () => {
 								return flags.toad_town() && flags.jump_coin_blocks() && flags.jump_ledges() && save.data.items.sushie;
@@ -1533,7 +1533,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Block on the crates south-west of the area',
 							icon: 'multicoin_blocks_randomized',
 							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.toad_town() && save.data.items.boots >= 1;
@@ -1847,7 +1847,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Super block behind ultra blocks',
 							icon: 'super_blocks',
 							exists: () => {
-								return save.data.configs.logic.super_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
 							available: () => {
 								return flags.sewers() && flags.stone_blocks();
@@ -1866,7 +1866,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Super block after you take the left elevator in the cieling in the elevator room',
 							icon: 'super_blocks',
 							exists: () => {
-								return save.data.configs.logic.super_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
 							available: () => {
 								return flags.sewers() && save.data.items.boots >= 1 && flags.ultra_blocks();
@@ -1895,7 +1895,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Third brick from the left',
 							icon: 'multicoin_blocks_randomized',
 							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.sewers() && flags.jump_coin_blocks() && flags.yellow_blocks();
@@ -1991,7 +1991,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Super block',
 							icon: 'super_blocks',
 							exists: () => {
-								return save.data.configs.logic.super_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
 							available: () => {
 								return (
@@ -2440,7 +2440,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Last block near the east exit',
 							icon: 'multicoin_blocks_randomized',
 							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.koopa_village() && flags.jump_coin_blocks();
@@ -3713,7 +3713,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Super block',
 							icon: 'super_blocks',
 							exists: () => {
-								return save.data.configs.logic.super_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
 							available: () => {
 								return flags.mt_rugged() && flags.jump_ledges() && save.data.items.hammer >= 2;
@@ -4142,7 +4142,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Block near the tree',
 							icon: 'multicoin_blocks_randomized',
 							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.dry_dry_desert() && flags.jump_coin_blocks();
@@ -4224,7 +4224,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Block in the center of the room',
 							icon: 'multicoin_blocks_randomized',
 							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.dry_dry_desert() && flags.jump_coin_blocks();
@@ -4392,7 +4392,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Second block from the right',
 							icon: 'multicoin_blocks_randomized',
 							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.dry_dry_desert() && flags.jump_coin_blocks();
@@ -4402,7 +4402,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Third block from the right',
 							icon: 'multicoin_blocks_randomized',
 							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.dry_dry_desert() && flags.jump_coin_blocks();
@@ -4591,7 +4591,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Center block',
 							icon: 'multicoin_blocks_randomized',
 							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.dry_dry_desert() && flags.jump_coin_blocks();
@@ -4738,7 +4738,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Block in the center',
 							icon: 'multicoin_blocks_randomized',
 							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.dry_dry_desert() && flags.jump_coin_blocks();
@@ -4793,7 +4793,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Block near the tree',
 							icon: 'multicoin_blocks_randomized',
 							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.dry_dry_desert() && flags.jump_coin_blocks();
@@ -4832,7 +4832,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Super block',
 							icon: 'super_blocks',
 							exists: () => {
-								return save.data.configs.logic.super_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
 							available: () => {
 								return flags.dry_dry_desert() && flags.jump_coin_blocks();
@@ -4951,7 +4951,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Brick block 1',
 							icon: 'multicoin_blocks_randomized',
 							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.dry_dry_desert() && flags.jump_coin_blocks();
@@ -4961,7 +4961,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Brick block 2',
 							icon: 'multicoin_blocks_randomized',
 							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.dry_dry_desert() && flags.jump_coin_blocks();
@@ -4971,7 +4971,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Brick block 3',
 							icon: 'multicoin_blocks_randomized',
 							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.dry_dry_desert() && flags.jump_coin_blocks();
@@ -4981,7 +4981,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Brick block 4',
 							icon: 'multicoin_blocks_randomized',
 							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.dry_dry_desert() && flags.jump_coin_blocks();
@@ -4991,7 +4991,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Brick block 5',
 							icon: 'multicoin_blocks_randomized',
 							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.dry_dry_desert() && flags.jump_coin_blocks();
@@ -5001,7 +5001,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Brick block 6',
 							icon: 'multicoin_blocks_randomized',
 							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.dry_dry_desert() && flags.jump_coin_blocks();
@@ -5360,7 +5360,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Super block',
 							icon: 'super_blocks',
 							exists: () => {
-								return save.data.configs.logic.super_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
 							available: () => {
 								return flags.dry_dry_ruins() && save.data.items.ruins_key >= 3;
@@ -6271,7 +6271,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Near the east exit',
 							icon: 'multicoin_blocks_randomized',
 							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.tubba_blubba_castle();
@@ -6385,7 +6385,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Super block',
 							icon: 'super_blocks',
 							exists: () => {
-								return save.data.configs.logic.super_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
 							available: () => {
 								return flags.tubba_blubba_castle();
@@ -7055,7 +7055,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Block between the two ? blocks north of the tracks',
 							icon: 'multicoin_blocks_randomized',
 							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
@@ -7233,7 +7233,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Block on the pink moving platform',
 							icon: 'multicoin_blocks_randomized',
 							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.bow && save.data.items.parakarry;
@@ -7381,7 +7381,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'On top of the wheel',
 							icon: 'multicoin_blocks_randomized',
 							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
@@ -7431,7 +7431,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Super block',
 							icon: 'super_blocks',
 							exists: () => {
-								return save.data.configs.logic.super_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
 								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.parakarry;

@@ -62,42 +62,42 @@ export const useTrackerStore = defineStore('tracker', () => {
 			goombario: {
 				name: 'Goombario',
 				enabled: true,
-				max: 3
+				max: 1
 			},
 			kooper: {
 				name: 'Kooper',
 				enabled: true,
-				max: 3
+				max: 1
 			},
 			bombette: {
 				name: 'Bombette',
 				enabled: true,
-				max: 3
+				max: 1
 			},
 			parakarry: {
 				name: 'Parakarry',
 				enabled: true,
-				max: 3
+				max: 1
 			},
 			bow: {
 				name: 'Bow',
 				enabled: true,
-				max: 3
+				max: 1
 			},
 			watt: {
 				name: 'Watt',
 				enabled: true,
-				max: 3
+				max: 1
 			},
 			sushie: {
 				name: 'Sushie',
 				enabled: true,
-				max: 3
+				max: 1
 			},
 			lakilester: {
 				name: 'Lakilester',
 				enabled: true,
-				max: 3
+				max: 1
 			},
 			ultra_stone: {
 				name: 'Ultra Stone',
@@ -846,10 +846,6 @@ export const useTrackerStore = defineStore('tracker', () => {
 				enabled: true,
 				type: 'switch'
 			},
-			super_blocks_randomized: {
-				enabled: true,
-				type: 'switch'
-			},
 			shopsanity: {
 				enabled: true,
 				type: 'switch'
@@ -862,42 +858,42 @@ export const useTrackerStore = defineStore('tracker', () => {
 				enabled: false,
 				type: 'switch'
 			},
-			merlow_reward_cost_1: {
-				enabled: false,
-				type: 'number',
-				min: 1,
-				max: 120
-			},
-			merlow_reward_cost_2: {
-				enabled: false,
-				type: 'number',
-				min: 1,
-				max: 120
-			},
-			merlow_reward_cost_3: {
-				enabled: false,
-				type: 'number',
-				min: 1,
-				max: 120
-			},
-			merlow_reward_cost_4: {
-				enabled: false,
-				type: 'number',
-				min: 1,
-				max: 120
-			},
-			merlow_reward_cost_5: {
-				enabled: false,
-				type: 'number',
-				min: 1,
-				max: 120
-			},
-			merlow_reward_cost_6: {
-				enabled: false,
-				type: 'number',
-				min: 1,
-				max: 120
-			},
+			// merlow_reward_cost_1: {
+			// 	enabled: false,
+			// 	type: 'number',
+			// 	min: 1,
+			// 	max: 120
+			// },
+			// merlow_reward_cost_2: {
+			// 	enabled: false,
+			// 	type: 'number',
+			// 	min: 1,
+			// 	max: 120
+			// },
+			// merlow_reward_cost_3: {
+			// 	enabled: false,
+			// 	type: 'number',
+			// 	min: 1,
+			// 	max: 120
+			// },
+			// merlow_reward_cost_4: {
+			// 	enabled: false,
+			// 	type: 'number',
+			// 	min: 1,
+			// 	max: 120
+			// },
+			// merlow_reward_cost_5: {
+			// 	enabled: false,
+			// 	type: 'number',
+			// 	min: 1,
+			// 	max: 120
+			// },
+			// merlow_reward_cost_6: {
+			// 	enabled: false,
+			// 	type: 'number',
+			// 	min: 1,
+			// 	max: 120
+			// },
 			rip_cheato: {
 				enabled: true,
 				type: 'number',
@@ -916,11 +912,15 @@ export const useTrackerStore = defineStore('tracker', () => {
 				enabled: true,
 				type: 'switch'
 			},
-			multicoin_blocks_randomized: {
+			super_and_multicoin_blocks_randomized: {
 				enabled: true,
 				type: 'switch'
 			},
 			foliage_coins: {
+				enabled: true,
+				type: 'switch'
+			},
+			partners_always_usable: {
 				enabled: true,
 				type: 'switch'
 			},

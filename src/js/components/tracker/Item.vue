@@ -6,7 +6,7 @@
 				'opacity-50': !itemCount
 			}"
 			:src="levelItem ? `/images/${imageFolder}/${itemKey}_${itemCount}.webp` : `/images/${imageFolder}/${itemKey}.webp`" />
-		<template v-if="imageFolder == 'partners' && itemCount > 1" v-for="i in itemCount - 1" :key="i">
+		<template v-if="imageFolder == 'partners' && save.data.items[itemKey + '_rank'] !== undefined" v-for="i in save.data.items[itemKey + '_rank']" :key="i">
 			<img class="absolute bottom-0 h-[15px]" :class="[`right-level${i}`]" src="/images/partners/partner_level.webp" />
 		</template>
 		<p v-if="imageFolder == 'stars' && save.data.items[`${itemKey}_difficulty`]" class="absolute w-fit whitespace-nowrap bottom-[-10px] right-0">{{ save.data.items[`${itemKey}_difficulty`] }}</p>

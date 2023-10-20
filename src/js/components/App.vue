@@ -1,43 +1,82 @@
 <template>
 	<div @contextmenu="$event.preventDefault()">
 		<!-- <div> -->
-		<header class="flex flex-wrap gap-2 p-3">
-			<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Export progress (NOT WORKING YET)', delay: { show: 0 } }">
-				<font-awesome-icon :icon="['fas', 'floppy-disk']" />
-			</button>
-			<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Import progress (NOT WORKING YET)', delay: { show: 0 } }">
-				<font-awesome-icon :icon="['fas', 'download']" />
-			</button>
-			<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3 mr-10" type="button" v-tooltip="{ content: 'Reset progress', delay: { show: 0 } }" @click="resetSavePrompt">
-				<font-awesome-icon :icon="['fas', 'trash']" />
-			</button>
-			<button
-				class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
-				type="button"
-				v-tooltip="{ content: 'Randomizer settings', delay: { show: 0 } }"
-				@click="randomizerSettingsModalVisible = true">
-				<font-awesome-icon :icon="['fas', 'dice']" />
-			</button>
-			<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Logic settings', delay: { show: 0 } }" @click="logicSettingsModalVisible = true">
-				<font-awesome-icon :icon="['fas', 'brain']" />
-			</button>
-			<button
-				class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
-				type="button"
-				v-tooltip="{ content: 'Edit tracker settings', delay: { show: 0 } }"
-				@click="trackerSettingsModalVisible = true">
-				<font-awesome-icon :icon="['fas', 'wrench']" />
-			</button>
-			<div class="bg-sky-950 hover:bg-sky-800 w-fit flex rounded-md p-3 items-center" type="button" v-tooltip="{ content: 'Edit tracker layout', delay: { show: 0 } }">
-				<p class="mr-5">
-					<font-awesome-icon :icon="['fas', 'table']" />
-				</p>
-				<input id="edit_tracker_layout" type="checkbox" v-model="layout.editingLayout" />
-				<label for="edit_tracker_layout" />
+		<header>
+			<div class="flex justify-between">
+				<div class="flex flex-wrap gap-2 p-3">
+					<button
+						class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
+						type="button"
+						v-tooltip="{ content: 'Load a new randomizer seed', delay: { show: 0 } }"
+						@click="loadNewSeedModal = true">
+						<font-awesome-icon :icon="['fas', 'file-circle-plus']" />
+					</button>
+					<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Export progress', delay: { show: 0 } }" @click="save.exportSave">
+						<font-awesome-icon :icon="['fas', 'floppy-disk']" />
+					</button>
+					<input ref="_importSaveFileInput" class="hidden" type="file" accept="application/json" @change="save.importSave" />
+					<button
+						class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
+						type="button"
+						v-tooltip="{ content: 'Import progress', delay: { show: 0 } }"
+						@click="
+							() => {
+								if (_importSaveFileInput) _importSaveFileInput.click();
+							}
+						">
+						<font-awesome-icon :icon="['fas', 'download']" />
+					</button>
+					<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3 mr-10" type="button" v-tooltip="{ content: 'Reset progress', delay: { show: 0 } }" @click="resetSavePrompt">
+						<font-awesome-icon :icon="['fas', 'trash']" />
+					</button>
+					<button
+						class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
+						type="button"
+						v-tooltip="{ content: 'Randomizer settings', delay: { show: 0 } }"
+						@click="randomizerSettingsModalVisible = true">
+						<font-awesome-icon :icon="['fas', 'dice']" />
+					</button>
+					<button
+						class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
+						type="button"
+						v-tooltip="{ content: 'Logic settings', delay: { show: 0 } }"
+						@click="logicSettingsModalVisible = true">
+						<font-awesome-icon :icon="['fas', 'brain']" />
+					</button>
+					<button
+						class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
+						type="button"
+						v-tooltip="{ content: 'Reset randomizer and logic', delay: { show: 0 } }"
+						@click="resetConfigsPrompt">
+						<font-awesome-icon :icon="['fas', 'trash']" />
+					</button>
+
+					<div class="flex justify-items-center items-center ml-4">
+						<p v-if="save.data.randomizer_seed_hash_items">Hash items: {{ save.data.randomizer_seed_hash_items }}</p>
+					</div>
+				</div>
+				<div class="flex justify-end">
+					<div class="flex flex-wrap gap-2 p-3">
+						<button
+							class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
+							type="button"
+							v-tooltip="{ content: 'Edit tracker settings', delay: { show: 0 } }"
+							@click="trackerSettingsModalVisible = true">
+							<font-awesome-icon :icon="['fas', 'wrench']" />
+						</button>
+						<div class="bg-sky-950 hover:bg-sky-800 w-fit flex rounded-md p-3 items-center" type="button" v-tooltip="{ content: 'Edit tracker layout', delay: { show: 0 } }">
+							<p class="mr-5">
+								<font-awesome-icon :icon="['fas', 'table']" />
+							</p>
+							<input id="edit_tracker_layout" type="checkbox" v-model="layout.editingLayout" />
+							<label for="edit_tracker_layout" />
+						</div>
+						<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Reset tracker configs', delay: { show: 0 } }" @click="resetTrackerPrompt">
+							<font-awesome-icon :icon="['fas', 'trash']" />
+						</button>
+					</div>
+				</div>
 			</div>
-			<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3 mr-10" type="button" v-tooltip="{ content: 'Reset configs', delay: { show: 0 } }" @click="resetConfigsPrompt">
-				<font-awesome-icon :icon="['fas', 'trash']" />
-			</button>
 		</header>
 
 		<!-- Tracker content -->
@@ -757,6 +796,74 @@
 			</GridLayout>
 		</div>
 
+		<!-- New randomizer seed modal -->
+		<Modal :show="loadNewSeedModal" @onClose="loadNewSeedModal = false">
+			<div class="flex justify-between w-30">
+				<p class="capitalize">Randomizer seed</p>
+				<input class="rounded-md" type="number" v-model="save.data.randomizer_seed" />
+			</div>
+			<button class="border-2 border-sky-800 bg-sky-900 rounded-md p-1 w-full mt-8" @click="save.loadSeed">
+				<font-awesome-icon :icon="['fas', 'trash']" />
+				Load seed
+			</button>
+			<div class="bg-white h-[1px] my-4" />
+			<div
+				class="flex justify-between w-30"
+				:class="{
+					'mb-3': configIndex < Object.keys(tracker.configs.randomizer).length - 1,
+					disabled: !configConfigs.enabled
+				}"
+				v-for="(configConfigs, config, configIndex) in tracker.configs.randomizer"
+				:key="config">
+				<p class="capitalize">{{ config.titlize() }}</p>
+				<div class="flex" v-if="configConfigs.type == 'switch'">
+					<input :id="`config_${config}`" type="checkbox" v-model="save.data.configs.randomizer[config]" />
+					<label :for="`config_${config}`" />
+				</div>
+				<select :id="`config_${config}`" class="rounded-md" v-if="configConfigs.type == 'select'" v-model="save.data.configs.randomizer[config]">
+					<option v-for="(option, optionIndex) in configConfigs.options" :key="optionIndex" :value="option.value">
+						{{ option.text }}
+					</option>
+				</select>
+				<input
+					:id="`config_${config}`"
+					class="rounded-md"
+					type="number"
+					v-if="configConfigs.type == 'number'"
+					:min="configConfigs.min"
+					:max="configConfigs.max"
+					v-model="save.data.configs.randomizer[config]" />
+			</div>
+			<div class="bg-white h-[1px] my-4" />
+			<div
+				class="flex justify-between w-30"
+				:class="{
+					'mb-3': configIndex < Object.keys(tracker.configs.logic).length - 1,
+					disabled: !configValue.enabled
+				}"
+				v-for="(configValue, config, configIndex) in tracker.configs.logic"
+				:key="config">
+				<p class="capitalize">{{ config.titlize() }}</p>
+				<div class="flex" v-if="configValue.type == 'switch'">
+					<input :id="`config_${config}`" type="checkbox" v-model="save.data.configs.logic[config]" />
+					<label :for="`config_${config}`" />
+				</div>
+				<select :id="`config_${config}`" class="rounded-md" v-if="configValue.type == 'select'" v-model="save.data.configs.logic[config]">
+					<option v-for="(option, optionIndex) in configValue.options" :key="optionIndex" :value="option.value">
+						{{ option.text }}
+					</option>
+				</select>
+				<input
+					:id="`config_${config}`"
+					class="rounded-md"
+					type="number"
+					v-if="configValue.type == 'number'"
+					:min="configValue.min"
+					:max="configValue.max"
+					v-model="save.data.configs.logic[config]" />
+			</div>
+		</Modal>
+
 		<!-- Randomizer Modal -->
 		<Modal :show="randomizerSettingsModalVisible" @onClose="randomizerSettingsModalVisible = false">
 			<div
@@ -850,17 +957,15 @@
 				<input :id="`config_${config}`" class="rounded-md" type="text" v-if="configValue.type == 'text'" v-model="save.data.configs.tracker[config]" />
 			</div>
 			<div class="bg-white h-[1px] my-4" />
-			<div>
-				<button
-					class="border-2 border-sky-800 bg-sky-900 rounded-md p-1"
-					@click="
-						layout.restoreDefaultLayout();
-						trackerSettingsModalVisible = false;
-					">
-					<font-awesome-icon :icon="['fas', 'trash']" />
-					Reset tracker layout
-				</button>
-			</div>
+			<button
+				class="border-2 border-sky-800 bg-sky-900 rounded-md p-1 w-full"
+				@click="
+					layout.restoreDefaultLayout();
+					trackerSettingsModalVisible = false;
+				">
+				<font-awesome-icon :icon="['fas', 'trash']" />
+				Reset tracker layout
+			</button>
 		</Modal>
 	</div>
 </template>
@@ -883,9 +988,12 @@ const layout = useLayoutStore();
 const logic = useLogicStore();
 const map = useMapStore();
 
+const loadNewSeedModal = ref(false);
 const randomizerSettingsModalVisible = ref(false);
 const logicSettingsModalVisible = ref(false);
 const trackerSettingsModalVisible = ref(false);
+
+const _importSaveFileInput = ref(null);
 
 const trackerLeftClick = (event, key, configs, itemSubCategory = null) => {
 	if (event.ctrlKey) {
@@ -898,6 +1006,17 @@ const trackerLeftClick = (event, key, configs, itemSubCategory = null) => {
 				save.data.items[`${key}_difficulty`] = 0;
 			} else {
 				save.data.items[`${key}_difficulty`]++;
+			}
+		}
+		if (key == 'goombario' || key == 'kooper' || key == 'bombette' || key == 'parakarry' || key == 'bow' || key == 'watt' || key == 'sushie' || key == 'lakilester') {
+			if (save.data.items[`${key}_rank`] == undefined) {
+				save.data.items[`${key}_rank`] = 0;
+			}
+
+			if (save.data.items[`${key}_rank`] >= 2) {
+				save.data.items[`${key}_rank`] = 0;
+			} else {
+				save.data.items[`${key}_rank`]++;
 			}
 		}
 	} else {
@@ -956,6 +1075,17 @@ const trackerRightClick = (event, key, configs, itemSubCategory = null) => {
 				save.data.items[`${key}_difficulty`]--;
 			}
 		}
+		if (key == 'goombario' || key == 'kooper' || key == 'bombette' || key == 'parakarry' || key == 'bow' || key == 'watt' || key == 'sushie' || key == 'lakilester') {
+			if (save.data.items[`${key}_rank`] == undefined) {
+				save.data.items[`${key}_rank`] = 0;
+			}
+
+			if (save.data.items[`${key}_rank`] <= 0) {
+				save.data.items[`${key}_rank`] = 2;
+			} else {
+				save.data.items[`${key}_rank`]--;
+			}
+		}
 	} else {
 		if (configs.max == 1) {
 			if (itemSubCategory === null) {
@@ -992,6 +1122,12 @@ const resetSavePrompt = () => {
 const resetConfigsPrompt = () => {
 	if (confirm('Are you sure you want to reset your configs? This will reset only your configs, not your tracker progression.')) {
 		save.resetConfigs();
+	}
+};
+
+const resetTrackerPrompt = () => {
+	if (confirm('Are you sure you want to reset your tracker settings? It will revert to the default layout. It will not reset any progression or logic configs.')) {
+		save.resetTrackerConfigs();
 	}
 };
 

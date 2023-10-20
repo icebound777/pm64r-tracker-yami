@@ -128,6 +128,16 @@ export const useLayoutStore = defineStore('layout', () => {
 	);
 
 	watch(
+		() => save.resetTrackerLayout,
+		(newValue, oldValue) => {
+			if (newValue) {
+				restoreDefaultLayout();
+				save.resetTrackerLayout = false;
+			}
+		}
+	);
+
+	watch(
 		trackerLayout,
 		(newValue, oldValue) => {
 			localStorage.setItem('trackerLayout', JSON.stringify(newValue));
