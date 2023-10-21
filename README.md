@@ -20,6 +20,15 @@ And for a working production build run:
 `npm run build`
 Then copy the "images" folder in the "dist" folder.
 
+## Road map for the tracker
+
+- Finish the checks for the map tracker;
+- Add a tracking for the Merlow requests on the items to mark what items Merlow has;
+- Sync the Rip Cheato logic option with the tracker so the max checks are the same;
+- Add a tutorial for the tracker;
+- Add credits and special thanks;
+- Add the possibility to load a spoiler log and check what is where on the tracker (I have to check the feasibility of it, but that's an idea that I had...);
+
 ## Special thanks
 
 Big thanks to [Phantom5800](https://www.twitch.tv/phantom5800) for the base tracker. I based all my checks and check logic from his [tracker](https://pmr-tracker.phantom-games.com/).
