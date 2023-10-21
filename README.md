@@ -14,12 +14,15 @@ This tracker has been developed with Vue3. To install it and run it on your PC, 
 
 Then run:
 
-```npm install
-npm run dev```
+`npm install`
+
+and
+
+`npm run dev`
 
 And for a working production build run:
 
-```npm run build```
+`npm run build`
 
 Then copy the "images" folder in the "dist" folder.
 
