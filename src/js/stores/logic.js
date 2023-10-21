@@ -288,7 +288,7 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		forever_forest: () => {
 			if (save.data.configs.randomizer.forever_forest_open) {
-				return true;
+				return flags.toad_town();
 			}
 			if (flags.toad_town() && save.data.items.forest_pass) {
 				return true;
@@ -327,6 +327,22 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		toybox_jack_in_a_box: () => {
 			return flags.toybox() && (save.data.items.boots >= 2 || save.data.items.hammer >= 1);
+		},
+		lava_lava_island: () => {
+			switch (save.data.configs.randomizer.starting_location) {
+				case tracker.startingLocations.yoshi_village:
+					return true;
+
+				default:
+					if (save.data.configs.randomizer.whale_open) {
+						return flags.toad_town();
+					} else {
+						return flags.toad_town() && flags.partner('watt');
+					}
+			}
+		},
+		lava_lava_island_jungle_behind_raven_statue: () => {
+			return flags.lava_lava_island() && flags.partner('sushie') && save.data.items.hammer >= 1 && save.data.items.jade_raven;
 		},
 		shiver_city: () => {
 			if (flags.toad_town()) {
@@ -6007,7 +6023,7 @@ export const useLogicStore = defineStore('logic', () => {
 					h: 1,
 					checks: [
 						{
-							name: 'Item 1',
+							name: 'Shop item 1',
 							icon: 'shopsanity',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
@@ -6017,7 +6033,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Item 2',
+							name: 'Shop item 2',
 							icon: 'shopsanity',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
@@ -6027,7 +6043,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Item 3',
+							name: 'Shop item 3',
 							icon: 'shopsanity',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
@@ -6037,7 +6053,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Item 4',
+							name: 'Shop item 4',
 							icon: 'shopsanity',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
@@ -6047,7 +6063,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Item 5',
+							name: 'Shop item 5',
 							icon: 'shopsanity',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
@@ -6057,7 +6073,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Item 6',
+							name: 'Shop item 6',
 							icon: 'shopsanity',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
@@ -7539,9 +7555,825 @@ export const useLogicStore = defineStore('logic', () => {
 				}
 			}
 		},
-		yoshi_island: {
-			name: 'Yoshi Island',
-			maps: {}
+		lava_lava_island: {
+			name: 'Lava Lava Island',
+			maps: {
+				whale: {
+					name: 'Whale',
+					x: 1,
+					y: 6,
+					w: 1,
+					h: 2,
+					checks: [
+						{
+							name: 'Item 1 on the spinning flower',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.jump_ledges();
+							}
+						},
+						{
+							name: 'Item 2 on the spinning flower',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.jump_ledges();
+							}
+						},
+						{
+							name: 'Coconut tree',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.trees();
+							}
+						},
+						{
+							name: 'Item behind the bush noth of the screen',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island();
+							}
+						}
+					]
+				},
+				beach: {
+					name: 'Beach',
+					x: 2,
+					y: 7,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Coconut tree 1',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.trees();
+							}
+						},
+						{
+							name: 'Coconut tree 2',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.trees();
+							}
+						},
+						{
+							name: 'Coconut tree 3',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.trees();
+							}
+						},
+						{
+							name: 'Coconut tree 4',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.trees();
+							}
+						},
+						{
+							name: 'Coconut tree 5',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.trees();
+							}
+						},
+						{
+							name: 'Coconut tree near the east exit (item 1)',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.trees();
+							}
+						},
+						{
+							name: 'Coconut tree near the east exit (item 2)',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.trees();
+							}
+						},
+						{
+							name: 'Invisible block by the bell plant',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.jump_coin_blocks();
+							}
+						},
+						{
+							name: 'Item 1 on the spinning flower',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.jump_ledges();
+							}
+						},
+						{
+							name: 'Item 2 on the spinning flower',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.jump_ledges();
+							}
+						}
+					]
+				},
+				west_village: {
+					name: 'West Village',
+					x: 3,
+					y: 7,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'In front of the raven statue',
+							icon: 'panels_randomized',
+							exists: () => {
+								return save.data.configs.logic.panels;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.panels();
+							}
+						},
+						{
+							name: 'Talk to the Yoshi Chief',
+							tooltip: 'After saving all the kids',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.partner('watt') && flags.partner('sushie') && save.data.items.hammer >= 1;
+							}
+						},
+						{
+							name: 'West coconut tree',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.trees();
+							}
+						},
+						{
+							name: 'East coconut tree',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.trees();
+							}
+						}
+					]
+				},
+				east_village: {
+					name: 'East Village',
+					x: 4,
+					y: 7,
+					w: 2,
+					h: 1,
+					checks: [
+						// 6 shop items
+						{
+							name: 'Shop item 1',
+							icon: 'shopsanity',
+							exists: () => {
+								return save.data.configs.logic.shopsanity;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.jump_ledges();
+							}
+						},
+						{
+							name: 'Shop item 2',
+							icon: 'shopsanity',
+							exists: () => {
+								return save.data.configs.logic.shopsanity;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.jump_ledges();
+							}
+						},
+						{
+							name: 'Shop item 3',
+							icon: 'shopsanity',
+							exists: () => {
+								return save.data.configs.logic.shopsanity;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.jump_ledges();
+							}
+						},
+						{
+							name: 'Shop item 4',
+							icon: 'shopsanity',
+							exists: () => {
+								return save.data.configs.logic.shopsanity;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.jump_ledges();
+							}
+						},
+						{
+							name: 'Shop item 5',
+							icon: 'shopsanity',
+							exists: () => {
+								return save.data.configs.logic.shopsanity;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.jump_ledges();
+							}
+						},
+						{
+							name: 'Shop item 6',
+							icon: 'shopsanity',
+							exists: () => {
+								return save.data.configs.logic.shopsanity;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.jump_ledges();
+							}
+						},
+						{
+							name: 'Red Yoshi Kid',
+							icon: 'letters_randomized',
+							exists: () => {
+								return save.data.configs.logic.letters_randomized;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.deliver_letters() && save.data.items.letters.red_yoshi_kid;
+							}
+						},
+						{
+							name: 'Five a Tayce T. item to the Yellow Adult Yoshi',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.toad_town();
+							}
+						},
+						{
+							name: 'Give the volcano vase to Kolorado',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && save.data.items.volcano_vase;
+							}
+						},
+						{
+							name: 'Coconut tree near the east exit',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.trees();
+							}
+						}
+					]
+				},
+				outside_volcano: {
+					name: 'Outside Volcano',
+					x: 6,
+					y: 7,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Item behind the large tree',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island();
+							}
+						}
+					]
+				},
+				sw_jungle: {
+					name: 'SW Jungle',
+					x: 2,
+					y: 6,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Invisible block near the north exit',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.jump_coin_blocks() && flags.partner('sushie');
+							}
+						},
+						{
+							name: 'Coin 1 underwater',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.partner('sushie');
+							}
+						},
+						{
+							name: 'Coin 2 underwater',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.partner('sushie');
+							}
+						},
+						{
+							name: 'Coin 3 underwater',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.partner('sushie');
+							}
+						},
+						{
+							name: 'Super block',
+							icon: 'super_blocks',
+							exists: () => {
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.partner('sushie') && flags.jump_coin_blocks();
+							}
+						},
+						{
+							name: 'Tree near the north exit',
+							icon: 'foliage_coins',
+							exists: () => {
+								return save.data.configs.logic.foliage_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.partner('sushie') && flags.trees();
+							}
+						},
+						{
+							name: 'Tree near the east exit',
+							icon: 'foliage_coins',
+							exists: () => {
+								return save.data.configs.logic.foliage_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.partner('sushie') && flags.trees();
+							}
+						},
+						{
+							name: 'Bush near the north exit',
+							icon: 'foliage_coins',
+							exists: () => {
+								return save.data.configs.logic.foliage_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.partner('sushie');
+							}
+						},
+						{
+							name: 'Bush near the south exit',
+							icon: 'foliage_coins',
+							exists: () => {
+								return save.data.configs.logic.foliage_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.partner('sushie');
+							}
+						}
+					]
+				},
+				se_jungle: {
+					name: 'SE Jungle',
+					x: 3,
+					y: 6,
+					w: 2,
+					h: 1,
+					checks: [
+						{
+							name: '? block on the island',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.partner('sushie') && flags.jump_coin_blocks();
+							}
+						},
+						{
+							name: 'Tree near the east exit',
+							icon: 'foliage_coins',
+							exists: () => {
+								return save.data.configs.logic.foliage_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.trees();
+							}
+						},
+						{
+							name: 'Bush near the south exit',
+							icon: 'foliage_coins',
+							exists: () => {
+								return save.data.configs.logic.foliage_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island();
+							}
+						},
+						{
+							name: 'South-west bush',
+							icon: 'foliage_coins',
+							exists: () => {
+								return save.data.configs.logic.foliage_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island() && save.data.items.hammer >= 1;
+							}
+						}
+					]
+				},
+				sushie: {
+					name: 'Sushie',
+					x: 5,
+					y: 6,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Sushie',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.trees();
+							}
+						},
+						{
+							name: 'Item on the top right island',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.partner('sushie');
+							}
+						},
+						{
+							name: 'Tree on the top right island',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.partner('sushie') && flags.trees();
+							}
+						},
+						{
+							name: 'Chest after saving Misstar',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && save.data.items.misstar;
+							}
+						}
+					]
+				},
+				light_blue_yoshi: {
+					name: 'Light-Blue Yoshi',
+					x: 1,
+					y: 5,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Item underwater',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.partner('sushie');
+							}
+						}
+					]
+				},
+				nw_jungle: {
+					name: 'NW Jungle',
+					x: 2,
+					y: 5,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Item in the tree near the east exit',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.partner('sushie') && flags.trees();
+							}
+						},
+						{
+							name: 'Tree on the ledge',
+							icon: 'foliage_coins',
+							exists: () => {
+								return save.data.configs.logic.foliage_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.partner('sushie') && flags.jump_ledges() && flags.trees();
+							}
+						},
+						{
+							name: 'Item on the sucking flower',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.partner('sushie') && flags.jump_ledges();
+							}
+						},
+						{
+							name: 'Bush near the south exit',
+							icon: 'foliage_coins',
+							exists: () => {
+								return save.data.configs.logic.foliage_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.partner('sushie');
+							}
+						},
+						{
+							name: 'Bush near the east exit',
+							icon: 'foliage_coins',
+							exists: () => {
+								return save.data.configs.logic.foliage_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.partner('sushie');
+							}
+						}
+					]
+				},
+				ne_jungle: {
+					name: 'NE Jungle',
+					x: 3,
+					y: 5,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Item underwater on the east side of the room',
+							icon: 'overworld_coins',
+							exists: () => {
+								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.partner('sushie');
+							}
+						},
+						{
+							name: 'Tree near the raven statue',
+							icon: 'foliage_coins',
+							exists: () => {
+								return save.data.configs.logic.foliage_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.partner('sushie') && save.data.items.hammer >= 1;
+							}
+						}
+					]
+				},
+				yellow_yoshi: {
+					name: 'Yellow Yoshi',
+					x: 4,
+					y: 5,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Tree',
+							icon: 'foliage_coins',
+							exists: () => {
+								return save.data.configs.logic.foliage_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.partner('sushie') && save.data.items.hammer >= 1;
+							}
+						}
+					]
+				},
+				deep_jungle: {
+					name: 'Deep Jungle',
+					x: 3,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Invisible block near the bell plant',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island_jungle_behind_raven_statue() && flags.jump_ledges() && flags.jump_coin_blocks();
+							}
+						},
+						{
+							name: 'Tree vide near the bell plant',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island_jungle_behind_raven_statue() && save.data.items.boots >= 1;
+							}
+						},
+						{
+							name: 'Tree near bell plant',
+							icon: 'foliage_coins',
+							exists: () => {
+								return save.data.configs.logic.foliage_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island_jungle_behind_raven_statue() && flags.jump_ledges() && flags.trees();
+							}
+						}
+					]
+				},
+				block_puzzle: {
+					name: 'Block Puzzle',
+					x: 3,
+					y: 3,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Far left tree',
+							icon: 'foliage_coins',
+							exists: () => {
+								return save.data.configs.logic.foliage_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island_jungle_behind_raven_statue() && flags.trees();
+							}
+						},
+						{
+							name: 'Invisible block near the first push block',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island_jungle_behind_raven_statue() && flags.jump_coin_blocks() && flags.jump_ledges();
+							}
+						}
+					]
+				},
+				tree_vines: {
+					name: 'Tree Vines',
+					x: 3,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Second tree vine',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island_jungle_behind_raven_statue() && save.data.items.boots >= 1;
+							}
+						},
+						{
+							name: 'Tree vine near the exit',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island_jungle_behind_raven_statue() && save.data.items.boots >= 1;
+							}
+						}
+					]
+				},
+				ambush: {
+					name: 'Ambush',
+					x: 3,
+					y: 1,
+					w: 3,
+					h: 1,
+					checks: [
+						{
+							name: 'Near the middle of the room',
+							icon: 'panels_randomized',
+							exists: () => {
+								return save.data.configs.logic.panels;
+							},
+							available: () => {
+								return flags.lava_lava_island_jungle_behind_raven_statue() && flags.panels();
+							}
+						},
+						{
+							name: 'Tree near the east exit',
+							icon: 'foliage_coins',
+							exists: () => {
+								return save.data.configs.logic.foliage_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island_jungle_behind_raven_statue() && save.data.items.boots >= 1 && flags.trees();
+							}
+						}
+					]
+				},
+				raph_tree: {
+					name: "Raphael's Tree",
+					x: 6,
+					y: 1,
+					w: 1,
+					h: 6,
+					checks: [
+						{
+							name: 'Item on the outside of the big tree on a branch climbing up',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island_jungle_behind_raven_statue() && save.data.items.boots >= 1;
+							}
+						},
+						{
+							name: 'Talk to Raphael the Raven',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island_jungle_behind_raven_statue() && save.data.items.boots >= 1;
+							}
+						}
+					]
+				}
+			}
 		}
 	});
 
