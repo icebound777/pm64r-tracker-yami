@@ -20,11 +20,13 @@ and
 
 `npm run dev`
 
+
+
 And for a working production build run:
 
 `npm run build`
 
-Then copy the "images" folder in the "dist" folder.
+Then copy the "images" folder in the new "dist" folder.
 
 ## Road map for the tracker
 
