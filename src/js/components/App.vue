@@ -1003,16 +1003,16 @@
 					<p v-if="itemCategoryKey == 'equipments'" class="capitalize">{{ itemConfigs.name[0] }}</p>
 					<p v-else class="capitalize">{{ itemConfigs.name }}</p>
 					<div class="flex">
-						<input :id="`config_${item}`" type="checkbox" v-model="save.data.configs.invisible_items[itemCategoryKey][item]" />
-						<label :for="`config_${item}`" />
+						<input :id="`disable_items_${item}`" type="checkbox" v-model="save.data.configs.invisible_items[itemCategoryKey][item]" />
+						<label :for="`disable_items_${item}`" />
 					</div>
 				</div>
 				<template v-else v-for="(itemSubcategoryItems, itemSubcategoryKey) in itemCategoryItems">
 					<div class="flex justify-between w-30 mb-3" v-for="(itemConfigs, item) in itemSubcategoryItems" :key="item">
 						<p class="capitalize">{{ itemConfigs.name }}</p>
 						<div class="flex">
-							<input :id="`config_${item}`" type="checkbox" v-model="save.data.configs.invisible_items[itemCategoryKey][itemSubcategoryKey][item]" />
-							<label :for="`config_${item}`" />
+							<input :id="`disable_items_${item}`" type="checkbox" v-model="save.data.configs.invisible_items[itemCategoryKey][itemSubcategoryKey][item]" />
+							<label :for="`disable_items_${item}`" />
 						</div>
 					</div>
 				</template>
