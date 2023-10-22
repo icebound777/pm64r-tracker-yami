@@ -59,10 +59,6 @@ const props = defineProps({
 		type: Number,
 		default: 1000
 	},
-	size: {
-		type: String,
-		default: 'md'
-	},
 	itemName: String,
 	levelItem: {
 		type: Boolean,
@@ -79,14 +75,17 @@ const props = defineProps({
 });
 
 const size = computed(() => {
-	return {
-		xs: 'min-w-[1.5rem] w-6 h-6',
-		sm: 'min-w-[2rem] w-8 h-8',
-		md: 'min-w-[2.5rem] w-10 h-10',
-		lg: 'min-w-[3rem] w-12 h-12',
-		xl: 'min-w-[3.5rem] w-14 h-14',
-		'2xl': 'min-w-[4rem] w-16 h-16'
-	}[props.size];
+	if (save.data.configs.tracker.item_icon_size) {
+		return {
+			sm: 'min-w-[2rem] w-8 h-8',
+			md: 'min-w-[2.5rem] w-10 h-10',
+			lg: 'min-w-[3rem] w-12 h-12',
+			xl: 'min-w-[3.5rem] w-14 h-14',
+			'2xl': 'min-w-[4rem] w-16 h-16'
+		}[save.data.configs.tracker.item_icon_size];
+	} else {
+		return 'min-w-[2.5rem] w-10 h-10';
+	}
 });
 
 const stars_dungeon_shuffle_images = computed(() => {

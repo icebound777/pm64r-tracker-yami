@@ -1,6 +1,6 @@
 <template>
-	<div @contextmenu="$event.preventDefault()">
-		<!-- <div> -->
+	<!-- <div @contextmenu="$event.preventDefault()"> -->
+	<div>
 		<header>
 			<div class="flex justify-between">
 				<div class="flex flex-wrap gap-2 p-3">
@@ -116,7 +116,12 @@
 						<div class="no-drag">
 							<template v-if="grid_item.i == 'stars'">
 								<h2>Stars</h2>
-								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+								<div
+									class="flex flex-wrap mt-3"
+									:class="[
+										`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+										`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+									]">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.stars" :key="trackerItemKey">
 										<VDropdown :triggers="[]" :shown="showStarMenu[trackerItemKey]" @apply-hide="hideStarMenu()">
 											<Item
@@ -164,7 +169,12 @@
 							</template>
 							<template v-if="grid_item.i == 'partners'">
 								<h2>Partners</h2>
-								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+								<div
+									class="flex flex-wrap mt-3"
+									:class="[
+										`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+										`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+									]">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.partners" :key="trackerItemKey">
 										<Item
 											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items[grid_item.i][trackerItemKey]"
@@ -181,7 +191,12 @@
 							</template>
 							<template v-if="grid_item.i == 'equipments'">
 								<h2>Equipments</h2>
-								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+								<div
+									class="flex flex-wrap mt-3"
+									:class="[
+										`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+										`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+									]">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.equipments" :key="trackerItemKey">
 										<Item
 											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items[grid_item.i][trackerItemKey]"
@@ -198,7 +213,12 @@
 								</div>
 							</template>
 							<template v-if="grid_item.i == 'items_compact'">
-								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+								<div
+									class="flex flex-wrap mt-3"
+									:class="[
+										`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+										`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+									]">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.stars" :key="trackerItemKey">
 										<VDropdown :triggers="[]" :shown="showStarMenu[trackerItemKey]" @apply-hide="hideStarMenu()">
 											<Item
@@ -350,7 +370,12 @@
 											<p>P</p>
 										</div>
 										<div class="flex-1">
-											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+											<div
+												class="flex flex-wrap mt-3"
+												:class="[
+													`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+													`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+												]">
 												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.prologue" :key="trackerItemKey">
 													<Item
 														v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items']['prologue'][trackerItemKey]"
@@ -371,7 +396,12 @@
 											<p>C1</p>
 										</div>
 										<div class="flex-1">
-											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+											<div
+												class="flex flex-wrap mt-3"
+												:class="[
+													`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+													`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+												]">
 												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter1" :key="trackerItemKey">
 													<Item
 														v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items']['chapter1'][trackerItemKey]"
@@ -392,7 +422,12 @@
 											<p>C2</p>
 										</div>
 										<div class="flex-1">
-											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+											<div
+												class="flex flex-wrap mt-3"
+												:class="[
+													`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+													`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+												]">
 												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter2" :key="trackerItemKey">
 													<Item
 														v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items']['chapter2'][trackerItemKey]"
@@ -413,7 +448,12 @@
 											<p>C3</p>
 										</div>
 										<div class="flex-1">
-											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+											<div
+												class="flex flex-wrap mt-3"
+												:class="[
+													`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+													`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+												]">
 												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter3" :key="trackerItemKey">
 													<Item
 														v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items']['chapter3'][trackerItemKey]"
@@ -434,7 +474,12 @@
 											<p>C4</p>
 										</div>
 										<div class="flex-1">
-											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+											<div
+												class="flex flex-wrap mt-3"
+												:class="[
+													`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+													`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+												]">
 												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter4" :key="trackerItemKey">
 													<Item
 														v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items']['chapter4'][trackerItemKey]"
@@ -455,7 +500,12 @@
 											<p>C5</p>
 										</div>
 										<div class="flex-1">
-											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+											<div
+												class="flex flex-wrap mt-3"
+												:class="[
+													`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+													`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+												]">
 												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter5" :key="trackerItemKey">
 													<Item
 														v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items']['chapter5'][trackerItemKey]"
@@ -476,7 +526,12 @@
 											<p>C6</p>
 										</div>
 										<div class="flex-1">
-											<div class="flex flex-wrap gap-x-0.5 gap-y-2">
+											<div
+												class="flex flex-wrap"
+												:class="[
+													`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+													`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+												]">
 												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter6" :key="trackerItemKey">
 													<Item
 														v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items']['chapter6'][trackerItemKey]"
@@ -497,7 +552,12 @@
 											<p>C7</p>
 										</div>
 										<div class="flex-1">
-											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+											<div
+												class="flex flex-wrap mt-3"
+												:class="[
+													`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+													`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+												]">
 												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter7" :key="trackerItemKey">
 													<Item
 														v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items']['chapter7'][trackerItemKey]"
@@ -518,7 +578,12 @@
 											<p>C8</p>
 										</div>
 										<div class="flex-1">
-											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+											<div
+												class="flex flex-wrap mt-3"
+												:class="[
+													`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+													`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+												]">
 												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter8" :key="trackerItemKey">
 													<Item
 														v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items']['chapter8'][trackerItemKey]"
@@ -539,7 +604,12 @@
 											<p v-tooltip="'Other'">O</p>
 										</div>
 										<div class="flex-1">
-											<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+											<div
+												class="flex flex-wrap mt-3"
+												:class="[
+													`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+													`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+												]">
 												<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.other" :key="trackerItemKey">
 													<Item
 														v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items']['other'][trackerItemKey]"
@@ -559,7 +629,12 @@
 							</template>
 							<template v-if="grid_item.i == 'prologue'">
 								<h2>Prologue</h2>
-								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+								<div
+									class="flex flex-wrap mt-3"
+									:class="[
+										`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+										`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+									]">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.prologue" :key="trackerItemKey">
 										<Item
 											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][grid_item.i][trackerItemKey]"
@@ -576,7 +651,12 @@
 							</template>
 							<template v-if="grid_item.i == 'chapter1'">
 								<h2>Chapter 1</h2>
-								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+								<div
+									class="flex flex-wrap mt-3"
+									:class="[
+										`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+										`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+									]">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter1" :key="trackerItemKey">
 										<Item
 											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][grid_item.i][trackerItemKey]"
@@ -593,7 +673,12 @@
 							</template>
 							<template v-if="grid_item.i == 'chapter2'">
 								<h2>Chapter 2</h2>
-								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+								<div
+									class="flex flex-wrap mt-3"
+									:class="[
+										`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+										`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+									]">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter2" :key="trackerItemKey">
 										<Item
 											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][grid_item.i][trackerItemKey]"
@@ -610,7 +695,12 @@
 							</template>
 							<template v-if="grid_item.i == 'chapter3'">
 								<h2>Chapter 3</h2>
-								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+								<div
+									class="flex flex-wrap mt-3"
+									:class="[
+										`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+										`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+									]">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter3" :key="trackerItemKey">
 										<Item
 											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][grid_item.i][trackerItemKey]"
@@ -627,7 +717,12 @@
 							</template>
 							<template v-if="grid_item.i == 'chapter4'">
 								<h2>Chapter 4</h2>
-								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+								<div
+									class="flex flex-wrap mt-3"
+									:class="[
+										`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+										`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+									]">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter4" :key="trackerItemKey">
 										<Item
 											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][grid_item.i][trackerItemKey]"
@@ -644,7 +739,12 @@
 							</template>
 							<template v-if="grid_item.i == 'chapter5'">
 								<h2>Chapter 5</h2>
-								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+								<div
+									class="flex flex-wrap mt-3"
+									:class="[
+										`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+										`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+									]">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter5" :key="trackerItemKey">
 										<Item
 											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][grid_item.i][trackerItemKey]"
@@ -661,7 +761,12 @@
 							</template>
 							<template v-if="grid_item.i == 'chapter6'">
 								<h2>Chapter 6</h2>
-								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+								<div
+									class="flex flex-wrap mt-3"
+									:class="[
+										`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+										`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+									]">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter6" :key="trackerItemKey">
 										<Item
 											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][grid_item.i][trackerItemKey]"
@@ -678,7 +783,12 @@
 							</template>
 							<template v-if="grid_item.i == 'chapter7'">
 								<h2>Chapter 7</h2>
-								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+								<div
+									class="flex flex-wrap mt-3"
+									:class="[
+										`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+										`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+									]">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter7" :key="trackerItemKey">
 										<Item
 											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][grid_item.i][trackerItemKey]"
@@ -695,7 +805,12 @@
 							</template>
 							<template v-if="grid_item.i == 'chapter8'">
 								<h2>Chapter 8</h2>
-								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+								<div
+									class="flex flex-wrap mt-3"
+									:class="[
+										`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+										`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+									]">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.chapter8" :key="trackerItemKey">
 										<Item
 											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][grid_item.i][trackerItemKey]"
@@ -712,7 +827,12 @@
 							</template>
 							<template v-if="grid_item.i == 'other'">
 								<h2>Other Items</h2>
-								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+								<div
+									class="flex flex-wrap mt-3"
+									:class="[
+										`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+										`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+									]">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.items.other" :key="trackerItemKey">
 										<Item
 											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][grid_item.i][trackerItemKey]"
@@ -729,7 +849,12 @@
 							</template>
 							<template v-if="grid_item.i == 'letters'">
 								<h2>Letters</h2>
-								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+								<div
+									class="flex flex-wrap mt-3"
+									:class="[
+										`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+										`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+									]">
 									<template v-for="(chaptersItems, chapter) in tracker.items.letters" :key="chapter">
 										<template v-for="(trackerItemConfigs, trackerItemKey) in chaptersItems" :key="trackerItemKey">
 											<Item
@@ -749,7 +874,12 @@
 							</template>
 							<template v-if="grid_item.i == 'misc'">
 								<h2>Misc</h2>
-								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+								<div
+									class="flex flex-wrap mt-3"
+									:class="[
+										`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+										`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+									]">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.misc" :key="trackerItemKey">
 										<Item
 											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items[grid_item.i][trackerItemKey]"
@@ -766,7 +896,12 @@
 							</template>
 							<template v-if="grid_item.i == 'koopa_koot_favors'">
 								<h2>Koopa Koot Favors</h2>
-								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+								<div
+									class="flex flex-wrap mt-3"
+									:class="[
+										`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+										`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+									]">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.koopa_koot_favors" :key="trackerItemKey">
 										<Item
 											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items[grid_item.i][trackerItemKey]"
@@ -783,7 +918,12 @@
 							</template>
 							<template v-if="grid_item.i == 'trading_event_toad'">
 								<h2>Trading Event Toad</h2>
-								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
+								<div
+									class="flex flex-wrap mt-3"
+									:class="[
+										`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+										`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+									]">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.trading_event_toad" :key="trackerItemKey">
 										<Item
 											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items[grid_item.i][trackerItemKey]"

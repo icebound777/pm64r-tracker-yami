@@ -970,6 +970,56 @@ export const useTrackerStore = defineStore('tracker', () => {
 					}
 				]
 			},
+			item_icon_size: {
+				tooltip: 'Changes the size of the items icons.',
+				enabled: true,
+				type: 'select',
+				options: [
+					{
+						value: 'sm',
+						text: 'Smaller'
+					},
+					{
+						value: 'md',
+						text: 'Medium'
+					},
+					{
+						value: 'lg',
+						text: 'Large'
+					},
+					{
+						value: 'xl',
+						text: 'Extra large'
+					},
+					{
+						value: '2xl',
+						text: 'Mega large'
+					}
+				]
+			},
+			item_gap: {
+				tooltip: 'Changes the gap between the items.',
+				enabled: true,
+				type: 'select',
+				options: [
+					{
+						value: 0.5,
+						text: 'Small'
+					},
+					{
+						value: 1,
+						text: 'Medium'
+					},
+					{
+						value: 1.5,
+						text: 'Large'
+					},
+					{
+						value: 2,
+						text: 'Extra large'
+					}
+				]
+			},
 			always_show_super_blocks: {
 				tooltip: 'Always show super blocks, even if they are not in logic. It will count them as checks.',
 				enabled: true,

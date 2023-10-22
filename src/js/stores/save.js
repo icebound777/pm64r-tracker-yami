@@ -223,6 +223,8 @@ export const useSaveStore = defineStore('save', () => {
 		map_text_size: 'base',
 		always_show_super_blocks: false,
 		star_menu_enabled: false,
+		item_icon_size: 'md',
+		item_gap: 0.5,
 		compact_items: false,
 		compact_item_background_hex_color: '#000000',
 		compact_item_show_letters: false,
