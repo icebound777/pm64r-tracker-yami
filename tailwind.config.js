@@ -103,6 +103,8 @@ export default {
 		//Partners levels
 		'right-level1',
 		'right-level2',
+		'right-0',
+		'right-powerstar',
 
 		//Font size
 		'text-base',
@@ -120,7 +122,11 @@ export default {
 		'gap-3.5',
 		'gap-4',
 		'gap-4.5',
-		'gap-0',
+		'gap-5',
+		'gap-5.5',
+		'gap-6',
+		'gap-6.5',
+		'gap-x-0',
 		'gap-x-0.5',
 		'gap-x-1',
 		'gap-x-1.5',
@@ -130,6 +136,10 @@ export default {
 		'gap-x-3.5',
 		'gap-x-4',
 		'gap-x-4.5',
+		'gap-x-5',
+		'gap-x-5.5',
+		'gap-x-6',
+		'gap-x-6.5',
 		'gap-y-0',
 		'gap-y-0.5',
 		'gap-y-1',
@@ -139,7 +149,11 @@ export default {
 		'gap-y-3',
 		'gap-y-3.5',
 		'gap-y-4',
-		'gap-y-4.5'
+		'gap-y-4.5',
+		'gap-y-5',
+		'gap-y-5.5',
+		'gap-y-6',
+		'gap-y-6.5'
 	],
 	theme: {
 		extend: {
@@ -148,7 +162,8 @@ export default {
 			},
 			inset: {
 				level1: '5px',
-				level2: '23px'
+				level2: '23px',
+				powerstar: '-15px'
 			},
 			gridTemplateColumns: {
 				1: 'repeat(1, minmax(50px, 1fr))',
@@ -235,6 +250,15 @@ export default {
 				14: '14',
 				15: '15',
 				16: '16'
+			},
+			spacing: {
+				0.5: '0.125rem',
+				1.5: '0.375rem',
+				2.5: '0.625rem',
+				3.5: '0.875rem',
+				4.5: '1.125rem',
+				5.5: '1.375rem',
+				6.5: '1.625rem'
 			}
 		}
 	},

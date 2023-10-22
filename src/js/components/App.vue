@@ -1,6 +1,6 @@
 <template>
-	<!-- <div @contextmenu="$event.preventDefault()"> -->
-	<div>
+	<div @contextmenu="$event.preventDefault()">
+		<!-- <div> -->
 		<header>
 			<div class="flex justify-between">
 				<div class="flex flex-wrap gap-2 p-3">
@@ -8,7 +8,7 @@
 						class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
 						type="button"
 						v-tooltip="{ content: 'Load a new randomizer seed', delay: { show: 0 } }"
-						@click="loadNewSeedModal = true">
+						@click="loadNewSeedModalVisible = true">
 						<font-awesome-icon :icon="['fas', 'file-circle-plus']" />
 					</button>
 					<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Export progress', delay: { show: 0 } }" @click="save.exportSave">
@@ -84,6 +84,14 @@
 						<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Restore default layout', delay: { show: 0 } }" @click="resetLayoutPrompt">
 							<font-awesome-icon :icon="['fas', 'trash']" />
 						</button>
+						<button
+							class="flex items-center bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3 ml-10"
+							type="button"
+							v-tooltip="{ content: 'How to use?', delay: { show: 0 } }"
+							@click="tutorialModalVisible = true">
+							<font-awesome-icon :icon="['far', 'circle-question']" />
+							<p class="ml-4">How to use</p>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -123,9 +131,12 @@
 										`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
 									]">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.stars" :key="trackerItemKey">
-										<VDropdown :triggers="[]" :shown="showStarMenu[trackerItemKey]" @apply-hide="hideStarMenu()">
+										<VDropdown
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items[grid_item.i][trackerItemKey]"
+											:triggers="[]"
+											:shown="showStarMenu[trackerItemKey]"
+											@apply-hide="hideStarMenu()">
 											<Item
-												v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items[grid_item.i][trackerItemKey]"
 												@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 												@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 												:itemName="trackerItemConfigs.name"
@@ -220,9 +231,12 @@
 										`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
 									]">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.stars" :key="trackerItemKey">
-										<VDropdown :triggers="[]" :shown="showStarMenu[trackerItemKey]" @apply-hide="hideStarMenu()">
+										<VDropdown
+											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['stars'][trackerItemKey]"
+											:triggers="[]"
+											:shown="showStarMenu[trackerItemKey]"
+											@apply-hide="hideStarMenu()">
 											<Item
-												v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['stars'][trackerItemKey]"
 												@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 												@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
 												:itemName="trackerItemConfigs.name"
@@ -1022,7 +1036,7 @@
 		</div>
 
 		<!-- New randomizer seed modal -->
-		<Modal :show="loadNewSeedModal" @onClose="loadNewSeedModal = false">
+		<Modal :show="loadNewSeedModalVisible" @onClose="loadNewSeedModalVisible = false">
 			<div class="flex justify-between w-30">
 				<p class="capitalize">Randomizer seed</p>
 				<input class="rounded-md" type="number" v-model="save.data.randomizer_seed" />
@@ -1194,9 +1208,6 @@
 		</Modal>
 
 		<!-- Disable Items Modal -->
-		<!-- :class="{
-					'mb-3': itemIndex < Object.keys(tracker.items.stars).length - 1
-				}" -->
 		<Modal :show="disableItemsModalVisible" @onClose="disableItemsModalVisible = false">
 			<template v-for="(itemCategoryItems, itemCategoryKey, itemCategoryIndex) in tracker.items">
 				<div v-if="itemCategoryIndex > 0" class="bg-white h-[1px] my-4" />
@@ -1220,6 +1231,25 @@
 				</template>
 			</template>
 		</Modal>
+
+		<!-- Tutorial Modal -->
+		<Modal :show="tutorialModalVisible" @onClose="tutorialModalVisible = false" :large="true">
+			<p class="text-2xl mb-3">How do I use this tracker?</p>
+			<p class="text-lg">Default mode</p>
+			<p>Left click: Mark item as acquired / Add countable items</p>
+			<p>Right click: Mark item as not acquired / Remove countable items</p>
+			<p>Ctrl + Left click on stars: Increment the difficulty marker on the stars</p>
+			<p>Shift + Left click on stars: Increment the dungeon shuffle on the stars</p>
+			<p>Shift + Left click on the items: Mark the item as handed the the final NPC</p>
+			<p>Shift + Right click on items: Mark the item as a Merlow's reward</p>
+			<div class="bg-white h-[1px] my-4" />
+			<p class="text-lg">Competitive mode (one handed mouse only controls)</p>
+			<p>Left click: Mark item as acquired/not acquired</p>
+			<p>Right click on stars: Increment the difficulty marker on the stars</p>
+			<p>Right click on items: Mark the item as handed the the final NPC</p>
+			<p>Left click maintained then right click on stars: Increment the dungeon shuffle on the stars</p>
+			<p>Left click maintained then right click on items: Mark the item as a Merlow's reward</p>
+		</Modal>
 	</div>
 </template>
 
@@ -1241,11 +1271,12 @@ const layout = useLayoutStore();
 const logic = useLogicStore();
 const map = useMapStore();
 
-const loadNewSeedModal = ref(false);
+const loadNewSeedModalVisible = ref(false);
 const randomizerSettingsModalVisible = ref(false);
 const logicSettingsModalVisible = ref(false);
 const trackerSettingsModalVisible = ref(false);
 const disableItemsModalVisible = ref(false);
+const tutorialModalVisible = ref(false);
 
 const showStarMenu = reactive({
 	eldstar: false,
@@ -1300,19 +1331,19 @@ const trackerLeftClick = (event, key, configs, itemSubCategory = null) => {
 			}
 		}
 	} else if (event.shiftKey) {
-		if (save.data.configs.tracker.star_menu_enabled) {
-			showStarMenu.eldstar = false;
-			showStarMenu.mamar = false;
-			showStarMenu.skolar = false;
-			showStarMenu.muskular = false;
-			showStarMenu.misstar = false;
-			showStarMenu.klevar = false;
-			showStarMenu.kalmar = false;
+		if (key == 'eldstar' || key == 'mamar' || key == 'skolar' || key == 'muskular' || key == 'misstar' || key == 'klevar' || key == 'kalmar') {
+			if (save.data.configs.tracker.star_menu_enabled) {
+				showStarMenu.eldstar = false;
+				showStarMenu.mamar = false;
+				showStarMenu.skolar = false;
+				showStarMenu.muskular = false;
+				showStarMenu.misstar = false;
+				showStarMenu.klevar = false;
+				showStarMenu.kalmar = false;
 
-			showStarMenu[key] = true;
-			starMenuType.value = 'dungeon_shuffle';
-		} else {
-			if (key == 'eldstar' || key == 'mamar' || key == 'skolar' || key == 'muskular' || key == 'misstar' || key == 'klevar' || key == 'kalmar') {
+				showStarMenu[key] = true;
+				starMenuType.value = 'dungeon_shuffle';
+			} else {
 				if (save.data.items[`${key}_dungeon_shuffle`] == undefined) {
 					save.data.items[`${key}_dungeon_shuffle`] = 0;
 				}
@@ -1321,6 +1352,39 @@ const trackerLeftClick = (event, key, configs, itemSubCategory = null) => {
 					save.data.items[`${key}_dungeon_shuffle`] = 0;
 				} else {
 					save.data.items[`${key}_dungeon_shuffle`]++;
+				}
+			}
+		} else {
+			console.log('asd');
+			if (save.data.items.hand_ins === undefined) {
+				save.data.items.hand_ins = {};
+			}
+			if (itemSubCategory === null && key != 'power_stars') {
+				if (save.data.items.hand_ins[key] == undefined) {
+					save.data.items.hand_ins[key] = 0;
+				}
+
+				if (save.data.items.hand_ins[key] >= configs.max) {
+					save.data.items.hand_ins[key] = 0;
+				} else {
+					save.data.items.hand_ins[key]++;
+				}
+			} else if (itemSubCategory === null && key == 'power_stars') {
+				if (save.data.items[key] > 0) {
+					save.data.items[key]--;
+				}
+			} else {
+				if (save.data.items.hand_ins[itemSubCategory] == undefined) {
+					save.data.items.hand_ins[itemSubCategory] = {};
+				}
+				if (save.data.items.hand_ins[itemSubCategory][key] == undefined) {
+					save.data.items.hand_ins[itemSubCategory][key] = 0;
+				}
+
+				if (save.data.items.hand_ins[itemSubCategory][key] >= configs.max) {
+					save.data.items.hand_ins[itemSubCategory][key] = 0;
+				} else {
+					save.data.items.hand_ins[itemSubCategory][key]++;
 				}
 			}
 		}
@@ -1485,7 +1549,7 @@ const trackerRightClick = (event, key, configs, itemSubCategory = null) => {
 				if (save.data.items.hand_ins === undefined) {
 					save.data.items.hand_ins = {};
 				}
-				if (itemSubCategory === null) {
+				if (itemSubCategory === null && key != 'power_stars') {
 					if (save.data.items.hand_ins[key] == undefined) {
 						save.data.items.hand_ins[key] = 0;
 					}
@@ -1494,6 +1558,10 @@ const trackerRightClick = (event, key, configs, itemSubCategory = null) => {
 						save.data.items.hand_ins[key] = 0;
 					} else {
 						save.data.items.hand_ins[key]++;
+					}
+				} else if (itemSubCategory === null && key == 'power_stars') {
+					if (save.data.items[key] > 0) {
+						save.data.items[key]--;
 					}
 				} else {
 					if (save.data.items.hand_ins[itemSubCategory] == undefined) {

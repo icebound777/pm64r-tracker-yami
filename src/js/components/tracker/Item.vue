@@ -15,8 +15,16 @@
 		</template>
 		<img v-if="imageFolder == 'stars' && stars_dungeon_shuffle_images" class="absolute top-0 left-0 h-[20px]" :src="`/images/stars/${stars_dungeon_shuffle_images}.webp`" />
 		<p v-if="imageFolder == 'stars' && save.data.items[`${itemKey}_difficulty`]" class="absolute w-fit whitespace-nowrap bottom-[-10px] right-0">{{ save.data.items[`${itemKey}_difficulty`] }}</p>
-		<p v-if="imageFolder != 'partners' && itemCountMax > 1 && !levelItem" class="absolute w-fit whitespace-nowrap bottom-[-10px] right-0">{{ itemCount }}/{{ itemCountMax }}</p>
-		<template v-if="save.data.configs.tracker.competitive_mode && save.data.items.hand_ins !== undefined && save.data.items.hand_ins[itemKey] !== undefined && imageFolder != 'misc'">
+		<p
+			v-if="imageFolder != 'partners' && itemCountMax > 1 && !levelItem"
+			class="absolute w-fit whitespace-nowrap bottom-[-10px] text-base"
+			:class="{
+				'right-0': itemKey != 'power_stars',
+				'right-powerstar': itemKey == 'power_stars'
+			}">
+			{{ itemCount }}/{{ itemCountMax }}
+		</p>
+		<template v-if="save.data.items.hand_ins !== undefined && save.data.items.hand_ins[itemKey] !== undefined && imageFolder != 'misc' && imageFolder != 'equipments' && imageFolder != 'partners'">
 			<div class="absolute top-0 right-0">
 				<div class="flex flex-wrap w-full w-10 justify-end">
 					<font-awesome-icon v-for="i in save.data.items.hand_ins[itemKey]" :key="i" class="text-green-600" :icon="['fas', 'check']" />

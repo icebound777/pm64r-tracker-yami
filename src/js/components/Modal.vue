@@ -21,7 +21,13 @@
 					leave-active-class="ease-in"
 					leave-from-class="opacity-100 translate-y-0 sm:scale-100"
 					leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-					<div v-show="show" class="sm:w-full max-w-lg p-5 mb-6 sm:mx-auto bg-sky-950 rounded-lg shadow-xl transform transition-all max-h-[80%] overflow-y-scroll">
+					<div
+						v-show="show"
+						class="sm:w-full p-5 mb-6 sm:mx-auto bg-sky-950 rounded-lg shadow-xl transform transition-all max-h-[80%] overflow-y-scroll"
+						:class="{
+							'max-w-[950px]': large,
+							'max-w-lg': !large
+						}">
 						<slot />
 					</div>
 				</transition>
@@ -45,6 +51,10 @@ const props = defineProps({
 	closeable: {
 		type: Boolean,
 		default: true
+	},
+	large: {
+		type: Boolean,
+		default: false
 	}
 });
 

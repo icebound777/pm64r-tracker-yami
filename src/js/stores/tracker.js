@@ -1004,19 +1004,31 @@ export const useTrackerStore = defineStore('tracker', () => {
 				options: [
 					{
 						value: 0.5,
-						text: 'Small'
+						text: 'Smallest'
 					},
 					{
 						value: 1,
-						text: 'Medium'
+						text: 'Smaller'
 					},
 					{
 						value: 1.5,
-						text: 'Large'
+						text: 'Small'
 					},
 					{
 						value: 2,
-						text: 'Extra large'
+						text: 'Medium'
+					},
+					{
+						value: 2.5,
+						text: 'Large'
+					},
+					{
+						value: 3,
+						text: 'Larger'
+					},
+					{
+						value: 3.5,
+						text: 'Largest'
 					}
 				]
 			},
