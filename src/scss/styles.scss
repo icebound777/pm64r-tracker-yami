@@ -125,7 +125,7 @@ body {
 	}
 
 	.vgl-layout {
-		--vgl-placeholder-bg: ##7dd3fc;
+		--vgl-placeholder-bg: #7dd3fc;
 		--vgl-placeholder-opacity: 20%;
 		--vgl-placeholder-z-index: 2;
 
@@ -147,5 +147,19 @@ body {
 	.fa-check path {
 		stroke: black;
 		stroke-width: 20;
+	}
+
+	.v-popper--theme-dropdown {
+		.v-popper__inner {
+			background: #0c4a6e;
+			border-color: #7dd3fc;
+		}
+		.v-popper__arrow-outer {
+			border-color: #7dd3fc;
+		}
+
+		.v-popper__arrow-inner {
+			border-color: #0c4a6e;
+		}
 	}
 }

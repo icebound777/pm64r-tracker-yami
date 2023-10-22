@@ -344,6 +344,9 @@ export const useLogicStore = defineStore('logic', () => {
 		lava_lava_island_jungle_behind_raven_statue: () => {
 			return flags.lava_lava_island() && flags.partner('sushie') && save.data.items.hammer >= 1 && save.data.items.jade_raven;
 		},
+		mt_lavalava: () => {
+			return flags.lava_lava_island_jungle_behind_raven_statue() && save.data.items.boots >= 1;
+		},
 		shiver_city: () => {
 			if (flags.toad_town()) {
 				if (
@@ -8372,6 +8375,296 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						}
 					]
+				}
+			}
+		},
+		mt_lavalava: {
+			name: 'Mt. Lavalava',
+			maps: {
+				entrance: {
+					name: 'Entrance',
+					x: 2,
+					y: 1,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				sinking_platforms: {
+					name: 'Sinking Platforms',
+					x: 3,
+					y: 1,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				hub: {
+					name: 'Hub',
+					x: 4,
+					y: 1,
+					w: 1,
+					h: 3,
+					checks: []
+				},
+				firebars: {
+					name: 'Firebars',
+					x: 5,
+					y: 1,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				slope_hallway: {
+					name: 'Slope Hallway',
+					x: 3,
+					y: 3,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				lava_puzzle: {
+					name: 'Lava Puzzle',
+					x: 2,
+					y: 3,
+					w: 1,
+					h: 2,
+					checks: []
+				},
+				ultra_hammer: {
+					name: 'Ultra Hammer',
+					x: 1,
+					y: 3,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				dizzy_stomp: {
+					name: 'Dizzy Stomp',
+					x: 3,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				zipline: {
+					name: 'Zipline',
+					x: 5,
+					y: 2,
+					w: 1,
+					h: 2,
+					checks: []
+				},
+				spike_ball_chase: {
+					name: 'Spike Ball Chase',
+					x: 6,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				moving_platforms: {
+					name: 'Moving Platforms',
+					x: 7,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				spike_ball_wall_break: {
+					name: 'Spike Ball Wall Break',
+					x: 8,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				volcano_save_block: {
+					name: 'Volcano Save Block',
+					x: 9,
+					y: 2,
+					w: 1,
+					h: 2,
+					checks: []
+				},
+				deadend: {
+					name: 'Deadend',
+					x: 10,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				lava_piranha: {
+					name: 'Lava Piranha',
+					x: 10,
+					y: 3,
+					w: 1,
+					h: 1,
+					checks: []
+				}
+			}
+		},
+		flower_fields: {
+			name: 'Flower Fields',
+			maps: {
+				big_tree: {
+					name: 'Big tree',
+					x: 4,
+					y: 2,
+					w: 1,
+					h: 3,
+					checks: []
+				},
+				bubble_plant: {
+					name: 'Bubble Plant',
+					x: 3,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				lakilester: {
+					name: 'Lakilester',
+					x: 2,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				sun_tower: {
+					name: 'Sun Tower',
+					x: 1,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				blue_flower: {
+					name: 'Blue Flower',
+					x: 3,
+					y: 3,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				maze: {
+					name: 'Maze',
+					x: 2,
+					y: 3,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				rosie: {
+					name: 'Rosie',
+					x: 1,
+					y: 3,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				red_flower: {
+					name: 'Red Flower',
+					x: 3,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				posie: {
+					name: 'Posie',
+					x: 2,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				elevators: {
+					name: 'Elevators',
+					x: 5,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				fallen_logs: {
+					name: 'Fallen Logs',
+					x: 6,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				cloud_machine: {
+					name: 'Cloud Machine',
+					x: 7,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				three_trees: {
+					name: 'Three Trees',
+					x: 5,
+					y: 3,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				petunia: {
+					name: 'Petunia',
+					x: 6,
+					y: 3,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				well: {
+					name: 'Well',
+					x: 7,
+					y: 3,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				yellow_flower: {
+					name: 'Yellow Flower',
+					x: 5,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				bubble_berry_tree: {
+					name: 'Bubble Berry Tree',
+					x: 6,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				lily: {
+					name: 'Lily',
+					x: 7,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				in_the_clouds: {
+					name: 'In the Clouds',
+					x: 4,
+					y: 1,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				huff_n_puff: {
+					name: "Huff N' Puff",
+					x: 5,
+					y: 1,
+					w: 1,
+					h: 1,
+					checks: []
 				}
 			}
 		}

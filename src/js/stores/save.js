@@ -174,6 +174,7 @@ export const useSaveStore = defineStore('save', () => {
 			},
 			hand_ins: {}
 		},
+		merlow_items: {},
 		checks: {}
 	});
 
@@ -221,6 +222,7 @@ export const useSaveStore = defineStore('save', () => {
 		map: true,
 		map_text_size: 'base',
 		always_show_super_blocks: false,
+		star_menu_enabled: false,
 		compact_items: false,
 		compact_item_background_hex_color: '#000000',
 		compact_item_show_letters: false,

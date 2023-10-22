@@ -37,6 +37,14 @@
 			</div>
 		</template>
 		<p v-if="initial" class="absolute w-fit whitespace-nowrap top-[-10px] left-0">{{ initial }}</p>
+		<img
+			v-if="showMerlow"
+			class="absolute left-[-6px] h-[20px]"
+			:class="{
+				'top-0': !initial,
+				'top-[15px]': initial
+			}"
+			:src="`/images/checks/merlow.webp`" />
 	</div>
 </template>
 
@@ -96,5 +104,19 @@ const stars_dungeon_shuffle_images = computed(() => {
 	} else {
 		return null;
 	}
+});
+
+const showMerlow = computed(() => {
+	if (save.data.merlow_items !== undefined) {
+		if (props.imageFolder == 'koopa_koot_favors' || props.imageFolder == 'letters') {
+			if (save.data.merlow_items[props.imageFolder] !== undefined) {
+				return save.data.merlow_items[props.imageFolder][props.itemKey];
+			}
+		} else {
+			return save.data.merlow_items[props.itemKey];
+		}
+	}
+
+	return false;
 });
 </script>

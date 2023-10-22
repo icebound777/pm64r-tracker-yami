@@ -947,10 +947,12 @@ export const useTrackerStore = defineStore('tracker', () => {
 		},
 		tracker: {
 			map: {
+				tooltip: 'Shows the map tracker.',
 				enabled: true,
 				type: 'switch'
 			},
 			map_text_size: {
+				tooltip: 'Changes the size of the text on the map tracker only.',
 				enabled: true,
 				type: 'select',
 				options: [
@@ -969,42 +971,60 @@ export const useTrackerStore = defineStore('tracker', () => {
 				]
 			},
 			always_show_super_blocks: {
+				tooltip: 'Always show super blocks, even if they are not in logic. It will count them as checks.',
+				enabled: true,
+				type: 'switch'
+			},
+			star_menu_enabled: {
+				tooltip: 'Allows to choose the stars difficulty and dungeon shuffle progression in a popover menu instead of cycling through them.',
 				enabled: true,
 				type: 'switch'
 			},
 			compact_items: {
+				tooltip: 'Shows all the items in the same widget. Cannot be enabled in the same time of the "Compact item per chapters" widget.',
 				enabled: true,
 				type: 'switch'
 			},
 			compact_item_background_hex_color: {
+				tooltip: 'Changes the background color of the compact items widget.',
 				enabled: true,
 				type: 'text'
 			},
 			compact_item_show_letters: {
+				tooltip: 'Show the letters in the compact items widget.',
 				enabled: true,
 				type: 'switch'
 			},
 			compact_item_show_favors: {
+				tooltip: 'Show the Koopa Koot favors items in the compact items widget.',
 				enabled: true,
 				type: 'switch'
 			},
 			compact_item_show_trading_events: {
+				tooltip: 'Show the Trading Event Toad items in the compact items widget.',
 				enabled: true,
 				type: 'switch'
 			},
 			compact_items_per_chapters: {
+				tooltip: 'Shows the items in the same widget, but per chapters. Cannot be enabled in the same time of the "Compact items" widget.',
 				enabled: true,
 				type: 'switch'
 			},
 			competitive_mode: {
+				tooltip: `Changes the tracker to be used onlly with the mouse.<br/>
+				Left click cycles in the items with a max value (keys, letters, etc.);<br/>
+				Right click adds a check mark to the items, ranks to the partners and difficulty progression to the stars;<br/>
+				While maintaining the left click, right click on the stars to add the dungeon shuffle progression.`,
 				enabled: true,
 				type: 'switch'
 			},
 			missing_items_in_grayscale: {
+				tooltip: 'Shows the unobtained items in grayscale instead of in opacity 50%.',
 				enabled: true,
 				type: 'switch'
 			},
 			deactivate_items_tooltips: {
+				tooltip: 'Deactivates the tooltips of the items.',
 				enabled: true,
 				type: 'switch'
 			}

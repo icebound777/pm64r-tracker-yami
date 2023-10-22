@@ -14,9 +14,9 @@ import FloatingVue from 'floating-vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-import { faBars, faBrain, faBraille, faCheck, faDownload, faDice, faFileCirclePlus, faFloppyDisk, faSpinner, faTable, faTrash, faWrench } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faBan, faBrain, faBraille, faCheck, faDownload, faDice, faFileCirclePlus, faFloppyDisk, faSpinner, faTable, faTrash, faWrench } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faBars, faBrain, faBraille, faCheck, faDownload, faDice, faFileCirclePlus, faFloppyDisk, faSpinner, faTable, faTrash, faWrench);
+library.add(faBars, faBan, faBrain, faBraille, faCheck, faDownload, faDice, faFileCirclePlus, faFloppyDisk, faSpinner, faTable, faTrash, faWrench);
 
 const pinia = createPinia();
 const app = createApp(App)
@@ -69,9 +69,30 @@ const app = createApp(App)
 				// Update popper on content resize
 				handleResize: false,
 				// Enable HTML content in directive
-				html: false,
+				html: true,
 				// Displayed when tooltip content is loading
 				loadingContent: '...'
+			},
+			dropdown: {
+				// Default dropdown placement relative to target element
+				placement: 'bottom',
+				// Default events that trigger the dropdown
+				triggers: ['click'],
+				// Delay (ms)
+				delay: 0,
+				// Update popper on content resize
+				handleResize: true,
+				// Hide on click outside
+				autoHide: true
+			},
+			menu: {
+				$extend: 'dropdown',
+				triggers: ['hover', 'focus'],
+				popperTriggers: ['hover', 'focus'],
+				delay: {
+					show: 0,
+					hide: 0
+				}
 			}
 		}
 	})

@@ -20,8 +20,6 @@ and
 
 `npm run dev`
 
-
-
 And for a working production build run:
 
 `npm run build`
@@ -30,12 +28,12 @@ Then copy the "images" folder in the new "dist" folder.
 
 ## Road map for the tracker
 
-- Finish the checks for the map tracker;
-- Add a tracking for the Merlow requests on the items to mark what items Merlow has;
-- Sync the Rip Cheato logic option with the tracker so the max checks are the same;
-- Add a tutorial for the tracker;
-- Add credits and special thanks;
-- Add the possibility to load a spoiler log and check what is where on the tracker (I have to check the feasibility of it, but that's an idea that I had...).
+-   Finish the checks for the map tracker;
+-   Add a tracking for the Merlow requests on the items to mark what items Merlow has;
+-   Add a tutorial for the tracker;
+-   Add credits and special thanks;
+-   Add the possibility to load a spoiler log and check what is where on the tracker (I have to check the feasibility of it, but that's an idea that I had...);
+-   Explore the auto-tracking possibility with BizHawk.
 
 ## Special thanks
 

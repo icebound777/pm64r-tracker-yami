@@ -118,16 +118,47 @@
 								<h2>Stars</h2>
 								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.stars" :key="trackerItemKey">
-										<Item
-											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items[grid_item.i][trackerItemKey]"
-											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
-											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
-											:itemName="trackerItemConfigs.name"
-											:itemKey="trackerItemKey"
-											imageFolder="stars"
-											:itemCount="save.data.items[trackerItemKey]"
-											:itemCountMax="trackerItemConfigs.max"
-											:initial="trackerItemConfigs.initial" />
+										<VDropdown :triggers="[]" :shown="showStarMenu[trackerItemKey]" @apply-hide="hideStarMenu()">
+											<Item
+												v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items[grid_item.i][trackerItemKey]"
+												@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+												@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+												:itemName="trackerItemConfigs.name"
+												:itemKey="trackerItemKey"
+												imageFolder="stars"
+												:itemCount="save.data.items[trackerItemKey]"
+												:itemCountMax="trackerItemConfigs.max"
+												:initial="trackerItemConfigs.initial" />
+
+											<template #popper>
+												<div v-if="starMenuType == 'difficulty'" class="flex gap-1 items-center bg-sky-800 text-white p-1">
+													<p
+														class="cursor-pointer border-2 border-sky-950 hover:bg-sky-700 rounded-full px-2"
+														v-for="i in 9"
+														:key="i"
+														@click="setStarDifficulty(trackerItemKey, i - 1)">
+														{{ i - 1 }}
+													</p>
+												</div>
+
+												<div v-if="starMenuType == 'dungeon_shuffle'" class="flex gap-1 items-center bg-sky-800 text-white p-1">
+													<template v-for="i in 8" :key="i">
+														<div
+															v-if="i == 1"
+															class="flex items-center cursor-pointer border-2 border-sky-950 hover:bg-sky-700 rounded-full p-1"
+															@click="setStarDungeonShuffle(trackerItemKey, 0)">
+															<font-awesome-icon class="" :icon="['fas', 'ban']" />
+														</div>
+
+														<img
+															v-else
+															class="h-7 cursor-pointer border-2 border-sky-950 hover:bg-sky-700 rounded-full p-1"
+															:src="`/images/stars/${starImage(i - 1)}.webp`"
+															@click="setStarDungeonShuffle(trackerItemKey, i - 1)" />
+													</template>
+												</div>
+											</template>
+										</VDropdown>
 									</template>
 								</div>
 							</template>
@@ -169,16 +200,47 @@
 							<template v-if="grid_item.i == 'items_compact'">
 								<div class="flex flex-wrap mt-3 gap-x-0.5 gap-y-2">
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.stars" :key="trackerItemKey">
-										<Item
-											v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['stars'][trackerItemKey]"
-											@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
-											@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
-											:itemName="trackerItemConfigs.name"
-											:itemKey="trackerItemKey"
-											imageFolder="stars"
-											:itemCount="save.data.items[trackerItemKey]"
-											:itemCountMax="trackerItemConfigs.max"
-											:initial="trackerItemConfigs.initial" />
+										<VDropdown :triggers="[]" :shown="showStarMenu[trackerItemKey]" @apply-hide="hideStarMenu()">
+											<Item
+												v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['stars'][trackerItemKey]"
+												@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+												@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+												:itemName="trackerItemConfigs.name"
+												:itemKey="trackerItemKey"
+												imageFolder="stars"
+												:itemCount="save.data.items[trackerItemKey]"
+												:itemCountMax="trackerItemConfigs.max"
+												:initial="trackerItemConfigs.initial" />
+
+											<template #popper>
+												<div v-if="starMenuType == 'difficulty'" class="flex gap-1 items-center bg-sky-800 text-white p-1">
+													<p
+														class="cursor-pointer border-2 border-sky-950 hover:bg-sky-700 rounded-full px-2"
+														v-for="i in 9"
+														:key="i"
+														@click="setStarDifficulty(trackerItemKey, i - 1)">
+														{{ i - 1 }}
+													</p>
+												</div>
+
+												<div v-if="starMenuType == 'dungeon_shuffle'" class="flex gap-1 items-center bg-sky-800 text-white p-1">
+													<template v-for="i in 8" :key="i">
+														<div
+															v-if="i == 1"
+															class="flex items-center cursor-pointer border-2 border-sky-950 hover:bg-sky-700 rounded-full p-1"
+															@click="setStarDungeonShuffle(trackerItemKey, 0)">
+															<font-awesome-icon class="" :icon="['fas', 'ban']" />
+														</div>
+
+														<img
+															v-else
+															class="h-7 cursor-pointer border-2 border-sky-950 hover:bg-sky-700 rounded-full p-1"
+															:src="`/images/stars/${starImage(i - 1)}.webp`"
+															@click="setStarDungeonShuffle(trackerItemKey, i - 1)" />
+													</template>
+												</div>
+											</template>
+										</VDropdown>
 									</template>
 									<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.partners" :key="trackerItemKey">
 										<Item
@@ -1022,7 +1084,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { reactive, ref, watch } from 'vue';
 
 import { useSaveStore } from '../stores/save';
 import { useTrackerStore } from '../stores/tracker';
@@ -1045,21 +1107,47 @@ const logicSettingsModalVisible = ref(false);
 const trackerSettingsModalVisible = ref(false);
 const disableItemsModalVisible = ref(false);
 
+const showStarMenu = reactive({
+	eldstar: false,
+	mamar: false,
+	skolar: false,
+	muskular: false,
+	misstar: false,
+	klevar: false,
+	kalmar: false
+});
+
+const starMenuType = ref('difficulty');
+
 const _importSaveFileInput = ref(null);
 
 const trackerLeftClick = (event, key, configs, itemSubCategory = null) => {
 	if (event.ctrlKey) {
-		if (key == 'eldstar' || key == 'mamar' || key == 'skolar' || key == 'muskular' || key == 'misstar' || key == 'klevar' || key == 'kalmar') {
-			if (save.data.items[`${key}_difficulty`] == undefined) {
-				save.data.items[`${key}_difficulty`] = 0;
-			}
+		if (save.data.configs.tracker.star_menu_enabled) {
+			showStarMenu.eldstar = false;
+			showStarMenu.mamar = false;
+			showStarMenu.skolar = false;
+			showStarMenu.muskular = false;
+			showStarMenu.misstar = false;
+			showStarMenu.klevar = false;
+			showStarMenu.kalmar = false;
 
-			if (save.data.items[`${key}_difficulty`] >= 8) {
-				save.data.items[`${key}_difficulty`] = 0;
-			} else {
-				save.data.items[`${key}_difficulty`]++;
+			showStarMenu[key] = true;
+			starMenuType.value = 'difficulty';
+		} else {
+			if (key == 'eldstar' || key == 'mamar' || key == 'skolar' || key == 'muskular' || key == 'misstar' || key == 'klevar' || key == 'kalmar') {
+				if (save.data.items[`${key}_difficulty`] == undefined) {
+					save.data.items[`${key}_difficulty`] = 0;
+				}
+
+				if (save.data.items[`${key}_difficulty`] >= 8) {
+					save.data.items[`${key}_difficulty`] = 0;
+				} else {
+					save.data.items[`${key}_difficulty`]++;
+				}
 			}
 		}
+
 		if (key == 'goombario' || key == 'kooper' || key == 'bombette' || key == 'parakarry' || key == 'bow' || key == 'watt' || key == 'sushie' || key == 'lakilester') {
 			if (save.data.items[`${key}_rank`] == undefined) {
 				save.data.items[`${key}_rank`] = 0;
@@ -1072,15 +1160,28 @@ const trackerLeftClick = (event, key, configs, itemSubCategory = null) => {
 			}
 		}
 	} else if (event.shiftKey) {
-		if (key == 'eldstar' || key == 'mamar' || key == 'skolar' || key == 'muskular' || key == 'misstar' || key == 'klevar' || key == 'kalmar') {
-			if (save.data.items[`${key}_dungeon_shuffle`] == undefined) {
-				save.data.items[`${key}_dungeon_shuffle`] = 0;
-			}
+		if (save.data.configs.tracker.star_menu_enabled) {
+			showStarMenu.eldstar = false;
+			showStarMenu.mamar = false;
+			showStarMenu.skolar = false;
+			showStarMenu.muskular = false;
+			showStarMenu.misstar = false;
+			showStarMenu.klevar = false;
+			showStarMenu.kalmar = false;
 
-			if (save.data.items[`${key}_dungeon_shuffle`] >= 7) {
-				save.data.items[`${key}_dungeon_shuffle`] = 0;
-			} else {
-				save.data.items[`${key}_dungeon_shuffle`]++;
+			showStarMenu[key] = true;
+			starMenuType.value = 'dungeon_shuffle';
+		} else {
+			if (key == 'eldstar' || key == 'mamar' || key == 'skolar' || key == 'muskular' || key == 'misstar' || key == 'klevar' || key == 'kalmar') {
+				if (save.data.items[`${key}_dungeon_shuffle`] == undefined) {
+					save.data.items[`${key}_dungeon_shuffle`] = 0;
+				}
+
+				if (save.data.items[`${key}_dungeon_shuffle`] >= 7) {
+					save.data.items[`${key}_dungeon_shuffle`] = 0;
+				} else {
+					save.data.items[`${key}_dungeon_shuffle`]++;
+				}
 			}
 		}
 	} else {
@@ -1128,7 +1229,26 @@ const trackerLeftClick = (event, key, configs, itemSubCategory = null) => {
 
 const trackerRightClick = (event, key, configs, itemSubCategory = null) => {
 	if (save.data.configs.tracker.competitive_mode) {
-		if (key == 'eldstar' || key == 'mamar' || key == 'skolar' || key == 'muskular' || key == 'misstar' || key == 'klevar' || key == 'kalmar') {
+		if (save.data.configs.tracker.star_menu_enabled && (key == 'eldstar' || key == 'mamar' || key == 'skolar' || key == 'muskular' || key == 'misstar' || key == 'klevar' || key == 'kalmar')) {
+			showStarMenu.eldstar = false;
+			showStarMenu.mamar = false;
+			showStarMenu.skolar = false;
+			showStarMenu.muskular = false;
+			showStarMenu.misstar = false;
+			showStarMenu.klevar = false;
+			showStarMenu.kalmar = false;
+
+			showStarMenu[key] = true;
+
+			if (event.buttons == 1) {
+				starMenuType.value = 'dungeon_shuffle';
+			} else {
+				starMenuType.value = 'difficulty';
+			}
+		} else if (
+			!save.data.configs.tracker.star_menu_enabled &&
+			(key == 'eldstar' || key == 'mamar' || key == 'skolar' || key == 'muskular' || key == 'misstar' || key == 'klevar' || key == 'kalmar')
+		) {
 			if (event.buttons == 1) {
 				if (save.data.items[`${key}_dungeon_shuffle`] == undefined) {
 					save.data.items[`${key}_dungeon_shuffle`] = 0;
@@ -1151,57 +1271,122 @@ const trackerRightClick = (event, key, configs, itemSubCategory = null) => {
 				}
 			}
 		} else if (key == 'goombario' || key == 'kooper' || key == 'bombette' || key == 'parakarry' || key == 'bow' || key == 'watt' || key == 'sushie' || key == 'lakilester') {
-			if (save.data.items[`${key}_rank`] == undefined) {
-				save.data.items[`${key}_rank`] = 0;
-			}
+			if (event.buttons == 1) {
+				if (save.data.merlow_items == undefined) {
+					save.data.merlow_items = {};
+				}
 
-			if (save.data.items[`${key}_rank`] >= 2) {
-				save.data.items[`${key}_rank`] = 0;
+				if (itemSubCategory === null) {
+					if (save.data.merlow_items[key] == undefined) {
+						save.data.merlow_items[key] = false;
+					}
+
+					if (save.data.merlow_items[key]) {
+						save.data.merlow_items[key] = false;
+					} else {
+						save.data.merlow_items[key] = true;
+					}
+				} else {
+					if (save.data.merlow_items[itemSubCategory] == undefined) {
+						save.data.merlow_items[itemSubCategory] = {};
+					}
+					if (save.data.merlow_items[itemSubCategory][key] == undefined) {
+						save.data.merlow_items[itemSubCategory][key] = false;
+					}
+
+					if (save.data.merlow_items[itemSubCategory][key]) {
+						save.data.merlow_items[itemSubCategory][key] = false;
+					} else {
+						save.data.merlow_items[itemSubCategory][key] = true;
+					}
+				}
 			} else {
-				save.data.items[`${key}_rank`]++;
+				if (save.data.items[`${key}_rank`] == undefined) {
+					save.data.items[`${key}_rank`] = 0;
+				}
+
+				if (save.data.items[`${key}_rank`] >= 2) {
+					save.data.items[`${key}_rank`] = 0;
+				} else {
+					save.data.items[`${key}_rank`]++;
+				}
 			}
 		} else {
-			if (save.data.items.hand_ins === undefined) {
-				save.data.items.hand_ins = {};
-			}
-			if (itemSubCategory === null) {
-				if (save.data.items.hand_ins[key] == undefined) {
-					save.data.items.hand_ins[key] = 0;
+			if (event.buttons == 1) {
+				if (save.data.merlow_items == undefined) {
+					save.data.merlow_items = {};
 				}
 
-				if (save.data.items.hand_ins[key] >= configs.max) {
-					save.data.items.hand_ins[key] = 0;
+				if (itemSubCategory === null) {
+					if (save.data.merlow_items[key] == undefined) {
+						save.data.merlow_items[key] = false;
+					}
+
+					if (save.data.merlow_items[key]) {
+						save.data.merlow_items[key] = false;
+					} else {
+						save.data.merlow_items[key] = true;
+					}
 				} else {
-					save.data.items.hand_ins[key]++;
+					if (save.data.merlow_items[itemSubCategory] == undefined) {
+						save.data.merlow_items[itemSubCategory] = {};
+					}
+					if (save.data.merlow_items[itemSubCategory][key] == undefined) {
+						save.data.merlow_items[itemSubCategory][key] = false;
+					}
+
+					if (save.data.merlow_items[itemSubCategory][key]) {
+						save.data.merlow_items[itemSubCategory][key] = false;
+					} else {
+						save.data.merlow_items[itemSubCategory][key] = true;
+					}
 				}
 			} else {
-				if (save.data.items.hand_ins[itemSubCategory] == undefined) {
-					save.data.items.hand_ins[itemSubCategory] = {};
+				if (save.data.items.hand_ins === undefined) {
+					save.data.items.hand_ins = {};
 				}
-				if (save.data.items.hand_ins[itemSubCategory][key] == undefined) {
-					save.data.items.hand_ins[itemSubCategory][key] = 0;
-				}
+				if (itemSubCategory === null) {
+					if (save.data.items.hand_ins[key] == undefined) {
+						save.data.items.hand_ins[key] = 0;
+					}
 
-				if (save.data.items.hand_ins[itemSubCategory][key] >= configs.max) {
-					save.data.items.hand_ins[itemSubCategory][key] = 0;
+					if (save.data.items.hand_ins[key] >= configs.max) {
+						save.data.items.hand_ins[key] = 0;
+					} else {
+						save.data.items.hand_ins[key]++;
+					}
 				} else {
-					save.data.items.hand_ins[itemSubCategory][key]++;
+					if (save.data.items.hand_ins[itemSubCategory] == undefined) {
+						save.data.items.hand_ins[itemSubCategory] = {};
+					}
+					if (save.data.items.hand_ins[itemSubCategory][key] == undefined) {
+						save.data.items.hand_ins[itemSubCategory][key] = 0;
+					}
+
+					if (save.data.items.hand_ins[itemSubCategory][key] >= configs.max) {
+						save.data.items.hand_ins[itemSubCategory][key] = 0;
+					} else {
+						save.data.items.hand_ins[itemSubCategory][key]++;
+					}
 				}
 			}
 		}
 	} else {
 		if (event.ctrlKey) {
-			if (key == 'eldstar' || key == 'mamar' || key == 'skolar' || key == 'muskular' || key == 'misstar' || key == 'klevar' || key == 'kalmar') {
-				if (save.data.items[`${key}_difficulty`] == undefined) {
-					save.data.items[`${key}_difficulty`] = 0;
-				}
+			if (!save.data.configs.tracker.star_menu_enabled) {
+				if (key == 'eldstar' || key == 'mamar' || key == 'skolar' || key == 'muskular' || key == 'misstar' || key == 'klevar' || key == 'kalmar') {
+					if (save.data.items[`${key}_difficulty`] == undefined) {
+						save.data.items[`${key}_difficulty`] = 0;
+					}
 
-				if (save.data.items[`${key}_difficulty`] <= 0) {
-					save.data.items[`${key}_difficulty`] = 8;
-				} else {
-					save.data.items[`${key}_difficulty`]--;
+					if (save.data.items[`${key}_difficulty`] <= 0) {
+						save.data.items[`${key}_difficulty`] = 8;
+					} else {
+						save.data.items[`${key}_difficulty`]--;
+					}
 				}
 			}
+
 			if (key == 'goombario' || key == 'kooper' || key == 'bombette' || key == 'parakarry' || key == 'bow' || key == 'watt' || key == 'sushie' || key == 'lakilester') {
 				if (save.data.items[`${key}_rank`] == undefined) {
 					save.data.items[`${key}_rank`] = 0;
@@ -1211,6 +1396,37 @@ const trackerRightClick = (event, key, configs, itemSubCategory = null) => {
 					save.data.items[`${key}_rank`] = 2;
 				} else {
 					save.data.items[`${key}_rank`]--;
+				}
+			}
+		} else if (event.shiftKey) {
+			if (key != 'eldstar' && key != 'mamar' && key != 'skolar' && key != 'muskular' && key != 'misstar' && key != 'klevar' && key != 'kalmar') {
+				if (save.data.merlow_items == undefined) {
+					save.data.merlow_items = {};
+				}
+
+				if (itemSubCategory === null) {
+					if (save.data.merlow_items[key] == undefined) {
+						save.data.merlow_items[key] = false;
+					}
+
+					if (save.data.merlow_items[key]) {
+						save.data.merlow_items[key] = false;
+					} else {
+						save.data.merlow_items[key] = true;
+					}
+				} else {
+					if (save.data.merlow_items[itemSubCategory] == undefined) {
+						save.data.merlow_items[itemSubCategory] = {};
+					}
+					if (save.data.merlow_items[itemSubCategory][key] == undefined) {
+						save.data.merlow_items[itemSubCategory][key] = false;
+					}
+
+					if (save.data.merlow_items[itemSubCategory][key]) {
+						save.data.merlow_items[itemSubCategory][key] = false;
+					} else {
+						save.data.merlow_items[itemSubCategory][key] = true;
+					}
 				}
 			}
 		} else {
@@ -1241,6 +1457,48 @@ const trackerRightClick = (event, key, configs, itemSubCategory = null) => {
 	}
 };
 
+const setStarDifficulty = (star, difficulty) => {
+	if (save.data.items[`${star}_difficulty`] == undefined) {
+		save.data.items[`${star}_difficulty`] = 0;
+	}
+
+	save.data.items[`${star}_difficulty`] = difficulty;
+
+	hideStarMenu();
+};
+
+const setStarDungeonShuffle = (star, dungeon) => {
+	if (save.data.items[`${star}_dungeon_shuffle`] == undefined) {
+		save.data.items[`${star}_dungeon_shuffle`] = 0;
+	}
+
+	save.data.items[`${star}_dungeon_shuffle`] = dungeon;
+
+	hideStarMenu();
+};
+
+const starImage = (i) => {
+	return {
+		1: 'eldstar',
+		2: 'mamar',
+		3: 'skolar',
+		4: 'muskular',
+		5: 'misstar',
+		6: 'klevar',
+		7: 'kalmar'
+	}[i];
+};
+
+const hideStarMenu = () => {
+	showStarMenu.eldstar = false;
+	showStarMenu.mamar = false;
+	showStarMenu.skolar = false;
+	showStarMenu.muskular = false;
+	showStarMenu.misstar = false;
+	showStarMenu.klevar = false;
+	showStarMenu.kalmar = false;
+};
+
 const resetSavePrompt = () => {
 	if (confirm('Are you sure you want to reset your save? This will reset only your tracker progression, not your configs.')) {
 		save.resetSave();
@@ -1269,4 +1527,16 @@ const resetLayoutPrompt = () => {
 layout.loadLayout();
 save.loadSave();
 save.initInvisibleItems();
+
+watch(
+	() => save.data.configs.logic.rip_cheato,
+	(value) => {
+		tracker.items.misc.rip_cheato.max = value;
+
+		tracker.items.misc.rip_cheato.enabled = tracker.items.misc.rip_cheato.max >= 1;
+	}
+);
+
+tracker.items.misc.rip_cheato.max = save.data.configs.logic.rip_cheato;
+tracker.items.misc.rip_cheato.enabled = tracker.items.misc.rip_cheato.max >= 1;
 </script>
