@@ -8499,7 +8499,18 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 3,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						// {
+						// 	name: 'Misstar',
+						// 	icon: 'stars/misstar',
+						// 	exists: () => {
+						// 		return true;
+						// 	},
+						// 	available: () => {
+						// 		return false;
+						// 	}
+						// }
+					]
 				}
 			}
 		},
@@ -8664,10 +8675,69 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 1,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						// {
+						// 	name: 'Klevar',
+						// 	icon: 'stars/klevar',
+						// 	exists: () => {
+						// 		return true;
+						// 	},
+						// 	available: () => {
+						// 		return false;
+						// 	}
+						// }
+					]
 				}
 			}
 		}
+		// shiver_region: {
+		// 	name: 'Shiver Region',
+		// 	maps: {
+		// 		shiver_city: {
+		// 			name: 'Shiver City',
+		// 			x: 1,
+		// 			y: 1,
+		// 			w: 1,
+		// 			h: 1,
+		// 			checks: [
+		// 				{
+		// 					name: 'asd',
+		// 					icon: null,
+		// 					exists: () => {
+		// 						return true;
+		// 					},
+		// 					available: () => {
+		// 						return false;
+		// 					}
+		// 				}
+		// 			]
+		// 		}
+		// 	}
+		// },
+		// crystal_palace: {
+		// 	name: 'Crystal Palace',
+		// 	maps: {
+		// 		shiver_city: {
+		// 			name: 'Shiver City',
+		// 			x: 1,
+		// 			y: 1,
+		// 			w: 1,
+		// 			h: 1,
+		// 			checks: [
+		// 				{
+		// 					name: 'asd',
+		// 					icon: null,
+		// 					exists: () => {
+		// 						return true;
+		// 					},
+		// 					available: () => {
+		// 						return false;
+		// 					}
+		// 				}
+		// 			]
+		// 		}
+		// 	}
+		// }
 	});
 
 	const getTotalCheckedChecksOnMap = (mapCategoryKey = null, mapKey = null) => {

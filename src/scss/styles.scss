@@ -9,8 +9,10 @@
 
 :root {
 	font-family: 'papermario';
+
 	-webkit-text-stroke: 1px black;
 	stroke: 1px black;
+
 	color: white;
 	font-size: 20px;
 
@@ -61,6 +63,14 @@ body {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+
+	a {
+		color: #7dd3fc;
+		text-decoration: none;
+
+		-webkit-text-stroke: 1px #0d9488;
+		stroke: 1px #0d9488;
+	}
 
 	// Toggle switches
 	input[type='checkbox'] {

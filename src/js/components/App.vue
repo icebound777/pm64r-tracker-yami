@@ -90,7 +90,7 @@
 							v-tooltip="{ content: 'How to use?', delay: { show: 0 } }"
 							@click="tutorialModalVisible = true">
 							<font-awesome-icon :icon="['far', 'circle-question']" />
-							<p class="ml-4">How to use</p>
+							<p class="hidden xl:block ml-4">How to use</p>
 						</button>
 					</div>
 				</div>
@@ -1235,6 +1235,12 @@
 		<!-- Tutorial Modal -->
 		<Modal :show="tutorialModalVisible" @onClose="tutorialModalVisible = false" :large="true">
 			<p class="text-2xl mb-3">How do I use this tracker?</p>
+			<p>
+				Remember that this is only a tracker for the Paper Mario 64 Randomizer. To download and play the randomizer, you can go to
+				<a class="no-underline" href="https://pm64randomizer.com/" target="_blank">their website</a>
+				.
+			</p>
+			<div class="bg-white h-[1px] my-4" />
 			<p class="text-lg">Default mode</p>
 			<p>Left click: Mark item as acquired / Add countable items</p>
 			<p>Right click: Mark item as not acquired / Remove countable items</p>
