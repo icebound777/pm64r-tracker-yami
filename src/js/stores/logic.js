@@ -36,7 +36,7 @@ export const useLogicStore = defineStore('logic', () => {
 			return save.data.items.boots >= 2;
 		},
 		panels: () => {
-			return save.data.items.boots >= 2;
+			return save.data.items.boots >= 2 || save.data.items.hammer >= 3;
 		},
 		trees: () => {
 			return save.data.items.hammer >= 1 || flags.partner('bombette');
@@ -180,6 +180,74 @@ export const useLogicStore = defineStore('logic', () => {
 				return save.data.items.parakarry_letters;
 			}
 		},
+		magical_seeds_count: () => {
+			let magical_seeds = 0;
+
+			if (save.data.items.pink_magical_seed) {
+				magical_seeds++;
+			}
+
+			if (save.data.items.purple_magical_seed) {
+				magical_seeds++;
+			}
+
+			if (save.data.items.green_magical_seed) {
+				magical_seeds++;
+			}
+
+			if (save.data.items.yellow_magical_seed) {
+				magical_seeds++;
+			}
+
+			return magical_seeds;
+		},
+
+		//Dungeons Requirements
+		dungeon_entrance_requirements: (dungeon) => {
+			let requirements = {
+				0: false,
+				1: flags.koopa_village() && save.data.items.kooper,
+				2: flags.dry_dry_desert() && save.data.items.pulse_stone,
+				3: flags.gusty_gulch() && flags.partner('parakarry'),
+				4: flags.dungeon_entrance_requirements_toybox(),
+				5: flags.lava_lava_island_jungle_behind_raven_statue() && save.data.items.boots >= 1,
+				6: flags.toad_town() && flags.magical_seeds_count() >= save.data.configs.randomizer.magical_seed_required,
+				7: flags.shiver_mountain_tunnel() && save.data.items.star_stone
+			};
+
+			if (save.data.configs.randomizer.shuffle_dungeon_entrances) {
+				let stars = {
+					1: 'eldstar',
+					2: 'mamar',
+					3: 'skolar',
+					4: 'muskular',
+					5: 'misstar',
+					6: 'klevar',
+					7: 'kalmar'
+				};
+
+				let found_dungeon = 0;
+
+				for (let i = 1; i <= 7; i++) {
+					if (save.data.items[`${stars[i]}_dungeon_shuffle`] == dungeon) {
+						found_dungeon = i;
+					}
+				}
+
+				console.log(dungeon, found_dungeon);
+
+				return requirements[found_dungeon];
+			} else {
+				return requirements[dungeon];
+			}
+		},
+		dungeon_entrance_requirements_toybox: () => {
+			if (save.data.configs.randomizer.toybox_open) {
+				return flags.jump_ledges();
+			} else {
+				return flags.toad_town() && flags.jump_ledges() && flags.partner('bow');
+			}
+		},
 
 		//Locations
 		goomba_village: () => {
@@ -209,8 +277,14 @@ export const useLogicStore = defineStore('logic', () => {
 					}
 					return false;
 
-				default:
+				case tracker.startingLocations.yoshi_village:
 					return true;
+
+				case tracker.startingLocations.toad_town:
+					return true;
+
+				default:
+					return false;
 			}
 		},
 		sewers: () => {
@@ -235,7 +309,7 @@ export const useLogicStore = defineStore('logic', () => {
 			return flags.toad_town() && (flags.trees() || (flags.sewers() && flags.stone_blocks()));
 		},
 		koopa_bros_fortress: () => {
-			return flags.koopa_village() && save.data.items.kooper;
+			return flags.dungeon_entrance_requirements(1);
 		},
 		mt_rugged: (requiresBoots = true) => {
 			switch (save.data.configs.randomizer.starting_location) {
@@ -276,15 +350,19 @@ export const useLogicStore = defineStore('logic', () => {
 			return false;
 		},
 		dry_dry_ruins: (requireBoots = true, jumpLedgesRequired = true) => {
-			if (requireBoots) {
-				return flags.dry_dry_desert() && save.data.items.boots >= 1 && save.data.items.pulse_stone;
-			} else {
-				if (jumpLedgesRequired) {
-					return flags.dry_dry_desert() && flags.jump_ledges() && save.data.items.pulse_stone;
+			if (flags.dungeon_entrance_requirements(2)) {
+				if (requireBoots) {
+					return save.data.items.boots >= 1;
 				} else {
-					return flags.dry_dry_desert() && save.data.items.pulse_stone;
+					if (jumpLedgesRequired) {
+						return flags.jump_ledges();
+					} else {
+						return true;
+					}
 				}
 			}
+
+			return false;
 		},
 		forever_forest: () => {
 			if (save.data.configs.randomizer.forever_forest_open) {
@@ -306,21 +384,17 @@ export const useLogicStore = defineStore('logic', () => {
 			return flags.boo_mansion() && save.data.items.boo_portrait;
 		},
 		tubba_blubba_castle: () => {
-			return flags.gusty_gulch() && flags.partner('parakarry');
+			return flags.dungeon_entrance_requirements(3);
 		},
 		toybox: (requireBoots = true) => {
-			if (save.data.configs.randomizer.toybox_open) {
-				return true;
-			}
-
-			if (requireBoots) {
-				if (save.data.items.boots < 1) {
-					return false;
+			if (flags.dungeon_entrance_requirements(4)) {
+				if (requireBoots) {
+					if (save.data.items.boots >= 1) {
+						return true;
+					}
+				} else {
+					return true;
 				}
-			}
-
-			if (flags.toad_town() && flags.jump_ledges() && flags.partner('bow')) {
-				return true;
 			}
 
 			return false;
@@ -345,12 +419,15 @@ export const useLogicStore = defineStore('logic', () => {
 			return flags.lava_lava_island() && flags.partner('sushie') && save.data.items.hammer >= 1 && save.data.items.jade_raven;
 		},
 		mt_lavalava: () => {
-			return flags.lava_lava_island_jungle_behind_raven_statue() && save.data.items.boots >= 1;
+			return flags.dungeon_entrance_requirements(5);
+		},
+		flower_fields: () => {
+			return flags.dungeon_entrance_requirements(6);
 		},
 		shiver_city: () => {
 			if (flags.toad_town()) {
 				if (
-					((flags.panels() && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette'))) &&
+					((save.data.items.boots >= 2 && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette'))) &&
 					((save.data.configs.randomizer.chapter_7_bridge_visible && flags.jump_ledges()) || flags.ultra_jump_blocks())
 				) {
 					return true;
@@ -358,6 +435,18 @@ export const useLogicStore = defineStore('logic', () => {
 			}
 
 			return false;
+		},
+		leave_shiver_city: () => {
+			return flags.shiver_city() && save.data.items.warehouse_key;
+		},
+		shiver_mountain: () => {
+			return flags.leave_shiver_city() && save.data.items.bucket && save.data.items.scarf && save.data.items.boots >= 2;
+		},
+		shiver_mountain_tunnel: () => {
+			flags.shiver_mountain() && save.data.items.kooper && save.data.items.hammer;
+		},
+		crystal_palace: () => {
+			return flags.dungeon_entrance_requirements(7);
 		}
 	});
 
@@ -1333,7 +1422,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toad_town() && flags.panels();
+								return flags.toad_town() && save.data.items.boots >= 2;
 							}
 						},
 						{
@@ -1981,7 +2070,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return (
 									flags.sewers() &&
 									flags.jump_coin_blocks() &&
-									(flags.panels() || ((save.data.items.odd_key || save.data.configs.randomizer.blue_house_open) && flags.partner('bombette') && flags.partner('sushie')))
+									(save.data.items.boots >= 2 || ((save.data.items.odd_key || save.data.configs.randomizer.blue_house_open) && flags.partner('bombette') && flags.partner('sushie')))
 								);
 							}
 						},
@@ -1995,7 +2084,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return (
 									flags.sewers() &&
 									flags.jump_coin_blocks() &&
-									(flags.panels() || ((save.data.items.odd_key || save.data.configs.randomizer.blue_house_open) && flags.partner('bombette') && flags.partner('sushie')))
+									(save.data.items.boots >= 2 || ((save.data.items.odd_key || save.data.configs.randomizer.blue_house_open) && flags.partner('bombette') && flags.partner('sushie')))
 								);
 							}
 						},
@@ -2009,7 +2098,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return (
 									flags.sewers() &&
 									flags.jump_coin_blocks() &&
-									(flags.panels() || ((save.data.items.odd_key || save.data.configs.randomizer.blue_house_open) && flags.partner('bombette') && flags.partner('sushie')))
+									(save.data.items.boots >= 2 || ((save.data.items.odd_key || save.data.configs.randomizer.blue_house_open) && flags.partner('bombette') && flags.partner('sushie')))
 								);
 							}
 						},
@@ -2023,7 +2112,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return (
 									flags.sewers() &&
 									flags.jump_coin_blocks() &&
-									(flags.panels() || ((save.data.items.odd_key || save.data.configs.randomizer.blue_house_open) && flags.partner('bombette') && flags.partner('sushie')))
+									(save.data.items.boots >= 2 || ((save.data.items.odd_key || save.data.configs.randomizer.blue_house_open) && flags.partner('bombette') && flags.partner('sushie')))
 								);
 							}
 						}
@@ -2043,7 +2132,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.sewers() && flags.ultra_jump_blocks() && ((flags.panels() && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette')));
+								return flags.sewers() && flags.ultra_jump_blocks() && ((save.data.items.boots >= 2 && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette')));
 							}
 						}
 					]
@@ -2065,7 +2154,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return (
 									flags.sewers() &&
 									save.data.items.boots >= 1 &&
-									((flags.panels() && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette'))) &&
+									((save.data.items.boots >= 2 && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette'))) &&
 									flags.partner('lakilester')
 								);
 							}
@@ -2080,7 +2169,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return (
 									flags.sewers() &&
 									save.data.items.boots >= 1 &&
-									((flags.panels() && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette'))) &&
+									((save.data.items.boots >= 2 && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette'))) &&
 									flags.partner('lakilester')
 								);
 							}
@@ -2095,7 +2184,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return (
 									flags.sewers() &&
 									save.data.items.boots >= 1 &&
-									((flags.panels() && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette'))) &&
+									((save.data.items.boots >= 2 && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette'))) &&
 									flags.partner('lakilester')
 								);
 							}
@@ -2110,7 +2199,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return (
 									flags.sewers() &&
 									save.data.items.boots >= 1 &&
-									((flags.panels() && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette'))) &&
+									((save.data.items.boots >= 2 && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette'))) &&
 									flags.partner('lakilester')
 								);
 							}
@@ -2135,7 +2224,7 @@ export const useLogicStore = defineStore('logic', () => {
 									flags.sewers() &&
 									flags.ultra_jump_blocks() &&
 									flags.stone_blocks() &&
-									((flags.panels() && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette')))
+									((save.data.items.boots >= 2 && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette')))
 								);
 							}
 						},
@@ -2150,7 +2239,7 @@ export const useLogicStore = defineStore('logic', () => {
 									flags.sewers() &&
 									flags.ultra_jump_blocks() &&
 									flags.stone_blocks() &&
-									((flags.panels() && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette')))
+									((save.data.items.boots >= 2 && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette')))
 								);
 							}
 						},
@@ -2165,7 +2254,7 @@ export const useLogicStore = defineStore('logic', () => {
 									flags.sewers() &&
 									flags.ultra_jump_blocks() &&
 									flags.stone_blocks() &&
-									((flags.panels() && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette')))
+									((save.data.items.boots >= 2 && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette')))
 								);
 							}
 						}
@@ -2189,7 +2278,7 @@ export const useLogicStore = defineStore('logic', () => {
 									flags.sewers() &&
 									save.data.items.boots >= 1 &&
 									flags.ultra_blocks() &&
-									((flags.panels() && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette')))
+									((save.data.items.boots >= 2 && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette')))
 								);
 							}
 						}
@@ -5916,7 +6005,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels();
+								return flags.boo_mansion() && save.data.items.boots >= 2;
 							}
 						},
 						{
@@ -5926,7 +6015,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels();
+								return flags.boo_mansion() && save.data.items.boots >= 2;
 							}
 						}
 					]
@@ -5945,7 +6034,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && flags.partner('parakarry');
+								return flags.boo_mansion() && save.data.items.boots >= 2 && flags.partner('parakarry');
 							}
 						},
 						{
@@ -5955,7 +6044,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels();
+								return flags.boo_mansion() && save.data.items.boots >= 2;
 							}
 						}
 					]
@@ -5974,7 +6063,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && (flags.partner('bombette') || save.data.items.weight);
+								return flags.boo_mansion() && save.data.items.boots >= 2 && (flags.partner('bombette') || save.data.items.weight);
 							}
 						}
 					]
@@ -5993,7 +6082,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.boo_mansion() && ((flags.panels() && flags.partner('bombette')) || save.data.items.weight);
+								return flags.boo_mansion() && ((save.data.items.boots >= 2 && flags.partner('bombette')) || save.data.items.weight);
 							}
 						},
 						{
@@ -6003,7 +6092,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && (flags.partner('bombette') || save.data.items.weight);
+								return flags.boo_mansion() && save.data.items.boots >= 2 && (flags.partner('bombette') || save.data.items.weight);
 							}
 						},
 						{
@@ -6013,7 +6102,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.panels;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && (flags.partner('bombette') || save.data.items.weight);
+								return flags.boo_mansion() && save.data.items.boots >= 2 && (flags.partner('bombette') || save.data.items.weight);
 							}
 						}
 					]
@@ -6032,7 +6121,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.shopsanity;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && (flags.partner('bombette') || save.data.items.weight);
+								return flags.boo_mansion() && save.data.items.boots >= 2 && (flags.partner('bombette') || save.data.items.weight);
 							}
 						},
 						{
@@ -6042,7 +6131,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.shopsanity;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && (flags.partner('bombette') || save.data.items.weight);
+								return flags.boo_mansion() && save.data.items.boots >= 2 && (flags.partner('bombette') || save.data.items.weight);
 							}
 						},
 						{
@@ -6052,7 +6141,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.shopsanity;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && (flags.partner('bombette') || save.data.items.weight);
+								return flags.boo_mansion() && save.data.items.boots >= 2 && (flags.partner('bombette') || save.data.items.weight);
 							}
 						},
 						{
@@ -6062,7 +6151,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.shopsanity;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && (flags.partner('bombette') || save.data.items.weight);
+								return flags.boo_mansion() && save.data.items.boots >= 2 && (flags.partner('bombette') || save.data.items.weight);
 							}
 						},
 						{
@@ -6072,7 +6161,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.shopsanity;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && (flags.partner('bombette') || save.data.items.weight);
+								return flags.boo_mansion() && save.data.items.boots >= 2 && (flags.partner('bombette') || save.data.items.weight);
 							}
 						},
 						{
@@ -6082,7 +6171,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.shopsanity;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && (flags.partner('bombette') || save.data.items.weight);
+								return flags.boo_mansion() && save.data.items.boots >= 2 && (flags.partner('bombette') || save.data.items.weight);
 							}
 						},
 						{
@@ -6092,7 +6181,13 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.letters_randomized;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.panels() && (flags.partner('bombette') || save.data.items.weight) && flags.deliver_letters() && save.data.items.letters.igor;
+								return (
+									flags.boo_mansion() &&
+									save.data.items.boots >= 2 &&
+									(flags.partner('bombette') || save.data.items.weight) &&
+									flags.deliver_letters() &&
+									save.data.items.letters.igor
+								);
 							}
 						}
 					]
@@ -6433,7 +6528,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.tubba_blubba_castle() && flags.panels();
+								return flags.tubba_blubba_castle() && save.data.items.boots >= 2;
 							}
 						}
 					]
@@ -8403,7 +8498,68 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 1,
 					w: 1,
 					h: 3,
-					checks: []
+					checks: [
+						{
+							name: 'Item on top of the brick block',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.mt_lavalava() && save.data.items.boots >= 1 && (flags.partner('kooper') || flags.ultra_jump_blocks());
+							}
+						},
+						{
+							name: '? block 1',
+							icon: 'coin_block',
+							exists: () => {
+								return save.data.configs.logic.coin_blocks;
+							},
+							available: () => {
+								return flags.mt_lavalava() && flags.jump_coin_blocks();
+							}
+						},
+						{
+							name: '? block 2',
+							icon: 'coin_block',
+							exists: () => {
+								return save.data.configs.logic.coin_blocks;
+							},
+							available: () => {
+								return flags.mt_lavalava() && flags.jump_coin_blocks();
+							}
+						},
+						{
+							name: '? block 3',
+							icon: 'coin_block',
+							exists: () => {
+								return save.data.configs.logic.coin_blocks;
+							},
+							available: () => {
+								return flags.mt_lavalava() && flags.jump_coin_blocks();
+							}
+						},
+						{
+							name: '? block 4',
+							icon: 'coin_block',
+							exists: () => {
+								return save.data.configs.logic.coin_blocks;
+							},
+							available: () => {
+								return flags.mt_lavalava() && flags.jump_coin_blocks();
+							}
+						},
+						{
+							name: 'Item on platform halfway down then second zipline',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.mt_lavalava() && save.data.items.boots >= 1;
+							}
+						}
+					]
 				},
 				firebars: {
 					name: 'Firebars',
@@ -8411,7 +8567,18 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 1,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Super Block',
+							icon: 'super_blocks',
+							exists: () => {
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
+							},
+							available: () => {
+								return flags.mt_lavalava() && save.data.items.boots >= 1;
+							}
+						}
+					]
 				},
 				slope_hallway: {
 					name: 'Slope Hallway',
@@ -8427,7 +8594,18 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 3,
 					w: 1,
 					h: 2,
-					checks: []
+					checks: [
+						{
+							name: 'Invisible block near the east exit',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.mt_lavalava() && flags.jump_coin_blocks() && flags.jump_ledges();
+							}
+						}
+					]
 				},
 				ultra_hammer: {
 					name: 'Ultra Hammer',
@@ -8435,7 +8613,18 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 3,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Chest',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.mt_lavalava() && (flags.partner('parakarry') || flags.partner('lakilester'));
+							}
+						}
+					]
 				},
 				dizzy_stomp: {
 					name: 'Dizzy Stomp',
@@ -8443,7 +8632,18 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 4,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Chest',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.mt_lavalava() && flags.ultra_blocks() && (flags.partner('parakarry') || flags.partner('lakilester'));
+							}
+						}
+					]
 				},
 				zipline: {
 					name: 'Zipline',
@@ -8451,7 +8651,28 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 2,
 					w: 1,
 					h: 2,
-					checks: []
+					checks: [
+						{
+							name: 'Super Block',
+							icon: 'super_blocks',
+							exists: () => {
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
+							},
+							available: () => {
+								return flags.mt_lavalava() && save.data.items.boots >= 1 && flags.ultra_blocks();
+							}
+						},
+						{
+							name: 'East side of the lower level',
+							icon: 'panels_randomized',
+							exists: () => {
+								return save.data.configs.logic.panels;
+							},
+							available: () => {
+								return flags.mt_lavalava() && flags.panels();
+							}
+						}
+					]
 				},
 				spike_ball_chase: {
 					name: 'Spike Ball Chase',
@@ -8483,7 +8704,18 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 2,
 					w: 1,
 					h: 2,
-					checks: []
+					checks: [
+						{
+							name: 'West of the Heart Block',
+							icon: 'panels_randomized',
+							exists: () => {
+								return save.data.configs.logic.panels;
+							},
+							available: () => {
+								return flags.mt_lavalava() && flags.panels() && flags.ultra_blocks();
+							}
+						}
+					]
 				},
 				deadend: {
 					name: 'Deadend',
@@ -8491,7 +8723,28 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 2,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'West ? block',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.mt_lavalava() && save.data.items.boots >= 1 && flags.ultra_blocks();
+							}
+						},
+						{
+							name: 'East ? block',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.mt_lavalava() && save.data.items.boots >= 1 && flags.ultra_blocks();
+							}
+						}
+					]
 				},
 				lava_piranha: {
 					name: 'Lava Piranha',
@@ -8500,16 +8753,16 @@ export const useLogicStore = defineStore('logic', () => {
 					w: 1,
 					h: 1,
 					checks: [
-						// {
-						// 	name: 'Misstar',
-						// 	icon: 'stars/misstar',
-						// 	exists: () => {
-						// 		return true;
-						// 	},
-						// 	available: () => {
-						// 		return false;
-						// 	}
-						// }
+						{
+							name: 'Misstar',
+							icon: 'stars/misstar',
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.mt_lavalava() && save.data.items.boots >= 1 && flags.ultra_blocks();
+							}
+						}
 					]
 				}
 			}
@@ -8531,7 +8784,28 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 2,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Item on the ledge',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields() && flags.jump_ledges() && (save.data.items.bubble_berry || flags.partner('lakilester'));
+							}
+						},
+						{
+							name: 'Item in the vines near the east exit',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields();
+							}
+						}
+					]
 				},
 				lakilester: {
 					name: 'Lakilester',
@@ -8539,7 +8813,38 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 2,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Lakilester',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields() && flags.jump_ledges() && flags.partner('bombette') && (save.data.items.bubble_berry || flags.partner('lakilester')); // Bombette??
+							}
+						},
+						{
+							name: 'Item in the grass',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields() && (save.data.items.bubble_berry || flags.partner('lakilester'));
+							}
+						},
+						{
+							name: 'Item on the ledge',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields() && flags.jump_ledges() && (save.data.items.bubble_berry || flags.partner('lakilester'));
+							}
+						}
+					]
 				},
 				sun_tower: {
 					name: 'Sun Tower',
@@ -8555,7 +8860,28 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 3,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Hidden block between the brick block and the spring',
+							icon: 'coin_blocks',
+							exists: () => {
+								return save.data.configs.logic.coin_blocks;
+							},
+							available: () => {
+								return flags.flower_fields() && flags.jump_coin_blocks() && save.data.items.blue_berry;
+							}
+						},
+						{
+							name: 'Hidden block over the brick block',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields() && flags.jump_ledges() && flags.jump_coin_blocks() && save.data.items.blue_berry;
+							}
+						}
+					]
 				},
 				maze: {
 					name: 'Maze',
@@ -8563,7 +8889,18 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 3,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'East of the exit pipe',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.flower_fields() && save.data.items.blue_berry && save.data.items.boots >= 1;
+							}
+						}
+					]
 				},
 				rosie: {
 					name: 'Rosie',
@@ -8571,7 +8908,18 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 3,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Give rosie the Crystal Berry',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields() && save.data.items.blue_berry && save.data.items.boots >= 1 && save.data.items.crystal_berry;
+							}
+						}
+					]
 				},
 				red_flower: {
 					name: 'Red Flower',
@@ -8579,7 +8927,38 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 4,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'In front of the tree',
+							icon: 'panels_randomized',
+							exists: () => {
+								return save.data.configs.logic.panels;
+							},
+							available: () => {
+								return flags.flower_fields() && flags.panels() && save.data.items.red_berry;
+							}
+						},
+						{
+							name: '2 items in the tree',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields() && save.data.items.red_berry && flags.trees();
+							}
+						},
+						{
+							name: 'Item in the middle vine',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields() && save.data.items.red_berry;
+							}
+						}
+					]
 				},
 				posie: {
 					name: 'Posie',
@@ -8587,7 +8966,18 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 4,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: '2 items from Posie',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields() && save.data.items.red_berry;
+							}
+						}
+					]
 				},
 				elevators: {
 					name: 'Elevators',
@@ -8595,7 +8985,38 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 2,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Item in the second vine',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields() && flags.jump_ledges();
+							}
+						},
+						{
+							name: 'Ground pound the top of the ledge near the east exit',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields() && save.data.items.boots >= 2 && flags.partner('Lakilester');
+							}
+						},
+						{
+							name: 'Super block',
+							icon: 'super_blocks',
+							exists: () => {
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
+							},
+							available: () => {
+								return flags.flower_fields() && save.data.items.boots >= 2 && flags.partner('Lakilester');
+							}
+						}
+					]
 				},
 				fallen_logs: {
 					name: 'Fallen Logs',
@@ -8603,7 +9024,28 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 2,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Item in grass at bottom of screen',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields() && save.data.items.boots >= 2 && flags.partner('Lakilester');
+							}
+						},
+						{
+							name: 'Invisible block near the east exit',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields() && save.data.items.boots >= 2 && flags.partner('Lakilester');
+							}
+						}
+					]
 				},
 				cloud_machine: {
 					name: 'Cloud Machine',
@@ -8619,7 +9061,29 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 3,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Second set of vines',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields();
+							}
+						},
+						{
+							name: 'Hit the trees in the right order',
+							tooltip: 'Middle, right, left',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields() && flags.trees();
+							}
+						}
+					]
 				},
 				petunia: {
 					name: 'Petunia',
@@ -8627,7 +9091,38 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 3,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: '2 items in the tree',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields() && flags.trees();
+							}
+						},
+						{
+							name: 'South-west of the room',
+							icon: 'panels_randomized',
+							exists: () => {
+								return save.data.configs.logic.panels;
+							},
+							available: () => {
+								return flags.flower_fields() && flags.panels();
+							}
+						},
+						{
+							name: 'Talk to Petunia and defeat all the moles',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields();
+							}
+						}
+					]
 				},
 				well: {
 					name: 'Well',
@@ -8635,7 +9130,18 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 3,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Give a Blue berry to the well',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields() && save.data.items.blue_berry;
+							}
+						}
+					]
 				},
 				yellow_flower: {
 					name: 'Yellow Flower',
@@ -8643,7 +9149,48 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 4,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Vines next the yellow flower',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields();
+							}
+						},
+						{
+							name: '2 items in the tree',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields() && save.data.items.yellow_berry && flags.trees();
+							}
+						},
+						{
+							name: 'Item in the grass next of the tree',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields() && save.data.items.yellow_berry && (flags.partner('lakilester') || flags.partner('parakarry'));
+							}
+						},
+						{
+							name: 'Super block',
+							icon: 'super_blocks',
+							exists: () => {
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
+							},
+							available: () => {
+								return flags.flower_fields() && save.data.items.yellow_berry && (flags.partner('lakilester') || flags.partner('parakarry')) && flags.jump_ledges();
+							}
+						}
+					]
 				},
 				bubble_berry_tree: {
 					name: 'Bubble Berry Tree',
@@ -8651,7 +9198,61 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 4,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: '? block near the west exit',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields() && save.data.items.yellow_berry && (flags.partner('lakilester') || flags.partner('parakarry')) && flags.jump_coin_blocks();
+							}
+						},
+						{
+							name: '2 items in the tree',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return (
+									flags.flower_fields() &&
+									save.data.items.yellow_berry &&
+									(flags.partner('lakilester') || flags.partner('parakarry')) &&
+									flags.trees() &&
+									save.data.items.water_stone &&
+									flags.partner('sushie')
+								);
+							}
+						},
+						{
+							name: 'Invisible block near the east exit',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return (
+									flags.flower_fields() &&
+									save.data.items.yellow_berry &&
+									(flags.partner('lakilester') || flags.partner('parakarry')) &&
+									flags.jump_coin_blocks() &&
+									flags.jump_ledges()
+								);
+							}
+						},
+						{
+							name: 'Near the east exit',
+							icon: 'panels_randomized',
+							exists: () => {
+								return save.data.configs.logic.panels;
+							},
+							available: () => {
+								return flags.flower_fields() && save.data.items.yellow_berry && (flags.partner('lakilester') || flags.partner('parakarry')) && flags.panels() && flags.jump_ledges();
+							}
+						}
+					]
 				},
 				lily: {
 					name: 'Lily',
@@ -8659,7 +9260,28 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 4,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Give the Water Stone to Lily',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields() && save.data.items.yellow_berry && (flags.partner('lakilester') || flags.partner('parakarry')) && flags.jump_ledges();
+							}
+						},
+						{
+							name: 'Item in the tree',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.flower_fields() && save.data.items.yellow_berry && (flags.partner('lakilester') || flags.partner('parakarry')) && flags.jump_ledges() && flags.trees();
+							}
+						}
+					]
 				},
 				in_the_clouds: {
 					name: 'In the Clouds',
@@ -8667,7 +9289,26 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 1,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: 'Ride the cloud elevator',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return (
+									flags.flower_fields() &&
+									save.data.items.magical_bean &&
+									save.data.items.fertile_soil &&
+									save.data.items.miracle_water &&
+									save.data.items.lakilester && // ??
+									save.data.items.boots >= 2 && // ??
+									save.data.items.hammer >= 1 // ??
+								);
+							}
+						}
+					]
 				},
 				huff_n_puff: {
 					name: "Huff N' Puff",
@@ -8676,68 +9317,807 @@ export const useLogicStore = defineStore('logic', () => {
 					w: 1,
 					h: 1,
 					checks: [
-						// {
-						// 	name: 'Klevar',
-						// 	icon: 'stars/klevar',
-						// 	exists: () => {
-						// 		return true;
-						// 	},
-						// 	available: () => {
-						// 		return false;
-						// 	}
-						// }
+						{
+							name: 'Klevar',
+							icon: 'stars/klevar',
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return (
+									flags.flower_fields() &&
+									save.data.items.magical_bean &&
+									save.data.items.fertile_soil &&
+									save.data.items.miracle_water &&
+									save.data.items.lakilester && // ??
+									save.data.items.boots >= 2 && // ??
+									save.data.items.hammer >= 1 // ??
+								);
+							}
+						}
+					]
+				}
+			}
+		},
+		shiver_region: {
+			name: 'Shiver Region',
+			maps: {
+				west_shiver_city: {
+					name: 'West Shiver City',
+					x: 1,
+					y: 5,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: "Next the mayor's house",
+							icon: 'panels_randomized',
+							exists: () => {
+								return save.data.configs.logic.panels;
+							},
+							available: () => {
+								return flags.shiver_city() && flags.panels();
+							}
+						},
+						{
+							name: 'Mayor penguin',
+							icon: 'letters_randomized',
+							exists: () => {
+								return save.data.configs.logic.letters_randomized;
+							},
+							available: () => {
+								return flags.shiver_city() && flags.deliver_letters() && save.data.items.letters.mayor_penguin;
+							}
+						},
+						{
+							name: 'Talk to the mayor after having met Merle',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.leave_shiver_city();
+							}
+						},
+						{
+							name: 'Chest in the middle house',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.shiver_city() && save.data.items.boots >= 1;
+							}
+						}
+					]
+				},
+				center_shiver_city: {
+					name: 'Center Shiver City',
+					x: 2,
+					y: 5,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Shop item 1',
+							icon: 'shopsanity',
+							exists: () => {
+								return save.data.configs.logic.shopsanity;
+							},
+							available: () => {
+								return flags.shiver_city();
+							}
+						},
+						{
+							name: 'Shop item 2',
+							icon: 'shopsanity',
+							exists: () => {
+								return save.data.configs.logic.shopsanity;
+							},
+							available: () => {
+								return flags.shiver_city();
+							}
+						},
+						{
+							name: 'Shop item 3',
+							icon: 'shopsanity',
+							exists: () => {
+								return save.data.configs.logic.shopsanity;
+							},
+							available: () => {
+								return flags.shiver_city();
+							}
+						},
+						{
+							name: 'Shop item 4',
+							icon: 'shopsanity',
+							exists: () => {
+								return save.data.configs.logic.shopsanity;
+							},
+							available: () => {
+								return flags.shiver_city();
+							}
+						},
+						{
+							name: 'Shop item 5',
+							icon: 'shopsanity',
+							exists: () => {
+								return save.data.configs.logic.shopsanity;
+							},
+							available: () => {
+								return flags.shiver_city();
+							}
+						},
+						{
+							name: 'Shop item 6',
+							icon: 'shopsanity',
+							exists: () => {
+								return save.data.configs.logic.shopsanity;
+							},
+							available: () => {
+								return flags.shiver_city();
+							}
+						},
+						{
+							name: 'Item in the inn',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.shiver_city();
+							}
+						},
+						{
+							name: '5 items in the inn after giving the Scarf and Bucket to the snowman',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.leave_shiver_city() && save.data.items.scarf && save.data.items.bucket;
+							}
+						}
+					]
+				},
+				east_shiver_city: {
+					name: 'East Shiver City',
+					x: 3,
+					y: 5,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Item in the lake',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.shiver_city() && save.data.items.boots >= 2 && save.partner('sushie');
+							}
+						}
+					]
+				},
+				outside_shiver_city: {
+					name: 'Outside Shiver City',
+					x: 4,
+					y: 5,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				shiver_snowfield: {
+					name: 'Shiver Snowfield',
+					x: 5,
+					y: 5,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'South of the room',
+							icon: 'panels_randomized',
+							exists: () => {
+								return save.data.configs.logic.panels;
+							},
+							available: () => {
+								return flags.leave_shiver_city() && flags.panels();
+							}
+						},
+						{
+							name: 'Hit the left pine tree 4 times',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.leave_shiver_city() && flags.trees();
+							}
+						},
+						{
+							name: 'Item behind the pine tree near the east exit',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.leave_shiver_city();
+							}
+						}
+					]
+				},
+				outside_starborn_valley: {
+					name: 'Outside Starborn Valley',
+					x: 6,
+					y: 5,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Item behind the ice',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.leave_shiver_city();
+							}
+						},
+						{
+							name: 'Invisible block near Monstar fight',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.leave_shiver_city() && flags.jump_coin_blocks();
+							}
+						}
+					]
+				},
+				starborn_valley: {
+					name: 'Starborn Valley',
+					x: 7,
+					y: 5,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Frost T.',
+							icon: 'letters_randomized',
+							exists: () => {
+								return save.data.configs.logic.letters_randomized;
+							},
+							available: () => {
+								return flags.leave_shiver_city() && flags.jump_ledges() && flags.deliver_letters() && save.data.items.letters.frost_t;
+							}
+						},
+						{
+							name: 'Talk to Merle',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.leave_shiver_city() && flags.jump_ledges();
+							}
+						}
+					]
+				},
+				shiver_mountain_passage: {
+					name: 'Shiver Mountain Passage',
+					x: 5,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Ultra boots block',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.shiver_mountain() && flags.ultra_jump_blocks();
+							}
+						}
+					]
+				},
+				shiver_mountain_hills: {
+					name: 'Shiver Mountain Hills',
+					x: 5,
+					y: 3,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Item below the gap',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.shiver_mountain();
+							}
+						},
+						{
+							name: 'Super block',
+							icon: 'super_blocks',
+							exists: () => {
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
+							},
+							available: () => {
+								return flags.shiver_mountain_tunnel();
+							}
+						}
+					]
+				},
+				shiver_mountain_tunnel: {
+					name: 'Shiver Mountain Tunnel',
+					x: 5,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'East pillar',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.shiver_mountain_tunnel();
+							}
+						},
+						{
+							name: 'Center pillar',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.shiver_mountain_tunnel();
+							}
+						},
+						{
+							name: 'West pillar',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.shiver_mountain_tunnel();
+							}
+						}
+					]
+				},
+				ice_staircase: {
+					name: 'Ice Staircase',
+					x: 5,
+					y: 1,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: '? block up the first set for stairs',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.shiver_mountain_tunnel() && save.data.items.star_stone;
+							}
+						},
+						{
+							name: 'Item on the ledge when falling down after the second sets of stairs',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.shiver_mountain_tunnel() && save.data.items.star_stone;
+							}
+						}
+					]
+				},
+				merlar_sanctuary: {
+					name: 'Merlar Sanctuary',
+					x: 6,
+					y: 1,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Sacred item sealed away for centuries',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.shiver_mountain_tunnel() && save.data.items.bombette;
+							}
+						}
+					]
+				}
+			}
+		},
+		crystal_palace: {
+			name: 'Crystal Palace',
+			maps: {
+				cave: {
+					name: 'Cave',
+					x: 1,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Item in the cave',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.crystal_palace() && (save.data.items.red_key || save.data.items.blue_key);
+							}
+						}
+					]
+				},
+				entrance: {
+					name: 'Entrance',
+					x: 2,
+					y: 4,
+					w: 1,
+					h: 2,
+					checks: []
+				},
+				mirror: {
+					name: 'Mirror',
+					x: 3,
+					y: 4,
+					w: 1,
+					h: 2,
+					checks: [
+						{
+							name: '2 blocks past the blue door',
+							icon: 'multicoin_blocks_randomized',
+							exists: () => {
+								return save.data.configs.logic.multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.crystal_palace() && save.data.items.blue_key;
+							}
+						}
+					]
+				},
+				x_mark: {
+					name: 'X Mark',
+					x: 3,
+					y: 6,
+					w: 1,
+					h: 3,
+					checks: []
+				},
+				lower_swoopers: {
+					name: 'Lower Swoopers',
+					x: 4,
+					y: 7,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				blue_key: {
+					name: 'Blue Key',
+					x: 5,
+					y: 7,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Chest',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.crystal_palace();
+							}
+						}
+					]
+				},
+				bombette_puzzle: {
+					name: 'Bombette Puzzle',
+					x: 4,
+					y: 8,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				red_key: {
+					name: 'Red Key',
+					x: 5,
+					y: 8,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Chest',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.crystal_palace() && (save.data.items.red_key || save.data.items.blue_key) && flags.partner('bombette');
+							}
+						}
+					]
+				},
+				ground_panel: {
+					name: 'Ground Panel',
+					x: 3,
+					y: 1,
+					w: 1,
+					h: 3,
+					checks: [
+						{
+							name: '? block',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.crystal_palace() && (save.data.items.red_key || save.data.items.blue_key);
+							}
+						}
+					]
+				},
+				first_duplighost: {
+					name: 'First Duplighost',
+					x: 4,
+					y: 1,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				shooting_star: {
+					name: 'Shooting Star',
+					x: 5,
+					y: 1,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Item on the ledge',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.crystal_palace() && (save.data.items.red_key || save.data.items.blue_key);
+							}
+						}
+					]
+				},
+				upper_swoopers: {
+					name: 'Upper Swoopers',
+					x: 4,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				p_down_d_up: {
+					name: 'P-Down / D-Up',
+					x: 5,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Item on the ledge',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette');
+							}
+						}
+					]
+				},
+				elevator_and_clubba: {
+					name: 'Elevator and Clubba',
+					x: 4,
+					y: 4,
+					w: 1,
+					h: 2,
+					checks: []
+				},
+				bomb_switch: {
+					name: 'Bomb Switch',
+					x: 5,
+					y: 4,
+					w: 1,
+					h: 2,
+					checks: []
+				},
+				triple_dip: {
+					name: 'Triple Dip',
+					x: 6,
+					y: 4,
+					w: 1,
+					h: 2,
+					checks: [
+						{
+							name: 'Chest',
+							tooltip: 'Blow up the right wall in the switch room',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette');
+							}
+						}
+					]
+				},
+				kooper_puzzle: {
+					name: 'Kooper Puzzle',
+					x: 7,
+					y: 4,
+					w: 1,
+					h: 2,
+					checks: []
+				},
+				hub: {
+					name: 'Hub',
+					x: 8,
+					y: 4,
+					w: 1,
+					h: 2,
+					checks: []
+				},
+				large_statues: {
+					name: 'Large Statues',
+					x: 8,
+					y: 6,
+					w: 1,
+					h: 2,
+					checks: [
+						{
+							name: 'Under the ? block',
+							icon: 'panels_randomized',
+							exists: () => {
+								return save.data.configs.logic.panels;
+							},
+							available: () => {
+								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette') && flags.panels();
+							}
+						},
+						{
+							name: '? block',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette');
+							}
+						}
+					]
+				},
+				second_duplighost: {
+					name: 'Second Duplighost',
+					x: 9,
+					y: 7,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				palace_key: {
+					name: 'Palace Key',
+					x: 10,
+					y: 7,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Chest',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette');
+							}
+						}
+					]
+				},
+				small_statues: {
+					name: 'Small Statues',
+					x: 8,
+					y: 2,
+					w: 1,
+					h: 2,
+					checks: [
+						{
+							name: 'Under the ? block',
+							icon: 'panels_randomized',
+							exists: () => {
+								return save.data.configs.logic.panels;
+							},
+							available: () => {
+								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette') && flags.panels();
+							}
+						},
+						{
+							name: '? block',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette');
+							}
+						}
+					]
+				},
+				clubba: {
+					name: 'Clubba',
+					x: 9,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				p_up_d_down: {
+					name: 'P-Up / D-Down',
+					x: 10,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Chest',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette');
+							}
+						}
+					]
+				},
+				kooper_switch_and_palace_key_locks: {
+					name: 'Kooper Switch and Palace Key Locks',
+					x: 9,
+					y: 4,
+					w: 1,
+					h: 2,
+					checks: []
+				},
+				albino_dinos_and_crystal_king: {
+					name: 'Albino Dinos and Crystal King',
+					x: 10,
+					y: 4,
+					w: 1,
+					h: 2,
+					checks: [
+						{
+							name: 'Kalmar',
+							icon: 'stars/kalmar',
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette') && save.data.items.palace_key;
+							}
+						}
 					]
 				}
 			}
 		}
-		// shiver_region: {
-		// 	name: 'Shiver Region',
-		// 	maps: {
-		// 		shiver_city: {
-		// 			name: 'Shiver City',
-		// 			x: 1,
-		// 			y: 1,
-		// 			w: 1,
-		// 			h: 1,
-		// 			checks: [
-		// 				{
-		// 					name: 'asd',
-		// 					icon: null,
-		// 					exists: () => {
-		// 						return true;
-		// 					},
-		// 					available: () => {
-		// 						return false;
-		// 					}
-		// 				}
-		// 			]
-		// 		}
-		// 	}
-		// },
-		// crystal_palace: {
-		// 	name: 'Crystal Palace',
-		// 	maps: {
-		// 		shiver_city: {
-		// 			name: 'Shiver City',
-		// 			x: 1,
-		// 			y: 1,
-		// 			w: 1,
-		// 			h: 1,
-		// 			checks: [
-		// 				{
-		// 					name: 'asd',
-		// 					icon: null,
-		// 					exists: () => {
-		// 						return true;
-		// 					},
-		// 					available: () => {
-		// 						return false;
-		// 					}
-		// 				}
-		// 			]
-		// 		}
-		// 	}
-		// }
 	});
 
 	const getTotalCheckedChecksOnMap = (mapCategoryKey = null, mapKey = null) => {
@@ -8805,9 +10185,45 @@ export const useLogicStore = defineStore('logic', () => {
 		return totalChecks;
 	};
 
+	const getTotalAvailableChecksOnMap = (mapCategoryKey = null, mapKey = null) => {
+		let totalChecks = 0;
+
+		if (mapCategoryKey === null) {
+			for (const [mapCategoryToCheckKey, mapCategory] of Object.entries(checks)) {
+				for (const [mapToCheckKey, mapToCheck] of Object.entries(mapCategory.maps)) {
+					// console.log(mapCategoryToCheckKey, mapToCheckKey, mapToCheck.checks);
+					for (const [checkKey, check] of Object.entries(mapToCheck.checks)) {
+						if (check.exists() && check.available()) {
+							totalChecks++;
+						}
+					}
+				}
+			}
+		} else {
+			if (mapKey === null) {
+				for (const [mapToCheckKey, mapToCheck] of Object.entries(checks[mapCategoryKey].maps)) {
+					for (const [checkKey, check] of Object.entries(mapToCheck.checks)) {
+						if (check.exists() && check.available()) {
+							totalChecks++;
+						}
+					}
+				}
+			} else {
+				for (const [checkKey, check] of Object.entries(checks[mapCategoryKey].maps[mapKey].checks)) {
+					if (check.exists() && check.available()) {
+						totalChecks++;
+					}
+				}
+			}
+		}
+
+		return totalChecks;
+	};
+
 	return {
 		checks: checks,
 		getTotalCheckedChecksOnMap: computed(() => getTotalCheckedChecksOnMap),
-		getTotalChecksOnMap: computed(() => getTotalChecksOnMap)
+		getTotalChecksOnMap: computed(() => getTotalChecksOnMap),
+		getTotalAvailableChecksOnMap: computed(() => getTotalAvailableChecksOnMap)
 	};
 });

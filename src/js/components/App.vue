@@ -2,6 +2,9 @@
 	<div @contextmenu="$event.preventDefault()">
 		<!-- <div> -->
 		<header>
+			<div class="flex justify-items-center items-center ml-4 mt-2">
+				<p v-if="save.data.randomizer_seed_hash_items">Hash items: {{ save.data.randomizer_seed_hash_items }}</p>
+			</div>
 			<div class="flex justify-between">
 				<div class="flex flex-wrap gap-2 p-3">
 					<button
@@ -50,11 +53,8 @@
 						@click="resetConfigsPrompt">
 						<font-awesome-icon :icon="['fas', 'trash']" />
 					</button>
-
-					<div class="flex justify-items-center items-center ml-4">
-						<p v-if="save.data.randomizer_seed_hash_items">Hash items: {{ save.data.randomizer_seed_hash_items }}</p>
-					</div>
 				</div>
+
 				<div class="flex justify-end">
 					<div class="flex flex-wrap gap-2 p-3">
 						<button
@@ -955,7 +955,10 @@
 							<template v-if="grid_item.i == 'map'">
 								<div class="flex justify-between mb-3">
 									<h2>Map</h2>
-									<p>Total checks: {{ logic.getTotalCheckedChecksOnMap() }} / {{ logic.getTotalChecksOnMap() }}</p>
+									<p>
+										Done: {{ logic.getTotalCheckedChecksOnMap() }} | Available: {{ logic.getTotalAvailableChecksOnMap() }} | Missing:
+										{{ logic.getTotalChecksOnMap() - logic.getTotalCheckedChecksOnMap() }}
+									</p>
 								</div>
 
 								<!-- Map colors: Nothing: bg-slate-600 hover:bg-slate-500 | Available: bg-green-800 hover:bg-green-700 | Unavailable: bg-red-900 hover:bg-red-800 | Selected: bg-sky-600 -->
@@ -974,7 +977,11 @@
 								<div class="bg-white h-[1px] my-4" />
 								<div class="flex justify-between mb-3">
 									<h3>{{ logic.checks[map.currentMapCategory].name }}</h3>
-									<p>Checks: {{ logic.getTotalCheckedChecksOnMap(map.currentMapCategory) }} / {{ logic.getTotalChecksOnMap(map.currentMapCategory) }}</p>
+
+									<p>
+										Done: {{ logic.getTotalCheckedChecksOnMap(map.currentMapCategory) }} | Available: {{ logic.getTotalAvailableChecksOnMap(map.currentMapCategory) }} | Missing:
+										{{ logic.getTotalChecksOnMap(map.currentMapCategory) - logic.getTotalCheckedChecksOnMap(map.currentMapCategory) }}
+									</p>
 								</div>
 
 								<div
@@ -1041,7 +1048,8 @@
 				<p class="capitalize">Randomizer seed</p>
 				<input class="rounded-md" type="number" v-model="save.data.randomizer_seed" />
 			</div>
-			<button class="border-2 border-sky-800 bg-sky-900 rounded-md p-1 w-full mt-8" @click="save.loadSeed">
+			<p class="mt-3 text-sm">If you have randomized your starting location, you need to set it manually after you booted your ROM and knows where you spawned.</p>
+			<button class="border-2 border-sky-800 bg-sky-900 rounded-md p-1 w-full mt-5" @click="save.loadSeed">
 				<font-awesome-icon :icon="['fas', 'trash']" />
 				Load seed
 			</button>

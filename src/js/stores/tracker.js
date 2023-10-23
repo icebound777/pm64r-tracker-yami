@@ -798,6 +798,10 @@ export const useTrackerStore = defineStore('tracker', () => {
 				enabled: true,
 				type: 'switch'
 			},
+			shuffle_dungeon_entrances: {
+				enabled: true,
+				type: 'switch'
+			},
 			magical_seed_required: {
 				enabled: true,
 				type: 'number',
