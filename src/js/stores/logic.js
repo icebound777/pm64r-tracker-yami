@@ -398,8 +398,14 @@ export const useLogicStore = defineStore('logic', () => {
 		toybox: (requireTrain = true, requireBoots = true) => {
 			if (flags.dungeon_entrance_requirements(4)) {
 				if (requireTrain) {
-					if (!flags.partner('bow') || !save.data.items.toy_train) {
-						return false;
+					if (save.data.configs.randomizer.toybox_open) {
+						if (!save.data.items.toy_train) {
+							return false;
+						}
+					} else {
+						if (!save.data.items.toy_train || !(flags.partner('bow') && flags.toad_town())) {
+							return false;
+						}
 					}
 				}
 				if (requireBoots) {
@@ -8158,7 +8164,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.letters_randomized;
 							},
 							available: () => {
-								return flags.lava_lava_island() && flags.deliver_letters() && save.data.items.letters.red_yoshi_kid;
+								return flags.lava_lava_island() && flags.deliver_letters() && save.data.items.letters.red_yoshi_kid && flags.partner('sushie');
 							}
 						},
 						{
@@ -9573,7 +9579,7 @@ export const useLogicStore = defineStore('logic', () => {
 			maps: {
 				sewers_entrance: {
 					name: 'Sewers Entrance',
-					x: 1,
+					x: 2,
 					y: 6,
 					w: 1,
 					h: 1,
@@ -10016,7 +10022,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.crystal_palace() && (save.data.items.red_key || save.data.items.blue_key);
+								return flags.crystal_palace() && (save.data.items.red_key || (save.data.items.blue_key && save.data.items.boots >= 2 && flags.partner('bombette')));
 							}
 						}
 					]
@@ -10035,18 +10041,7 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 4,
 					w: 1,
 					h: 2,
-					checks: [
-						{
-							name: '2 blocks past the blue door',
-							icon: '/images/checks/multicoin_blocks_randomized.webp',
-							exists: () => {
-								return save.data.configs.logic.multicoin_blocks_randomized;
-							},
-							available: () => {
-								return flags.crystal_palace() && save.data.items.blue_key;
-							}
-						}
-					]
+					checks: []
 				},
 				x_mark: {
 					name: 'X Mark',
@@ -10105,7 +10100,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.crystal_palace() && (save.data.items.red_key || save.data.items.blue_key) && flags.partner('bombette');
+								return flags.crystal_palace() && (save.data.items.red_key || (save.data.items.blue_key && save.data.items.boots >= 2)) && flags.partner('bombette');
 							}
 						}
 					]
@@ -10124,7 +10119,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.crystal_palace() && (save.data.items.red_key || save.data.items.blue_key);
+								return flags.crystal_palace() && (save.data.items.red_key || (save.data.items.blue_key && save.data.items.boots >= 2 && flags.partner('bombette')));
 							}
 						}
 					]
@@ -10151,7 +10146,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.crystal_palace() && (save.data.items.red_key || save.data.items.blue_key);
+								return flags.crystal_palace() && (save.data.items.red_key || (save.data.items.blue_key && save.data.items.boots >= 2 && flags.partner('bombette')));
 							}
 						}
 					]
@@ -10172,13 +10167,13 @@ export const useLogicStore = defineStore('logic', () => {
 					h: 1,
 					checks: [
 						{
-							name: 'Item on the ledge',
+							name: 'Chest',
 							icon: null,
 							exists: () => {
 								return true;
 							},
 							available: () => {
-								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette');
+								return flags.crystal_palace() && (save.data.items.red_key || (save.data.items.blue_key && save.data.items.boots >= 2 && flags.partner('bombette')));
 							}
 						}
 					]
@@ -10188,7 +10183,7 @@ export const useLogicStore = defineStore('logic', () => {
 					x: 4,
 					y: 4,
 					w: 1,
-					h: 2,
+					h: 1,
 					checks: []
 				},
 				bomb_switch: {
@@ -10196,7 +10191,7 @@ export const useLogicStore = defineStore('logic', () => {
 					x: 5,
 					y: 4,
 					w: 1,
-					h: 2,
+					h: 1,
 					checks: []
 				},
 				triple_dip: {
@@ -10204,7 +10199,7 @@ export const useLogicStore = defineStore('logic', () => {
 					x: 6,
 					y: 4,
 					w: 1,
-					h: 2,
+					h: 1,
 					checks: [
 						{
 							name: 'Chest',
@@ -10219,12 +10214,49 @@ export const useLogicStore = defineStore('logic', () => {
 						}
 					]
 				},
+				mirror_corridor: {
+					name: 'Mirror Corridor',
+					x: 4,
+					y: 5,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				mirror_hole: {
+					name: 'Mirror Hole',
+					x: 5,
+					y: 5,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Block south of the mirror',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
+							exists: () => {
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.crystal_palace() && save.data.items.blue_key && save.data.items.boots >= 2 && flags.partner('bombette');
+							}
+						},
+						{
+							name: 'Block north of the mirror',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
+							exists: () => {
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
+							},
+							available: () => {
+								return flags.crystal_palace() && save.data.items.blue_key && save.data.items.boots >= 2 && flags.partner('bombette');
+							}
+						}
+					]
+				},
 				kooper_puzzle: {
 					name: 'Kooper Puzzle',
 					x: 7,
 					y: 4,
 					w: 1,
-					h: 2,
+					h: 1,
 					checks: []
 				},
 				hub: {

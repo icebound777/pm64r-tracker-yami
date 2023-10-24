@@ -421,11 +421,6 @@ export const useSaveStore = defineStore('save', () => {
 			tracker.items.items.chapter6.green_magical_seed.enabled = newValue >= 2;
 			tracker.items.items.chapter6.purple_magical_seed.enabled = newValue >= 3;
 			tracker.items.items.chapter6.pink_magical_seed.enabled = newValue >= 4;
-
-			currentSave.items.pink_magical_seed = false;
-			currentSave.items.purple_magical_seed = false;
-			currentSave.items.green_magical_seed = false;
-			currentSave.items.yellow_magical_seed = false;
 		}
 	);
 
