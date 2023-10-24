@@ -11,7 +11,7 @@ export const useSaveStore = defineStore('save', () => {
 
 	const currentSave = reactive({
 		items: {
-			eldstar_dungeon_shuffle: 3,
+			eldstar_dungeon_shuffle: 0,
 			mamar_dungeon_shuffle: 0,
 			skolar_dungeon_shuffle: 0,
 			muskular_dungeon_shuffle: 0,
@@ -433,8 +433,6 @@ export const useSaveStore = defineStore('save', () => {
 		() => currentSave.configs.randomizer.blue_house_open,
 		(newValue, oldValue) => {
 			tracker.items.items.other.odd_key.enabled = !newValue;
-
-			currentSave.items.odd_key = false;
 		}
 	);
 
@@ -445,9 +443,6 @@ export const useSaveStore = defineStore('save', () => {
 
 			tracker.items.stars.power_stars.enabled = newValue;
 			tracker.items.stars.starrod.enabled = !newValue;
-
-			currentSave.items.starrod = false;
-			currentSave.items.power_stars = 0;
 		}
 	);
 
@@ -456,8 +451,6 @@ export const useSaveStore = defineStore('save', () => {
 		() => currentSave.configs.logic.fast_bowser_castle,
 		(newValue, oldValue) => {
 			tracker.items.items.chapter8.castle_key.enabled = !newValue;
-
-			currentSave.items.castle_key = 0;
 		}
 	);
 

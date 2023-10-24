@@ -395,8 +395,13 @@ export const useLogicStore = defineStore('logic', () => {
 		tubba_blubba_castle: () => {
 			return flags.dungeon_entrance_requirements(3);
 		},
-		toybox: (requireBoots = true) => {
+		toybox: (requireTrain = true, requireBoots = true) => {
 			if (flags.dungeon_entrance_requirements(4)) {
+				if (requireTrain) {
+					if (!flags.partner('bow') || !save.data.items.toy_train) {
+						return false;
+					}
+				}
 				if (requireBoots) {
 					if (save.data.items.boots >= 1) {
 						return true;
@@ -408,8 +413,8 @@ export const useLogicStore = defineStore('logic', () => {
 
 			return false;
 		},
-		toybox_jack_in_a_box: () => {
-			return flags.toybox() && (save.data.items.boots >= 2 || save.data.items.hammer >= 1);
+		toybox_jack_in_a_box: (requireTrain = true) => {
+			return flags.toybox(requireTrain) && (save.data.items.boots >= 2 || save.data.items.hammer >= 1);
 		},
 		lava_lava_island: () => {
 			if (save.data.configs.randomizer.starting_location == tracker.startingLocations.random) {
@@ -1272,7 +1277,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Merlow star pieces reward 1',
-							icon: '/images/checks/shopsanity_merlow',
+							icon: '/images/checks/shopsanity_merlow.webp',
 							exists: () => {
 								return save.data.configs.logic.merlow;
 							},
@@ -1282,7 +1287,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Merlow star pieces reward 2',
-							icon: '/images/checks/shopsanity_merlow',
+							icon: '/images/checks/shopsanity_merlow.webp',
 							exists: () => {
 								return save.data.configs.logic.merlow;
 							},
@@ -1292,7 +1297,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Merlow star pieces reward 3',
-							icon: '/images/checks/shopsanity_merlow',
+							icon: '/images/checks/shopsanity_merlow.webp',
 							exists: () => {
 								return save.data.configs.logic.merlow;
 							},
@@ -1302,7 +1307,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Merlow star pieces reward 4',
-							icon: '/images/checks/shopsanity_merlow',
+							icon: '/images/checks/shopsanity_merlow.webp',
 							exists: () => {
 								return save.data.configs.logic.merlow;
 							},
@@ -1312,7 +1317,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Merlow star pieces reward 5',
-							icon: '/images/checks/shopsanity_merlow',
+							icon: '/images/checks/shopsanity_merlow.webp',
 							exists: () => {
 								return save.data.configs.logic.merlow;
 							},
@@ -1322,7 +1327,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Merlow star pieces reward 6',
-							icon: '/images/checks/shopsanity_merlow',
+							icon: '/images/checks/shopsanity_merlow.webp',
 							exists: () => {
 								return save.data.configs.logic.merlow;
 							},
@@ -1570,7 +1575,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 1',
-							icon: '/images/checks/shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf.webp',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1580,7 +1585,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 2',
-							icon: '/images/checks/shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf.webp',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1590,7 +1595,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 3',
-							icon: '/images/checks/shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf.webp',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1600,7 +1605,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 4',
-							icon: '/images/checks/shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf.webp',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1610,7 +1615,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 5',
-							icon: '/images/checks/shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf.webp',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1620,7 +1625,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 6',
-							icon: '/images/checks/shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf.webp',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1630,7 +1635,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 7',
-							icon: '/images/checks/shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf.webp',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1640,7 +1645,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 8',
-							icon: '/images/checks/shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf.webp',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1650,7 +1655,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 9',
-							icon: '/images/checks/shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf.webp',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1660,7 +1665,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 10',
-							icon: '/images/checks/shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf.webp',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1670,7 +1675,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 11',
-							icon: '/images/checks/shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf.webp',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1680,7 +1685,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 12',
-							icon: '/images/checks/shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf.webp',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1690,7 +1695,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 13',
-							icon: '/images/checks/shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf.webp',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1700,7 +1705,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 14',
-							icon: '/images/checks/shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf.webp',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1710,7 +1715,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 15',
-							icon: '/images/checks/shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf.webp',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1720,7 +1725,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 16',
-							icon: '/images/checks/shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf.webp',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1949,7 +1954,7 @@ export const useLogicStore = defineStore('logic', () => {
 						{
 							name: 'Fice T.',
 							tooltip: 'Check added if you deactivate "Forever Forest Open"',
-							icon: '/images/checks/forest_pass',
+							icon: '/images/checks/forest_pass.webp',
 							exists: () => {
 								return !save.data.configs.randomizer.forever_forest_open;
 							},
@@ -1987,23 +1992,23 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Date T.',
+							name: 'Dane T.',
 							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
 							available: () => {
-								return flags.toad_town() && flags.deliver_letters() && save.data.items.letters.date_t >= 1;
+								return flags.toad_town() && flags.deliver_letters() && save.data.items.letters.dane_t >= 1;
 							}
 						},
 						{
-							name: 'Date T. 2',
+							name: 'Dane T. 2',
 							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
 							available: () => {
-								return flags.toad_town() && flags.deliver_letters() && save.data.items.letters.date_t >= 2;
+								return flags.toad_town() && flags.deliver_letters() && save.data.items.letters.dane_t >= 2;
 							}
 						}
 					]
@@ -2128,7 +2133,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
 							available: () => {
-								return flags.sewers() && flags.stone_blocks();
+								return flags.sewers() && flags.ultra_blocks();
 							}
 						}
 					]
@@ -2147,7 +2152,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
 							available: () => {
-								return flags.sewers() && save.data.items.boots >= 1 && flags.ultra_blocks();
+								return flags.sewers() && save.data.items.boots >= 1 && flags.stone_blocks();
 							}
 						}
 					]
@@ -2523,7 +2528,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Rip Cheato 1 (2 coins)',
-							icon: '/images/checks/rip_cheato',
+							icon: '/images/checks/rip_cheato.webp',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 1;
 							},
@@ -2533,7 +2538,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rip Cheato 2 (2 coins)',
-							icon: '/images/checks/rip_cheato',
+							icon: '/images/checks/rip_cheato.webp',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 2;
 							},
@@ -2543,7 +2548,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rip Cheato 3 (4 coins)',
-							icon: '/images/checks/rip_cheato',
+							icon: '/images/checks/rip_cheato.webp',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 3;
 							},
@@ -2553,7 +2558,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rip Cheato 4 (4 coins)',
-							icon: '/images/checks/rip_cheato',
+							icon: '/images/checks/rip_cheato.webp',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 4;
 							},
@@ -2563,7 +2568,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rip Cheato 5 (8 coins)',
-							icon: '/images/checks/rip_cheato',
+							icon: '/images/checks/rip_cheato.webp',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 5;
 							},
@@ -2573,7 +2578,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rip Cheato 6 (8 coins)',
-							icon: '/images/checks/rip_cheato',
+							icon: '/images/checks/rip_cheato.webp',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 6;
 							},
@@ -2583,7 +2588,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rip Cheato 7 (16 coins)',
-							icon: '/images/checks/rip_cheato',
+							icon: '/images/checks/rip_cheato.webp',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 7;
 							},
@@ -2593,7 +2598,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rip Cheato 8 (16 coins)',
-							icon: '/images/checks/rip_cheato',
+							icon: '/images/checks/rip_cheato.webp',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 8;
 							},
@@ -2603,7 +2608,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rip Cheato 9 (32 coins)',
-							icon: '/images/checks/rip_cheato',
+							icon: '/images/checks/rip_cheato.webp',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 9;
 							},
@@ -2613,7 +2618,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rip Cheato 10 (32 coins)',
-							icon: '/images/checks/rip_cheato',
+							icon: '/images/checks/rip_cheato.webp',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 10;
 							},
@@ -2623,7 +2628,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rip Cheato 11 (64 coins)',
-							icon: '/images/checks/rip_cheato',
+							icon: '/images/checks/rip_cheato.webp',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 11;
 							},
@@ -6938,7 +6943,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox(false) && flags.jump_coin_blocks();
+								return flags.toybox(false, false) && flags.jump_coin_blocks();
 							}
 						},
 						{
@@ -6948,7 +6953,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.panels;
 							},
 							available: () => {
-								return flags.toybox() && flags.panels();
+								return flags.toybox(false) && flags.panels();
 							}
 						}
 					]
@@ -6967,7 +6972,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.toybox_jack_in_a_box();
+								return flags.toybox_jack_in_a_box(false);
 							}
 						},
 						{
@@ -6977,7 +6982,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.toybox_jack_in_a_box();
+								return flags.toybox_jack_in_a_box(false);
 							}
 						},
 						{
@@ -6987,7 +6992,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.toybox_jack_in_a_box();
+								return flags.toybox_jack_in_a_box(false);
 							}
 						},
 						{
@@ -6997,7 +7002,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.toybox_jack_in_a_box();
+								return flags.toybox_jack_in_a_box(false);
 							}
 						},
 						{
@@ -7007,7 +7012,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.toybox_jack_in_a_box();
+								return flags.toybox_jack_in_a_box(false);
 							}
 						},
 						{
@@ -7017,7 +7022,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.toybox_jack_in_a_box();
+								return flags.toybox_jack_in_a_box(false);
 							}
 						},
 						{
@@ -7027,7 +7032,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.toybox_jack_in_a_box();
+								return flags.toybox_jack_in_a_box(false);
 							}
 						},
 						{
@@ -7037,7 +7042,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.toybox_jack_in_a_box();
+								return flags.toybox_jack_in_a_box(false);
 							}
 						},
 						{
@@ -7047,7 +7052,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox_jack_in_a_box();
+								return flags.toybox_jack_in_a_box(false);
 							}
 						},
 						{
@@ -7057,7 +7062,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox_jack_in_a_box() && flags.partner('parakarry');
+								return flags.toybox_jack_in_a_box(false) && flags.partner('parakarry');
 							}
 						},
 						{
@@ -7067,7 +7072,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.coin_blocks;
 							},
 							available: () => {
-								return flags.toybox_jack_in_a_box();
+								return flags.toybox_jack_in_a_box(false);
 							}
 						},
 						{
@@ -7077,7 +7082,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.coin_blocks;
 							},
 							available: () => {
-								return flags.toybox_jack_in_a_box();
+								return flags.toybox_jack_in_a_box(false);
 							}
 						},
 						{
@@ -7087,7 +7092,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox_jack_in_a_box();
+								return flags.toybox_jack_in_a_box(false);
 							}
 						},
 						{
@@ -7097,7 +7102,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox_jack_in_a_box();
+								return flags.toybox_jack_in_a_box(false);
 							}
 						},
 						{
@@ -7107,7 +7112,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox_jack_in_a_box();
+								return flags.toybox_jack_in_a_box(false);
 							}
 						}
 					]
@@ -7126,7 +7131,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox(false) && flags.jump_coin_blocks();
+								return flags.toybox(false, false) && flags.jump_coin_blocks();
 							}
 						},
 						{
@@ -7137,7 +7142,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox(false) && save.data.items.anti_guy;
+								return flags.toybox(false, false) && save.data.items.anti_guy;
 							}
 						},
 						{
@@ -7147,7 +7152,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.coin_blocks;
 							},
 							available: () => {
-								return flags.toybox(false) && flags.jump_coin_blocks();
+								return flags.toybox(false, false) && flags.jump_coin_blocks();
 							}
 						}
 					]
@@ -7166,7 +7171,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox(false) && flags.jump_coin_blocks();
+								return flags.toybox(false, false) && flags.jump_coin_blocks();
 							}
 						},
 						{
@@ -7176,7 +7181,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox(false) && flags.jump_coin_blocks();
+								return flags.toybox(false, false) && flags.jump_coin_blocks();
 							}
 						},
 						{
@@ -7186,7 +7191,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox(false);
+								return flags.toybox(false, false);
 							}
 						},
 						{
@@ -7196,7 +7201,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox(false);
+								return flags.toybox(false, false);
 							}
 						},
 						{
@@ -7206,7 +7211,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox(false);
+								return flags.toybox(false, false);
 							}
 						},
 						{
@@ -7216,7 +7221,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox(false);
+								return flags.toybox(false, false);
 							}
 						},
 						{
@@ -7226,7 +7231,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox(false);
+								return flags.toybox(false, false);
 							}
 						}
 					]
