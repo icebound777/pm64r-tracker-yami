@@ -1103,6 +1103,11 @@ export const useTrackerStore = defineStore('tracker', () => {
 				tooltip: 'Deactivates the tooltips of the items.',
 				enabled: true,
 				type: 'switch'
+			},
+			notes: {
+				tooltip: 'Shows a widget to take notes.',
+				enabled: true,
+				type: 'switch'
 			}
 		}
 	});

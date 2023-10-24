@@ -119,6 +119,12 @@ body {
 		padding: 0 5px;
 	}
 
+	textarea {
+		resize: none;
+		stroke-opacity: 0;
+		-webkit-text-stroke-width: 0;
+	}
+
 	.disabled {
 		pointer-events: none;
 		filter: grayscale(60%);

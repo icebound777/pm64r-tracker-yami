@@ -24,6 +24,7 @@ export const useSaveStore = defineStore('save', () => {
 	const defaultSave = reactive({
 		randomizer_seed: null,
 		randomizer_seed_hash_items: null,
+		notes: '',
 		items: {
 			eldstar: false,
 			mamar: false,
@@ -237,7 +238,8 @@ export const useSaveStore = defineStore('save', () => {
 		compact_items_per_chapters: false,
 		competitive_mode: false,
 		missing_items_in_grayscale: false,
-		deactivate_items_tooltips: false
+		deactivate_items_tooltips: false,
+		notes: false
 	};
 
 	const resetTrackerConfigs = () => {

@@ -35,6 +35,8 @@ export const useLayoutStore = defineStore('layout', () => {
 	const tradingEventToadLayout = { x: 0, y: 96, w: 11, h: 12, i: 'trading_event_toad' };
 	const mapLayout = { x: 54, y: 0, w: 46, h: 100, i: 'map' };
 
+	const notesLayout = { x: 0, y: 112, w: 20, h: 20, i: 'notes' };
+
 	const restoreDefaultLayout = () => {
 		if (save.data.configs.tracker.compact_items_per_chapters || save.data.configs.tracker.compact_items) {
 			save.data.configs.tracker.compact_items = false;
@@ -65,6 +67,10 @@ export const useLayoutStore = defineStore('layout', () => {
 		trackerLayout.value.push(Object.assign({}, koopaKootLayout));
 		trackerLayout.value.push(Object.assign({}, mapLayout));
 		trackerLayout.value.push(Object.assign({}, tradingEventToadLayout));
+
+		if (save.data.configs.tracker.notes) {
+			trackerLayout.value.push(Object.assign({}, notesLayout));
+		}
 	};
 
 	const loadLayout = () => {
@@ -88,6 +94,10 @@ export const useLayoutStore = defineStore('layout', () => {
 				trackerLayout.value.push(Object.assign({}, mapLayout));
 
 				save.data.configs.tracker.compact_items_per_chapters = false;
+
+				if (save.data.configs.tracker.notes) {
+					trackerLayout.value.push(Object.assign({}, notesLayout));
+				}
 			} else {
 				//Add normal items layouts
 				if (!save.data.configs.tracker.compact_items_per_chapters) {
@@ -117,12 +127,29 @@ export const useLayoutStore = defineStore('layout', () => {
 				trackerLayout.value.push(Object.assign({}, tradingEventToadLayout));
 
 				save.data.configs.tracker.compact_items = false;
+
+				if (save.data.configs.tracker.notes) {
+					trackerLayout.value.push(Object.assign({}, notesLayout));
+				}
 			} else {
 				//Add normal items layouts
 				if (!save.data.configs.tracker.compact_items) {
 					trackerLayout.value = [];
 					restoreDefaultLayout();
 				}
+			}
+		}
+	);
+
+	watch(
+		() => save.data.configs.tracker.notes,
+		(newValue, oldValue) => {
+			if (newValue) {
+				if (trackerLayout.value.find((layout) => layout.i === 'notes') === undefined) {
+					trackerLayout.value.push(Object.assign({}, notesLayout));
+				}
+			} else {
+				trackerLayout.value = trackerLayout.value.filter((layout) => layout.i !== 'notes');
 			}
 		}
 	);

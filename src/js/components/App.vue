@@ -135,7 +135,7 @@
 						<div v-if="layout.editingLayout" class="draggable-handle absolute top-[15px] right-[15px]">
 							<font-awesome-icon :icon="['fas', 'bars']" />
 						</div>
-						<div class="no-drag">
+						<div class="no-drag h-full pb-6">
 							<template v-if="grid_item.i == 'stars'">
 								<h2>Stars</h2>
 								<div
@@ -1050,6 +1050,10 @@
 										</template>
 									</div>
 								</div>
+							</template>
+							<template v-if="grid_item.i == 'notes'">
+								<h2>Notes</h2>
+								<textarea class="text-white w-full h-full !font-serif bg-sky-700 p-1" v-model="save.data.notes"></textarea>
 							</template>
 						</div>
 					</GridItem>
