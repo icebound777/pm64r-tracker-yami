@@ -234,8 +234,6 @@ export const useLogicStore = defineStore('logic', () => {
 					}
 				}
 
-				console.log(dungeon, found_dungeon);
-
 				return requirements[found_dungeon];
 			} else {
 				return requirements[dungeon];
@@ -243,7 +241,7 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		dungeon_entrance_requirements_toybox: () => {
 			if (save.data.configs.randomizer.toybox_open) {
-				return flags.jump_ledges();
+				return flags.toad_town() && flags.jump_ledges();
 			} else {
 				return flags.toad_town() && flags.jump_ledges() && flags.partner('bow');
 			}
@@ -251,18 +249,27 @@ export const useLogicStore = defineStore('logic', () => {
 
 		//Locations
 		goomba_village: () => {
+			if (save.data.configs.randomizer.starting_location == tracker.startingLocations.random) {
+				return false;
+			}
+
 			switch (save.data.configs.randomizer.starting_location) {
 				case tracker.startingLocations.goomba_village:
 					return true;
 
 				default:
-					if (save.data.configs.randomizer.prologue_open || flags.stone_blocks()) {
+					if (flags.toad_town() && (save.data.configs.randomizer.prologue_open || flags.stone_blocks())) {
 						return true;
 					}
-					return false;
 			}
+
+			return false;
 		},
 		toad_town: () => {
+			if (save.data.configs.randomizer.starting_location == tracker.startingLocations.random) {
+				return false;
+			}
+
 			switch (save.data.configs.randomizer.starting_location) {
 				case tracker.startingLocations.goomba_village:
 					if (save.data.configs.randomizer.prologue_open || flags.yellow_blocks()) {
@@ -277,14 +284,8 @@ export const useLogicStore = defineStore('logic', () => {
 					}
 					return false;
 
-				case tracker.startingLocations.yoshi_village:
-					return true;
-
-				case tracker.startingLocations.toad_town:
-					return true;
-
 				default:
-					return false;
+					return true;
 			}
 		},
 		sewers: () => {
@@ -312,6 +313,10 @@ export const useLogicStore = defineStore('logic', () => {
 			return flags.dungeon_entrance_requirements(1);
 		},
 		mt_rugged: (requiresBoots = true) => {
+			if (save.data.configs.randomizer.starting_location == tracker.startingLocations.random) {
+				return false;
+			}
+
 			switch (save.data.configs.randomizer.starting_location) {
 				case tracker.startingLocations.dry_dry_outpost:
 					return flags.jump_ledges();
@@ -337,6 +342,10 @@ export const useLogicStore = defineStore('logic', () => {
 			return false;
 		},
 		dry_dry_desert: () => {
+			if (save.data.configs.randomizer.starting_location == tracker.startingLocations.random) {
+				return false;
+			}
+
 			switch (save.data.configs.randomizer.starting_location) {
 				case tracker.startingLocations.dry_dry_outpost:
 					return true;
@@ -375,10 +384,10 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		boo_mansion: (requireBoots = true) => {
 			if (requireBoots) {
-				return (save.data.items.boots >= 1 && flags.forever_forest()) || (flags.sewers() && flags.stone_blocks());
+				return (save.data.items.boots >= 1 && flags.forever_forest()) || (flags.sewers() && save.data.items.boots >= 2);
 			}
 
-			return flags.forever_forest() || (flags.sewers() && flags.stone_blocks());
+			return flags.forever_forest() || (flags.sewers() && save.data.items.boots >= 2);
 		},
 		gusty_gulch: () => {
 			return flags.boo_mansion() && save.data.items.boo_portrait;
@@ -403,6 +412,10 @@ export const useLogicStore = defineStore('logic', () => {
 			return flags.toybox() && (save.data.items.boots >= 2 || save.data.items.hammer >= 1);
 		},
 		lava_lava_island: () => {
+			if (save.data.configs.randomizer.starting_location == tracker.startingLocations.random) {
+				return false;
+			}
+
 			switch (save.data.configs.randomizer.starting_location) {
 				case tracker.startingLocations.yoshi_village:
 					return true;
@@ -843,7 +856,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.coin_blocks;
 							},
 							available: () => {
-								return flags.goomba_village() && flags.jump_coin_blocks();
+								return flags.goomba_village() && flags.yellow_blocks() && flags.jump_coin_blocks();
 							}
 						},
 						{
@@ -853,7 +866,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.coin_blocks;
 							},
 							available: () => {
-								return flags.goomba_village() && flags.jump_coin_blocks();
+								return flags.goomba_village() && flags.yellow_blocks() && flags.jump_coin_blocks();
 							}
 						}
 					]
@@ -965,13 +978,13 @@ export const useLogicStore = defineStore('logic', () => {
 					h: 1,
 					checks: [
 						{
-							name: 'Chest on top of gate',
+							name: 'Chest on top of the town gate',
 							icon: null,
 							exists: () => {
 								return true;
 							},
 							available: () => {
-								return flags.toad_town() && flags.jump_ledges();
+								return flags.toad_town() && flags.trees() && flags.jump_ledges();
 							}
 						},
 						{
@@ -1268,7 +1281,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item bottom left of the map',
-							icon: 'sushie',
+							icon: null,
 							exists: () => {
 								return true;
 							},
@@ -1725,7 +1738,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: "Item in Harry's storeroom",
+							name: "4 Items in Harry's storeroom",
 							icon: null,
 							exists: () => {
 								return true;
@@ -2506,7 +2519,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Right ? block',
 							icon: null,
 							exists: () => {
-								return null;
+								return true;
 							},
 							available: () => {
 								return flags.toad_town() && flags.jump_coin_blocks();
@@ -2630,7 +2643,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Under the 5 coins next to the left entrance',
+							name: 'Under the 5 coins next to the west entrance',
 							icon: 'panels_randomized',
 							exists: () => {
 								return save.data.configs.logic.panels;
@@ -2640,7 +2653,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Coin 1 next to the left entrance',
+							name: 'Coin 1 next to the west entrance',
 							icon: 'overworld_coins',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
@@ -2650,7 +2663,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Coin 2 next to the left entrance',
+							name: 'Coin 2 next to the west entrance',
 							icon: 'overworld_coins',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
@@ -2660,7 +2673,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Coin 3 next to the left entrance',
+							name: 'Coin 3 next to the west entrance',
 							icon: 'overworld_coins',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
@@ -2670,7 +2683,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Coin 4 next to the left entrance',
+							name: 'Coin 4 next to the west entrance',
 							icon: 'overworld_coins',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
@@ -2680,7 +2693,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Coin 5 next to the left entrance',
+							name: 'Coin 5 next to the west entrance',
 							icon: 'overworld_coins',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
@@ -2705,7 +2718,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.koopa_bros_fortress() && flags.trees();
+								return flags.koopa_village() && save.data.items.kooper && flags.trees();
 							}
 						}
 					]
@@ -2843,7 +2856,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Koover 1 (Koopa at the left entrance)',
+							name: 'Koover 1 (Koopa at the west entrance)',
 							icon: 'letters_randomized',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
@@ -2853,7 +2866,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Koover 2 (Koopa at the left entrance)',
+							name: 'Koover 2 (Koopa at the west entrance)',
 							icon: 'letters_randomized',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
@@ -2950,7 +2963,7 @@ export const useLogicStore = defineStore('logic', () => {
 						{
 							name: 'Give the artifact to Kolorado',
 							tooltip:
-								'Kolorado location changes throughout the game. He is in Dry Dry Desert until you ger Mamar. After he goes to Jade Jungle. He can be blocked by Kent C. if he is still in the way.',
+								'Kolorado location changes throughout the game. He is in Dry Dry Desert until you get Mamar. After he goes to Jade Jungle. He can be blocked by Kent C. if he is still in the way.',
 							icon: null,
 							exists: () => {
 								return true;
@@ -2962,7 +2975,7 @@ export const useLogicStore = defineStore('logic', () => {
 						{
 							name: 'Kolorado',
 							tooltip:
-								'Kolorado location changes throughout the game. He is in Dry Dry Desert until you ger Mamar. After he goes to Jade Jungle. He can be blocked by Kent C. if he is still in the way.',
+								'Kolorado location changes throughout the game. He is in Dry Dry Desert until you get Mamar. After he goes to Jade Jungle. He can be blocked by Kent C. if he is still in the way.',
 							icon: 'letters_randomized',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
@@ -4137,7 +4150,7 @@ export const useLogicStore = defineStore('logic', () => {
 			name: 'Dry Dry Desert',
 			maps: {
 				left_entrance: {
-					name: 'Left Entrance',
+					name: 'West Entrance',
 					x: 1,
 					y: 4,
 					w: 1,
@@ -4970,7 +4983,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.foliage_coins;
 							},
 							available: () => {
-								return flags.dry_dry_desert() && flags.trees() && flags.heart_blocks();
+								return flags.dry_dry_desert() && flags.trees();
 							}
 						}
 					]
@@ -5903,7 +5916,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.letters_randomized;
 							},
 							available: () => {
-								return flags.boo_mansion() && flags.deliver_letters() && save.data.items.letters.franky;
+								return flags.boo_mansion() && flags.deliver_letters() && save.data.items.letters.franky && save.data.items.boo_portrait;
 							}
 						},
 						{
@@ -6121,7 +6134,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.shopsanity;
 							},
 							available: () => {
-								return flags.boo_mansion() && save.data.items.boots >= 2 && (flags.partner('bombette') || save.data.items.weight);
+								return flags.boo_mansion() && save.data.items.boo_portrait && save.data.items.boots >= 2 && (flags.partner('bombette') || save.data.items.weight);
 							}
 						},
 						{
@@ -6131,7 +6144,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.shopsanity;
 							},
 							available: () => {
-								return flags.boo_mansion() && save.data.items.boots >= 2 && (flags.partner('bombette') || save.data.items.weight);
+								return flags.boo_mansion() && save.data.items.boo_portrait && save.data.items.boots >= 2 && (flags.partner('bombette') || save.data.items.weight);
 							}
 						},
 						{
@@ -6141,7 +6154,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.shopsanity;
 							},
 							available: () => {
-								return flags.boo_mansion() && save.data.items.boots >= 2 && (flags.partner('bombette') || save.data.items.weight);
+								return flags.boo_mansion() && save.data.items.boo_portrait && save.data.items.boots >= 2 && (flags.partner('bombette') || save.data.items.weight);
 							}
 						},
 						{
@@ -6151,7 +6164,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.shopsanity;
 							},
 							available: () => {
-								return flags.boo_mansion() && save.data.items.boots >= 2 && (flags.partner('bombette') || save.data.items.weight);
+								return flags.boo_mansion() && save.data.items.boo_portrait && save.data.items.boots >= 2 && (flags.partner('bombette') || save.data.items.weight);
 							}
 						},
 						{
@@ -6161,7 +6174,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.shopsanity;
 							},
 							available: () => {
-								return flags.boo_mansion() && save.data.items.boots >= 2 && (flags.partner('bombette') || save.data.items.weight);
+								return flags.boo_mansion() && save.data.items.boo_portrait && save.data.items.boots >= 2 && (flags.partner('bombette') || save.data.items.weight);
 							}
 						},
 						{
@@ -6171,7 +6184,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.shopsanity;
 							},
 							available: () => {
-								return flags.boo_mansion() && save.data.items.boots >= 2 && (flags.partner('bombette') || save.data.items.weight);
+								return flags.boo_mansion() && save.data.items.boo_portrait && save.data.items.boots >= 2 && (flags.partner('bombette') || save.data.items.weight);
 							}
 						},
 						{
@@ -7694,7 +7707,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Item behind the bush noth of the screen',
+							name: 'Item behind the bush north of the screen',
 							icon: null,
 							exists: () => {
 								return true;
@@ -7783,7 +7796,17 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Invisible block by the bell plant',
+							name: 'West invisible block by the bell plant',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.jump_coin_blocks();
+							}
+						},
+						{
+							name: 'East invisible block by the bell plant',
 							icon: null,
 							exists: () => {
 								return true;
@@ -7807,6 +7830,16 @@ export const useLogicStore = defineStore('logic', () => {
 							icon: 'overworld_coins',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
+							},
+							available: () => {
+								return flags.lava_lava_island() && flags.jump_ledges();
+							}
+						},
+						{
+							name: 'Item on the rock in the middle of the screen',
+							icon: null,
+							exists: () => {
+								return true;
 							},
 							available: () => {
 								return flags.lava_lava_island() && flags.jump_ledges();
@@ -7943,13 +7976,13 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Five a Tayce T. item to the Yellow Adult Yoshi',
+							name: 'Give a Tayce T. item to the Yellow Adult Yoshi',
 							icon: null,
 							exists: () => {
 								return true;
 							},
 							available: () => {
-								return flags.lava_lava_island() && flags.toad_town();
+								return flags.lava_lava_island() && flags.toad_town() && flags.partner('watt') && flags.partner('sushie') && save.data.items.hammer >= 1;
 							}
 						},
 						{
@@ -8136,7 +8169,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.foliage_coins;
 							},
 							available: () => {
-								return flags.lava_lava_island() && save.data.items.hammer >= 1;
+								return flags.lava_lava_island() && save.data.items.hammer >= 1 && flags.partner('sushie');
 							}
 						}
 					]
@@ -9003,7 +9036,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.flower_fields() && save.data.items.boots >= 2 && flags.partner('Lakilester');
+								return flags.flower_fields() && save.data.items.boots >= 2 && flags.partner('lakilester');
 							}
 						},
 						{
@@ -9013,7 +9046,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
 							available: () => {
-								return flags.flower_fields() && save.data.items.boots >= 2 && flags.partner('Lakilester');
+								return flags.flower_fields() && save.data.items.boots >= 2 && flags.partner('lakilester');
 							}
 						}
 					]
@@ -9032,7 +9065,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.flower_fields() && save.data.items.boots >= 2 && flags.partner('Lakilester');
+								return flags.flower_fields() && save.data.items.boots >= 2 && flags.partner('lakilester');
 							}
 						},
 						{
@@ -9042,7 +9075,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.flower_fields() && save.data.items.boots >= 2 && flags.partner('Lakilester');
+								return flags.flower_fields() && save.data.items.boots >= 2 && flags.partner('lakilester');
 							}
 						}
 					]
@@ -9494,7 +9527,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.shiver_city() && save.data.items.boots >= 2 && save.partner('sushie');
+								return flags.shiver_city() && save.data.items.boots >= 2 && flags.partner('sushie');
 							}
 						}
 					]
@@ -10150,6 +10183,36 @@ export const useLogicStore = defineStore('logic', () => {
 		return totalChecks;
 	};
 
+	const getTotalAvailableCheckedChecksOnMap = (mapCategoryKey = null, mapKey = null) => {
+		let totalChecks = 0;
+
+		if (mapCategoryKey === null) {
+			for (const [mapCategoryToCheckKey, mapCategory] of Object.entries(checks)) {
+				for (const [mapToCheckKey, mapToCheck] of Object.entries(mapCategory.maps)) {
+					// console.log(mapCategoryToCheckKey, mapToCheckKey, mapToCheck.checks);
+
+					if (save.data.checks[mapCategoryToCheckKey] !== undefined && save.data.checks[mapCategoryToCheckKey][mapToCheckKey] !== undefined) {
+						totalChecks += save.data.checks[mapCategoryToCheckKey][mapToCheckKey].length;
+					}
+				}
+			}
+		} else {
+			if (mapKey === null) {
+				for (const [mapToCheckKey, mapToCheck] of Object.entries(checks[mapCategoryKey].maps)) {
+					if (save.data.checks[mapCategoryKey] !== undefined && save.data.checks[mapCategoryKey][mapToCheckKey] !== undefined) {
+						totalChecks += save.data.checks[mapCategoryKey][mapToCheckKey].length;
+					}
+				}
+			} else {
+				if (save.data.checks[mapCategoryKey] !== undefined && save.data.checks[mapCategoryKey][mapKey] !== undefined) {
+					totalChecks += save.data.checks[mapCategoryKey][mapKey].length;
+				}
+			}
+		}
+
+		return totalChecks;
+	};
+
 	const getTotalChecksOnMap = (mapCategoryKey = null, mapKey = null) => {
 		let totalChecks = 0;
 
@@ -10223,6 +10286,7 @@ export const useLogicStore = defineStore('logic', () => {
 	return {
 		checks: checks,
 		getTotalCheckedChecksOnMap: computed(() => getTotalCheckedChecksOnMap),
+		getTotalAvailableCheckedChecksOnMap: computed(() => getTotalAvailableCheckedChecksOnMap),
 		getTotalChecksOnMap: computed(() => getTotalChecksOnMap),
 		getTotalAvailableChecksOnMap: computed(() => getTotalAvailableChecksOnMap)
 	};

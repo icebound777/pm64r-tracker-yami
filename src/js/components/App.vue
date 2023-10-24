@@ -2,57 +2,62 @@
 	<div @contextmenu="$event.preventDefault()">
 		<!-- <div> -->
 		<header>
-			<div class="flex justify-items-center items-center ml-4 mt-2">
+			<div class="hidden md:flex justify-items-center items-center ml-4 mt-2">
 				<p v-if="save.data.randomizer_seed_hash_items">Hash items: {{ save.data.randomizer_seed_hash_items }}</p>
 			</div>
 			<div class="flex justify-between">
-				<div class="flex flex-wrap gap-2 p-3">
-					<button
-						class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
-						type="button"
-						v-tooltip="{ content: 'Load a new randomizer seed', delay: { show: 0 } }"
-						@click="loadNewSeedModalVisible = true">
-						<font-awesome-icon :icon="['fas', 'file-circle-plus']" />
-					</button>
-					<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Export progress', delay: { show: 0 } }" @click="save.exportSave">
-						<font-awesome-icon :icon="['fas', 'floppy-disk']" />
-					</button>
-					<input ref="_importSaveFileInput" class="hidden" type="file" accept="application/json" @change="save.importSave" />
-					<button
-						class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
-						type="button"
-						v-tooltip="{ content: 'Import progress', delay: { show: 0 } }"
-						@click="
-							() => {
-								if (_importSaveFileInput) _importSaveFileInput.click();
-							}
-						">
-						<font-awesome-icon :icon="['fas', 'download']" />
-					</button>
-					<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3 mr-10" type="button" v-tooltip="{ content: 'Reset progress', delay: { show: 0 } }" @click="resetSavePrompt">
-						<font-awesome-icon :icon="['fas', 'trash']" />
-					</button>
-					<button
-						class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
-						type="button"
-						v-tooltip="{ content: 'Randomizer settings', delay: { show: 0 } }"
-						@click="randomizerSettingsModalVisible = true">
-						<font-awesome-icon :icon="['fas', 'dice']" />
-					</button>
-					<button
-						class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
-						type="button"
-						v-tooltip="{ content: 'Logic settings', delay: { show: 0 } }"
-						@click="logicSettingsModalVisible = true">
-						<font-awesome-icon :icon="['fas', 'brain']" />
-					</button>
-					<button
-						class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
-						type="button"
-						v-tooltip="{ content: 'Reset randomizer and logic', delay: { show: 0 } }"
-						@click="resetConfigsPrompt">
-						<font-awesome-icon :icon="['fas', 'trash']" />
-					</button>
+				<div class="flex flex-wrap">
+					<div class="flex flex-wrap gap-2 p-3 w-[260px] mr-0 md:mr-10">
+						<button
+							class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
+							type="button"
+							v-tooltip="{ content: 'Load a new randomizer seed', delay: { show: 0 } }"
+							@click="loadNewSeedModalVisible = true">
+							<font-awesome-icon :icon="['fas', 'file-circle-plus']" />
+						</button>
+						<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Export progress', delay: { show: 0 } }" @click="save.exportSave">
+							<font-awesome-icon :icon="['fas', 'floppy-disk']" />
+						</button>
+						<input ref="_importSaveFileInput" class="hidden" type="file" accept="application/json" @change="save.importSave" />
+						<button
+							class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
+							type="button"
+							v-tooltip="{ content: 'Import progress', delay: { show: 0 } }"
+							@click="
+								() => {
+									if (_importSaveFileInput) _importSaveFileInput.click();
+								}
+							">
+							<font-awesome-icon :icon="['fas', 'download']" />
+						</button>
+						<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Reset progress', delay: { show: 0 } }" @click="resetSavePrompt">
+							<font-awesome-icon :icon="['fas', 'trash']" />
+						</button>
+					</div>
+
+					<div class="hidden lg:flex flex-wrap gap-2 p-3 w-[210px] mr-10">
+						<button
+							class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
+							type="button"
+							v-tooltip="{ content: 'Randomizer settings', delay: { show: 0 } }"
+							@click="randomizerSettingsModalVisible = true">
+							<font-awesome-icon :icon="['fas', 'dice']" />
+						</button>
+						<button
+							class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
+							type="button"
+							v-tooltip="{ content: 'Logic settings', delay: { show: 0 } }"
+							@click="logicSettingsModalVisible = true">
+							<font-awesome-icon :icon="['fas', 'brain']" />
+						</button>
+						<button
+							class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
+							type="button"
+							v-tooltip="{ content: 'Reset randomizer and logic', delay: { show: 0 } }"
+							@click="resetConfigsPrompt">
+							<font-awesome-icon :icon="['fas', 'trash']" />
+						</button>
+					</div>
 				</div>
 
 				<div class="flex justify-end">
@@ -74,18 +79,27 @@
 						<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Reset tracker configs', delay: { show: 0 } }" @click="resetTrackerPrompt">
 							<font-awesome-icon :icon="['fas', 'trash']" />
 						</button>
-						<div class="bg-sky-950 hover:bg-sky-800 w-fit flex rounded-md p-3 items-center ml-10" type="button" v-tooltip="{ content: 'Edit tracker layout', delay: { show: 0 } }">
+						<div
+							v-if="!save.data.configs.tracker.deactivate_layout_system"
+							class="bg-sky-950 hover:bg-sky-800 w-fit flex rounded-md p-3 items-center ml-10"
+							type="button"
+							v-tooltip="{ content: 'Edit tracker layout', delay: { show: 0 } }">
 							<p class="mr-5">
 								<font-awesome-icon :icon="['fas', 'table']" />
 							</p>
 							<input id="edit_tracker_layout" type="checkbox" v-model="layout.editingLayout" />
 							<label for="edit_tracker_layout" />
 						</div>
-						<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Restore default layout', delay: { show: 0 } }" @click="resetLayoutPrompt">
+						<button
+							v-if="!save.data.configs.tracker.deactivate_layout_system"
+							class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
+							type="button"
+							v-tooltip="{ content: 'Restore default layout', delay: { show: 0 } }"
+							@click="resetLayoutPrompt">
 							<font-awesome-icon :icon="['fas', 'trash']" />
 						</button>
 						<button
-							class="flex items-center bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3 ml-10"
+							class="hidden lg:flex flex items-center bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3 ml-10"
 							type="button"
 							v-tooltip="{ content: 'How to use?', delay: { show: 0 } }"
 							@click="tutorialModalVisible = true">
@@ -98,7 +112,7 @@
 		</header>
 
 		<!-- Tracker content -->
-		<div>
+		<div v-if="!save.data.configs.tracker.deactivate_layout_system">
 			<GridLayout v-model:layout="layout.tracker" :col-num="100" :row-height="1" vertical-compact use-css-transforms :is-resizable="layout.editingLayout">
 				<template v-for="grid_item in layout.tracker" :key="grid_item.i">
 					<GridItem
@@ -956,7 +970,7 @@
 								<div class="flex justify-between mb-3">
 									<h2>Map</h2>
 									<p>
-										Done: {{ logic.getTotalCheckedChecksOnMap() }} | Available: {{ logic.getTotalAvailableChecksOnMap() }} | Missing:
+										Done: {{ logic.getTotalCheckedChecksOnMap() }} | Available: {{ logic.getTotalAvailableChecksOnMap() - logic.getTotalAvailableCheckedChecksOnMap() }} | Missing:
 										{{ logic.getTotalChecksOnMap() - logic.getTotalCheckedChecksOnMap() }}
 									</p>
 								</div>
@@ -979,7 +993,8 @@
 									<h3>{{ logic.checks[map.currentMapCategory].name }}</h3>
 
 									<p>
-										Done: {{ logic.getTotalCheckedChecksOnMap(map.currentMapCategory) }} | Available: {{ logic.getTotalAvailableChecksOnMap(map.currentMapCategory) }} | Missing:
+										Done: {{ logic.getTotalCheckedChecksOnMap(map.currentMapCategory) }} | Available:
+										{{ logic.getTotalAvailableChecksOnMap(map.currentMapCategory) - logic.getTotalAvailableCheckedChecksOnMap(map.currentMapCategory) }} | Missing:
 										{{ logic.getTotalChecksOnMap(map.currentMapCategory) - logic.getTotalCheckedChecksOnMap(map.currentMapCategory) }}
 									</p>
 								</div>
@@ -1027,7 +1042,7 @@
 													v-if="check.icon"
 													class="h-3 mr-2"
 													:src="`/images/checks/${check.icon}.webp`"
-													v-tooltip="{ content: check.icon.titlize().capitalize(), delay: { show: 200 } }" />
+													v-tooltip="{ content: check.icon.titlize().capitalize(), delay: { show: 0 } }" />
 												<p :class="[save.data.configs.tracker.map_text_size == undefined ? 'text-base' : `text-${save.data.configs.tracker.map_text_size}`]">
 													{{ check.name }}
 												</p>
@@ -1040,6 +1055,165 @@
 					</GridItem>
 				</template>
 			</GridLayout>
+		</div>
+
+		<!-- Streamer mode -->
+		<div v-else class="p-3">
+			<div
+				class="p-4 rounded-md"
+				:style="{
+					width: `${save.data.configs.tracker.no_layout_width}px`,
+					backgroundColor: save.data.configs.tracker.compact_item_background_hex_color
+				}">
+				<div
+					class="flex flex-wrap"
+					:class="[
+						`gap-x-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap : 0.5}`,
+						`gap-y-${save.data.configs.tracker.item_gap !== undefined ? save.data.configs.tracker.item_gap + 1.5 : 2}`
+					]">
+					<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.stars" :key="trackerItemKey">
+						<VDropdown
+							v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['stars'][trackerItemKey]"
+							:triggers="[]"
+							:shown="showStarMenu[trackerItemKey]"
+							@apply-hide="hideStarMenu()">
+							<Item
+								@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+								@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+								:itemName="trackerItemConfigs.name"
+								:itemKey="trackerItemKey"
+								imageFolder="stars"
+								:itemCount="save.data.items[trackerItemKey]"
+								:itemCountMax="trackerItemConfigs.max"
+								:initial="trackerItemConfigs.initial" />
+
+							<template #popper>
+								<div v-if="starMenuType == 'difficulty'" class="flex gap-1 items-center bg-sky-800 text-white p-1">
+									<p class="cursor-pointer border-2 border-sky-950 hover:bg-sky-700 rounded-full px-2" v-for="i in 9" :key="i" @click="setStarDifficulty(trackerItemKey, i - 1)">
+										{{ i - 1 }}
+									</p>
+								</div>
+
+								<div v-if="starMenuType == 'dungeon_shuffle'" class="flex gap-1 items-center bg-sky-800 text-white p-1">
+									<template v-for="i in 8" :key="i">
+										<div
+											v-if="i == 1"
+											class="flex items-center cursor-pointer border-2 border-sky-950 hover:bg-sky-700 rounded-full p-1"
+											@click="setStarDungeonShuffle(trackerItemKey, 0)">
+											<font-awesome-icon class="" :icon="['fas', 'ban']" />
+										</div>
+
+										<img
+											v-else
+											class="h-7 cursor-pointer border-2 border-sky-950 hover:bg-sky-700 rounded-full p-1"
+											:src="`/images/stars/${starImage(i - 1)}.webp`"
+											@click="setStarDungeonShuffle(trackerItemKey, i - 1)" />
+									</template>
+								</div>
+							</template>
+						</VDropdown>
+					</template>
+					<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.partners" :key="trackerItemKey">
+						<Item
+							v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['partners'][trackerItemKey]"
+							@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+							@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+							:itemName="trackerItemConfigs.name"
+							:itemKey="trackerItemKey"
+							imageFolder="partners"
+							:itemCount="save.data.items[trackerItemKey]"
+							:itemCountMax="trackerItemConfigs.max"
+							:initial="trackerItemConfigs.initial" />
+					</template>
+					<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.equipments" :key="trackerItemKey">
+						<Item
+							v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['equipments'][trackerItemKey]"
+							@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+							@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+							:itemName="trackerItemConfigs.name[save.data.items[trackerItemKey]]"
+							:itemKey="trackerItemKey"
+							imageFolder="equipments"
+							:itemCount="save.data.items[trackerItemKey]"
+							:itemCountMax="trackerItemConfigs.max"
+							:levelItem="true"
+							:initial="trackerItemConfigs.initial" />
+					</template>
+					<template v-for="(chaptersItems, chapter) in tracker.items.items" :key="chapter">
+						<template v-for="(trackerItemConfigs, trackerItemKey) in chaptersItems" :key="trackerItemKey">
+							<Item
+								v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['items'][chapter][trackerItemKey]"
+								@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+								@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+								:itemName="trackerItemConfigs.name"
+								:itemKey="trackerItemKey"
+								:imageFolder="'items/' + chapter"
+								:itemCount="save.data.items[trackerItemKey]"
+								:itemCountMax="trackerItemConfigs.max"
+								:initial="trackerItemConfigs.initial" />
+						</template>
+					</template>
+					<template
+						v-if="save.data.configs.logic.letters_randomized && save.data.configs.tracker.compact_item_show_letters"
+						v-for="(chaptersItems, chapter) in tracker.items.letters"
+						:key="chapter">
+						<template v-for="(trackerItemConfigs, trackerItemKey) in chaptersItems" :key="trackerItemKey">
+							<Item
+								v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['letters'][chapter][trackerItemKey]"
+								@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, 'letters')"
+								@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs, 'letters')"
+								:itemName="trackerItemConfigs.name"
+								:itemKey="trackerItemKey"
+								imageFolder="letters"
+								:itemCount="save.data.items.letters[trackerItemKey]"
+								:itemCountMax="trackerItemConfigs.max"
+								:initial="trackerItemConfigs.initial"
+								:tooltipDelay="0" />
+						</template>
+					</template>
+					<template
+						v-if="save.data.configs.logic.koopa_koot && save.data.configs.tracker.compact_item_show_favors"
+						v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.koopa_koot_favors"
+						:key="trackerItemKey">
+						<Item
+							v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['koopa_koot_favors'][trackerItemKey]"
+							@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, 'koopa_koot_favors')"
+							@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs, 'koopa_koot_favors')"
+							:itemName="trackerItemConfigs.name"
+							:itemKey="trackerItemKey"
+							imageFolder="koopa_koot_favors"
+							:itemCount="save.data.items.koopa_koot_favors[trackerItemKey]"
+							:itemCountMax="trackerItemConfigs.max"
+							:initial="trackerItemConfigs.initial" />
+					</template>
+					<template
+						v-if="save.data.configs.logic.trading_event_randomized && save.data.configs.tracker.compact_item_show_trading_events"
+						v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.trading_event_toad"
+						:key="trackerItemKey">
+						<Item
+							v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['trading_event_toad'][trackerItemKey]"
+							@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs, 'trading_event_toad')"
+							@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs, 'trading_event_toad')"
+							:itemName="trackerItemConfigs.name"
+							:itemKey="trackerItemKey"
+							imageFolder="trading_event_toad"
+							:itemCount="save.data.items.trading_event_toad[trackerItemKey]"
+							:itemCountMax="trackerItemConfigs.max"
+							:initial="trackerItemConfigs.initial" />
+					</template>
+					<template v-for="(trackerItemConfigs, trackerItemKey) in tracker.items.misc" :key="trackerItemKey">
+						<Item
+							v-if="trackerItemConfigs.enabled && !save.data.configs.invisible_items['misc'][trackerItemKey]"
+							@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
+							@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+							:itemName="trackerItemConfigs.name"
+							:itemKey="trackerItemKey"
+							imageFolder="misc"
+							:itemCount="save.data.items[trackerItemKey]"
+							:itemCountMax="trackerItemConfigs.max"
+							:initial="trackerItemConfigs.initial" />
+					</template>
+				</div>
+			</div>
 		</div>
 
 		<!-- New randomizer seed modal -->
@@ -1183,7 +1357,7 @@
 				}"
 				v-for="(configValue, config, configIndex) in tracker.configs.tracker"
 				:key="config">
-				<p class="capitalize">{{ config.titlize() }}</p>
+				<p class="capitalize" v-tooltip="{ content: configValue.tooltip }">{{ config.titlize() }}</p>
 				<div class="flex" v-if="configValue.type == 'switch'">
 					<input :id="`config_${config}`" type="checkbox" v-model="save.data.configs.tracker[config]" />
 					<label :for="`config_${config}`"></label>

@@ -220,6 +220,8 @@ export const useSaveStore = defineStore('save', () => {
 	};
 
 	const defaultTrackerConfigs = {
+		deactivate_layout_system: false,
+		no_layout_width: 400,
 		map: true,
 		map_text_size: 'base',
 		always_show_super_blocks: false,
@@ -339,6 +341,9 @@ export const useSaveStore = defineStore('save', () => {
 				currentSave.configs.logic.koopa_koot_coins = randomizerData.IncludeCoinsFavors;
 				currentSave.configs.logic.dojo_randomized = randomizerData.IncludeDojo;
 				currentSave.configs.logic.trading_event_randomized = randomizerData.IncludeRadioTradeEvent;
+
+				currentSave.items.boots = randomizerData.StartingBoots + 1;
+				currentSave.items.hammer = randomizerData.StartingHammer + 1;
 			});
 		}
 	};

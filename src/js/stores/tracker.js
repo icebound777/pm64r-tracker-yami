@@ -950,6 +950,16 @@ export const useTrackerStore = defineStore('tracker', () => {
 			}
 		},
 		tracker: {
+			deactivate_layout_system: {
+				tooltip: 'Deactivate the layout system completely.',
+				enabled: true,
+				type: 'switch'
+			},
+			no_layout_width: {
+				tooltip: 'Changes the width of the tracker. Only works if the layout system is deactivated.',
+				enabled: true,
+				type: 'number'
+			},
 			map: {
 				tooltip: 'Shows the map tracker.',
 				enabled: true,
@@ -1077,7 +1087,7 @@ export const useTrackerStore = defineStore('tracker', () => {
 				type: 'switch'
 			},
 			competitive_mode: {
-				tooltip: `Changes the tracker to be used onlly with the mouse.<br/>
+				tooltip: `Changes the tracker to be used only with the mouse.<br/>
 				Left click cycles in the items with a max value (keys, letters, etc.);<br/>
 				Right click adds a check mark to the items, ranks to the partners and difficulty progression to the stars;<br/>
 				While maintaining the left click, right click on the stars to add the dungeon shuffle progression.`,
