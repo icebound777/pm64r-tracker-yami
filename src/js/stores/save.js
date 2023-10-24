@@ -10,6 +10,15 @@ export const useSaveStore = defineStore('save', () => {
 	const resetTrackerLayout = ref(false);
 
 	const currentSave = reactive({
+		items: {
+			eldstar_dungeon_shuffle: 3,
+			mamar_dungeon_shuffle: 0,
+			skolar_dungeon_shuffle: 0,
+			muskular_dungeon_shuffle: 0,
+			misstar_dungeon_shuffle: 0,
+			klevar_dungeon_shuffle: 0,
+			kalmar_dungeon_shuffle: 0
+		},
 		configs: {
 			randomizer: {},
 			logic: {},

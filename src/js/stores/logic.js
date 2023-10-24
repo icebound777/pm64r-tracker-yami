@@ -424,7 +424,11 @@ export const useLogicStore = defineStore('logic', () => {
 					if (save.data.configs.randomizer.whale_open) {
 						return flags.toad_town();
 					} else {
-						return flags.toad_town() && flags.partner('watt');
+						return (
+							(flags.toad_town() && flags.partner('watt')) ||
+							(flags.sewers() && save.data.items.boots >= 2 && save.data.items.sushie) ||
+							(flags.rip_cheato() && flags.partner('bombette') && flags.jump_ledges())
+						);
 					}
 			}
 		},
@@ -463,6 +467,132 @@ export const useLogicStore = defineStore('logic', () => {
 		}
 	});
 
+	const eldstar_dungeon_shuffle_icon = computed(() => {
+		let stars = {
+			1: 'eldstar',
+			2: 'mamar',
+			3: 'skolar',
+			4: 'muskular',
+			5: 'misstar',
+			6: 'klevar',
+			7: 'kalmar'
+		};
+
+		if (stars[save.data.items.eldstar_dungeon_shuffle] !== undefined) {
+			return `/images/stars/${stars[save.data.items.eldstar_dungeon_shuffle]}.webp`;
+		}
+
+		return null;
+	});
+
+	const mamar_dungeon_shuffle_icon = computed(() => {
+		let stars = {
+			1: 'eldstar',
+			2: 'mamar',
+			3: 'skolar',
+			4: 'muskular',
+			5: 'misstar',
+			6: 'klevar',
+			7: 'kalmar'
+		};
+
+		if (stars[save.data.items.mamar_dungeon_shuffle] !== undefined) {
+			return `/images/stars/${stars[save.data.items.mamar_dungeon_shuffle]}.webp`;
+		}
+
+		return null;
+	});
+
+	const skolar_dungeon_shuffle_icon = computed(() => {
+		let stars = {
+			1: 'eldstar',
+			2: 'mamar',
+			3: 'skolar',
+			4: 'muskular',
+			5: 'misstar',
+			6: 'klevar',
+			7: 'kalmar'
+		};
+
+		if (stars[save.data.items.skolar_dungeon_shuffle] !== undefined) {
+			return `/images/stars/${stars[save.data.items.skolar_dungeon_shuffle]}.webp`;
+		}
+
+		return null;
+	});
+
+	const muskular_dungeon_shuffle_icon = computed(() => {
+		let stars = {
+			1: 'eldstar',
+			2: 'mamar',
+			3: 'skolar',
+			4: 'muskular',
+			5: 'misstar',
+			6: 'klevar',
+			7: 'kalmar'
+		};
+
+		if (stars[save.data.items.muskular_dungeon_shuffle] !== undefined) {
+			return `/images/stars/${stars[save.data.items.muskular_dungeon_shuffle]}.webp`;
+		}
+
+		return null;
+	});
+
+	const misstar_dungeon_shuffle_icon = computed(() => {
+		let stars = {
+			1: 'eldstar',
+			2: 'mamar',
+			3: 'skolar',
+			4: 'muskular',
+			5: 'misstar',
+			6: 'klevar',
+			7: 'kalmar'
+		};
+
+		if (stars[save.data.items.misstar_dungeon_shuffle] !== undefined) {
+			return `/images/stars/${stars[save.data.items.misstar_dungeon_shuffle]}.webp`;
+		}
+
+		return null;
+	});
+
+	const klevar_dungeon_shuffle_icon = computed(() => {
+		let stars = {
+			1: 'eldstar',
+			2: 'mamar',
+			3: 'skolar',
+			4: 'muskular',
+			5: 'misstar',
+			6: 'klevar',
+			7: 'kalmar'
+		};
+
+		if (stars[save.data.items.klevar_dungeon_shuffle] !== undefined) {
+			return `/images/stars/${stars[save.data.items.klevar_dungeon_shuffle]}.webp`;
+		}
+
+		return null;
+	});
+
+	const kalmar_dungeon_shuffle_icon = computed(() => {
+		let stars = {
+			1: 'eldstar',
+			2: 'mamar',
+			3: 'skolar',
+			4: 'muskular',
+			5: 'misstar',
+			6: 'klevar',
+			7: 'kalmar'
+		};
+
+		if (stars[save.data.items.kalmar_dungeon_shuffle] !== undefined) {
+			return `/images/stars/${stars[save.data.items.kalmar_dungeon_shuffle]}.webp`;
+		}
+
+		return null;
+	});
+
 	const checks = reactive({
 		prologue: {
 			name: 'Prologue',
@@ -496,7 +626,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Top-left tree',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -506,7 +636,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Bottom-left tree',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -516,7 +646,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Bush 1',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -526,7 +656,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Bush 2',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -536,7 +666,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Bush 3',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -546,7 +676,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Bush 4',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -556,7 +686,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Bush 5',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -566,7 +696,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Bush 6',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -576,7 +706,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Block on the ground',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -595,7 +725,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Right of stone block',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -605,7 +735,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 1 above spring',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -615,7 +745,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 2 above spring',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -625,7 +755,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 3 above spring',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -635,7 +765,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 4 above spring',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -645,7 +775,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Far left ? block',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -704,7 +834,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Tree on ledge',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -723,7 +853,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Middle of the room',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -792,7 +922,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Goompa',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -802,7 +932,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Goompapa',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -812,7 +942,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Goompapa 2',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -822,7 +952,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Bottom right bush',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -832,7 +962,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Goompa (After Koopa Koot asks for his tape)',
-							icon: 'koopa_koot_favors',
+							icon: '/images/checks/koopa_koot_favors.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot;
 							},
@@ -851,7 +981,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Left ? block',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -861,7 +991,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Right ? block',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -935,7 +1065,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Top near Toad Town entrance',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -955,7 +1085,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: "Tree right of the Goomba King's Fortress (top left in the fence)",
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -1008,7 +1138,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: "Luigi (After Koopa Koot asks for Luigi's autograph)",
-							icon: 'koopa_koot_favors',
+							icon: '/images/checks/koopa_koot_favors.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot;
 							},
@@ -1034,7 +1164,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Muss T.',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -1053,7 +1183,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Right side of the bridge (Before the stairs)',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -1082,7 +1212,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'On the first step',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -1101,7 +1231,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'In front of the pot in front of the house',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -1111,7 +1241,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Merlow',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -1121,7 +1251,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Give Merluvlee the Crystal Ball',
-							icon: 'koopa_koot_favors',
+							icon: '/images/checks/koopa_koot_favors.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot;
 							},
@@ -1142,7 +1272,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Merlow star pieces reward 1',
-							icon: 'shopsanity_merlow',
+							icon: '/images/checks/shopsanity_merlow',
 							exists: () => {
 								return save.data.configs.logic.merlow;
 							},
@@ -1152,7 +1282,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Merlow star pieces reward 2',
-							icon: 'shopsanity_merlow',
+							icon: '/images/checks/shopsanity_merlow',
 							exists: () => {
 								return save.data.configs.logic.merlow;
 							},
@@ -1162,7 +1292,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Merlow star pieces reward 3',
-							icon: 'shopsanity_merlow',
+							icon: '/images/checks/shopsanity_merlow',
 							exists: () => {
 								return save.data.configs.logic.merlow;
 							},
@@ -1172,7 +1302,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Merlow star pieces reward 4',
-							icon: 'shopsanity_merlow',
+							icon: '/images/checks/shopsanity_merlow',
 							exists: () => {
 								return save.data.configs.logic.merlow;
 							},
@@ -1182,7 +1312,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Merlow star pieces reward 5',
-							icon: 'shopsanity_merlow',
+							icon: '/images/checks/shopsanity_merlow',
 							exists: () => {
 								return save.data.configs.logic.merlow;
 							},
@@ -1192,7 +1322,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Merlow star pieces reward 6',
-							icon: 'shopsanity_merlow',
+							icon: '/images/checks/shopsanity_merlow',
 							exists: () => {
 								return save.data.configs.logic.merlow;
 							},
@@ -1211,7 +1341,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Shop item 1',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -1221,7 +1351,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 2',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -1231,7 +1361,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 3',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -1241,7 +1371,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 4',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -1251,7 +1381,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 5',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -1261,7 +1391,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 6',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -1291,7 +1421,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'By the three toad sisters',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -1301,7 +1431,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Miss T.',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -1311,7 +1441,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Russ T.',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -1321,7 +1451,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Give Koopa Leaf to Trading Event Toad',
-							icon: 'trading_event_randomized',
+							icon: '/images/checks/trading_event_randomized',
 							exists: () => {
 								return save.data.configs.logic.trading_event_randomized;
 							},
@@ -1331,7 +1461,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Defeat Chan',
-							icon: 'dojo_randomized',
+							icon: '/images/checks/dojo_randomized',
 							exists: () => {
 								return save.data.configs.logic.dojo_randomized;
 							},
@@ -1341,7 +1471,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Defeat Lee',
-							icon: 'dojo_randomized',
+							icon: '/images/checks/dojo_randomized',
 							exists: () => {
 								return save.data.configs.logic.dojo_randomized;
 							},
@@ -1351,7 +1481,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Defeat Master',
-							icon: 'dojo_randomized',
+							icon: '/images/checks/dojo_randomized',
 							exists: () => {
 								return save.data.configs.logic.dojo_randomized;
 							},
@@ -1361,7 +1491,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Defeat Master 2',
-							icon: 'dojo_randomized',
+							icon: '/images/checks/dojo_randomized',
 							exists: () => {
 								return save.data.configs.logic.dojo_randomized;
 							},
@@ -1371,7 +1501,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Defeat Master 3',
-							icon: 'dojo_randomized',
+							icon: '/images/checks/dojo_randomized',
 							exists: () => {
 								return save.data.configs.logic.dojo_randomized;
 							},
@@ -1381,7 +1511,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Super block',
-							icon: 'super_blocks',
+							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
@@ -1440,7 +1570,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 1',
-							icon: 'shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1450,7 +1580,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 2',
-							icon: 'shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1460,7 +1590,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 3',
-							icon: 'shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1470,7 +1600,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 4',
-							icon: 'shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1480,7 +1610,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 5',
-							icon: 'shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1490,7 +1620,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 6',
-							icon: 'shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1500,7 +1630,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 7',
-							icon: 'shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1510,7 +1640,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 8',
-							icon: 'shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1520,7 +1650,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 9',
-							icon: 'shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1530,7 +1660,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 10',
-							icon: 'shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1540,7 +1670,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 11',
-							icon: 'shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1550,7 +1680,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 12',
-							icon: 'shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1560,7 +1690,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 13',
-							icon: 'shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1570,7 +1700,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 14',
-							icon: 'shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1580,7 +1710,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 15',
-							icon: 'shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
@@ -1590,12 +1720,22 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rowf shop 16',
-							icon: 'shopsanity_rowf',
+							icon: '/images/checks/shopsanity_rowf',
 							exists: () => {
 								return save.data.configs.logic.rowf_shop;
 							},
 							available: () => {
 								return flags.toad_town() && flags.star_spirits_count() >= 4;
+							}
+						},
+						{
+							name: 'Flower Fields',
+							icon: klevar_dungeon_shuffle_icon,
+							exists: () => {
+								return save.data.configs.randomizer.shuffle_dungeon_entrances;
+							},
+							available: () => {
+								return flags.toad_town() && flags.magical_seeds_count() >= save.data.configs.randomizer.magical_seed_required;
 							}
 						}
 					]
@@ -1629,7 +1769,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Outside Club 64',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -1639,7 +1779,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Fishmael',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -1649,7 +1789,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Give Coconut to Trading Event Toad',
-							icon: 'trading_event_randomized',
+							icon: '/images/checks/trading_event_randomized',
 							exists: () => {
 								return save.data.configs.logic.trading_event_randomized;
 							},
@@ -1659,7 +1799,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Block on the crates south-west of the area',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -1679,7 +1819,7 @@ export const useLogicStore = defineStore('logic', () => {
 						//6 shop items
 						{
 							name: 'Shop item 1',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -1689,7 +1829,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 2',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -1699,7 +1839,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 3',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -1709,7 +1849,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 4',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -1719,7 +1859,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 5',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -1729,7 +1869,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 6',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -1745,6 +1885,16 @@ export const useLogicStore = defineStore('logic', () => {
 							},
 							available: () => {
 								return flags.toad_town() && save.data.items.storeroom_key;
+							}
+						},
+						{
+							name: "Shy Guy's Toy Box",
+							icon: muskular_dungeon_shuffle_icon,
+							exists: () => {
+								return save.data.configs.randomizer.shuffle_dungeon_entrances;
+							},
+							available: () => {
+								return flags.dungeon_entrance_requirements_toybox();
 							}
 						}
 					]
@@ -1788,7 +1938,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Near Fice T.',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -1799,7 +1949,7 @@ export const useLogicStore = defineStore('logic', () => {
 						{
 							name: 'Fice T.',
 							tooltip: 'Check added if you deactivate "Forever Forest Open"',
-							icon: 'forest_pass',
+							icon: '/images/checks/forest_pass',
 							exists: () => {
 								return !save.data.configs.randomizer.forever_forest_open;
 							},
@@ -1809,7 +1959,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Fice T.',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -1828,7 +1978,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Bottom right side of the room',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -1838,7 +1988,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Date T.',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -1848,7 +1998,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Date T. 2',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -1888,7 +2038,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Left ? block',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -1908,7 +2058,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Right ? block',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -1973,7 +2123,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Super block behind ultra blocks',
-							icon: 'super_blocks',
+							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
@@ -1992,7 +2142,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Super block after you take the left elevator in the cieling in the elevator room',
-							icon: 'super_blocks',
+							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
@@ -2021,7 +2171,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Third brick from the left',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -2075,7 +2225,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Invisible Block left',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -2089,7 +2239,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Invisible Block middle',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -2103,7 +2253,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Invisible Block right',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -2117,7 +2267,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Super block',
-							icon: 'super_blocks',
+							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
@@ -2204,7 +2354,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: '? block next to the stone block',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -2228,7 +2378,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Right ? block',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -2258,7 +2408,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Left ? block',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -2298,7 +2448,7 @@ export const useLogicStore = defineStore('logic', () => {
 					]
 				},
 				chapter7_door: {
-					name: 'Chapter 7 Door',
+					name: 'Shiver City Door',
 					x: 10,
 					y: 2,
 					w: 1,
@@ -2306,7 +2456,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: '? block 1',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -2316,7 +2466,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Invisible block 1',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -2326,7 +2476,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Invisible block 2',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -2336,7 +2486,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Invisible block 3',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -2346,7 +2496,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Invisible block 4',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -2357,7 +2507,7 @@ export const useLogicStore = defineStore('logic', () => {
 					]
 				},
 				chapter7_pipe: {
-					name: 'Chapter 7 Pipe',
+					name: 'Shiver City Pipe',
 					x: 11,
 					y: 2,
 					w: 1,
@@ -2373,7 +2523,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Rip Cheato 1 (2 coins)',
-							icon: 'rip_cheato',
+							icon: '/images/checks/rip_cheato',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 1;
 							},
@@ -2383,7 +2533,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rip Cheato 2 (2 coins)',
-							icon: 'rip_cheato',
+							icon: '/images/checks/rip_cheato',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 2;
 							},
@@ -2393,7 +2543,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rip Cheato 3 (4 coins)',
-							icon: 'rip_cheato',
+							icon: '/images/checks/rip_cheato',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 3;
 							},
@@ -2403,7 +2553,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rip Cheato 4 (4 coins)',
-							icon: 'rip_cheato',
+							icon: '/images/checks/rip_cheato',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 4;
 							},
@@ -2413,7 +2563,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rip Cheato 5 (8 coins)',
-							icon: 'rip_cheato',
+							icon: '/images/checks/rip_cheato',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 5;
 							},
@@ -2423,7 +2573,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rip Cheato 6 (8 coins)',
-							icon: 'rip_cheato',
+							icon: '/images/checks/rip_cheato',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 6;
 							},
@@ -2433,7 +2583,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rip Cheato 7 (16 coins)',
-							icon: 'rip_cheato',
+							icon: '/images/checks/rip_cheato',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 7;
 							},
@@ -2443,7 +2593,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rip Cheato 8 (16 coins)',
-							icon: 'rip_cheato',
+							icon: '/images/checks/rip_cheato',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 8;
 							},
@@ -2453,7 +2603,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rip Cheato 9 (32 coins)',
-							icon: 'rip_cheato',
+							icon: '/images/checks/rip_cheato',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 9;
 							},
@@ -2463,7 +2613,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rip Cheato 10 (32 coins)',
-							icon: 'rip_cheato',
+							icon: '/images/checks/rip_cheato',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 10;
 							},
@@ -2473,7 +2623,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rip Cheato 11 (64 coins)',
-							icon: 'rip_cheato',
+							icon: '/images/checks/rip_cheato',
 							exists: () => {
 								return save.data.configs.logic.rip_cheato >= 11;
 							},
@@ -2497,7 +2647,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Left ? block',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -2566,7 +2716,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Last block near the east exit',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -2585,7 +2735,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Middle of the three striped pillars on top of the mountain',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -2644,7 +2794,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Under the 5 coins next to the west entrance',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -2654,7 +2804,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Coin 1 next to the west entrance',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -2664,7 +2814,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Coin 2 next to the west entrance',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -2674,7 +2824,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Coin 3 next to the west entrance',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -2684,7 +2834,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Coin 4 next to the west entrance',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -2694,7 +2844,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Coin 5 next to the west entrance',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -2720,6 +2870,16 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.koopa_village() && save.data.items.kooper && flags.trees();
 							}
+						},
+						{
+							name: 'Koopa Bros. Fortress',
+							icon: eldstar_dungeon_shuffle_icon,
+							exists: () => {
+								return save.data.configs.randomizer.shuffle_dungeon_entrances;
+							},
+							available: () => {
+								return flags.koopa_village() && save.data.items.kooper;
+							}
 						}
 					]
 				}
@@ -2737,7 +2897,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Far left bush',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -2757,7 +2917,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Second bush on the right next to the east exit',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -2777,7 +2937,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 1',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -2787,7 +2947,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 2',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -2797,7 +2957,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 3',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -2807,7 +2967,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 4',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -2817,7 +2977,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 5',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -2827,7 +2987,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 6',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -2837,7 +2997,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Left of tree',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -2847,7 +3007,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Mort T. (Koopa Inn)',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -2857,7 +3017,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koover 1 (Koopa at the west entrance)',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -2867,7 +3027,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koover 2 (Koopa at the west entrance)',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -2877,7 +3037,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: "Talk to Kolorado's wife (After Koopa Koot asks for the Koopa Legends)",
-							icon: 'koopa_koot_favors',
+							icon: '/images/checks/koopa_koot_favors.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot;
 							},
@@ -2887,7 +3047,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Bush closest of the east exit (After Koopa Koot asks for his wallet)',
-							icon: 'koopa_koot_favors',
+							icon: '/images/checks/koopa_koot_favors.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot;
 							},
@@ -2905,7 +3065,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Second bush near the west exit (After Koopa Koot asks for his glasses)',
-							icon: 'koopa_koot_favors',
+							icon: '/images/checks/koopa_koot_favors.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot;
 							},
@@ -2976,7 +3136,7 @@ export const useLogicStore = defineStore('logic', () => {
 							name: 'Kolorado',
 							tooltip:
 								'Kolorado location changes throughout the game. He is in Dry Dry Desert until you get Mamar. After he goes to Jade Jungle. He can be blocked by Kent C. if he is still in the way.',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -2996,7 +3156,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Far right bush',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -3006,7 +3166,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koopa Koot - Return Koopa Legends',
-							icon: 'koopa_koot_coins',
+							icon: '/images/checks/koopa_koot_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot_coins;
 							},
@@ -3016,7 +3176,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koopa Koot - Give Sleepy Sheep - First reward',
-							icon: 'koopa_koot_coins',
+							icon: '/images/checks/koopa_koot_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot_coins;
 							},
@@ -3026,7 +3186,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koopa Koot - Give Sleepy Sheep - Second reward',
-							icon: 'koopa_koot_favors',
+							icon: '/images/checks/koopa_koot_favors.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot;
 							},
@@ -3036,7 +3196,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koopa Koot - Give Tape',
-							icon: 'koopa_koot_coins',
+							icon: '/images/checks/koopa_koot_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot_coins;
 							},
@@ -3052,7 +3212,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koopa Koot - Give Koopa Tea',
-							icon: 'koopa_koot_favors',
+							icon: '/images/checks/koopa_koot_favors.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot;
 							},
@@ -3069,7 +3229,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: "Koopa Koot - Give Luigi's Autograph",
-							icon: 'koopa_koot_coins',
+							icon: '/images/checks/koopa_koot_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot_coins;
 							},
@@ -3087,7 +3247,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koopa Koot - Give Empty Wallet',
-							icon: 'koopa_koot_coins',
+							icon: '/images/checks/koopa_koot_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot_coins;
 							},
@@ -3106,7 +3266,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koopa Koot - Give Tasty Tonic',
-							icon: 'koopa_koot_coins',
+							icon: '/images/checks/koopa_koot_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot_coins;
 							},
@@ -3126,7 +3286,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: "Koopa Koot - Give Merluvlee's autograph",
-							icon: 'koopa_koot_favors',
+							icon: '/images/checks/koopa_koot_favors.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot;
 							},
@@ -3148,7 +3308,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koopa Koot - Go read the news in Toad Town',
-							icon: 'koopa_koot_coins',
+							icon: '/images/checks/koopa_koot_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot_coins;
 							},
@@ -3170,7 +3330,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koopa Koot - Give Life Shroom - First reward',
-							icon: 'koopa_koot_coins',
+							icon: '/images/checks/koopa_koot_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot_coins;
 							},
@@ -3193,7 +3353,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koopa Koot - Give Life Shroom - Second reward',
-							icon: 'koopa_koot_favors',
+							icon: '/images/checks/koopa_koot_favors.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot;
 							},
@@ -3216,7 +3376,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koopa Koot - Give Nutty Cake',
-							icon: 'koopa_koot_coins',
+							icon: '/images/checks/koopa_koot_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot_coins;
 							},
@@ -3240,7 +3400,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koopa Koot - Calm the Bob-ombs',
-							icon: 'koopa_koot_favors',
+							icon: '/images/checks/koopa_koot_favors.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot;
 							},
@@ -3266,7 +3426,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koopa Koot - Give Old Photo',
-							icon: 'koopa_koot_coins',
+							icon: '/images/checks/koopa_koot_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot_coins;
 							},
@@ -3293,7 +3453,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koopa Koot - Give Koopasta',
-							icon: 'koopa_koot_coins',
+							icon: '/images/checks/koopa_koot_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot_coins;
 							},
@@ -3321,7 +3481,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koopa Koot - Give Glasses',
-							icon: 'koopa_koot_coins',
+							icon: '/images/checks/koopa_koot_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot_coins;
 							},
@@ -3350,7 +3510,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koopa Koot - Give a Lime',
-							icon: 'koopa_koot_favors',
+							icon: '/images/checks/koopa_koot_favors.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot;
 							},
@@ -3380,7 +3540,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koopa Koot - Give Kooky Cookie',
-							icon: 'koopa_koot_coins',
+							icon: '/images/checks/koopa_koot_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot_coins;
 							},
@@ -3411,7 +3571,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koopa Koot - Give Package',
-							icon: 'koopa_koot_coins',
+							icon: '/images/checks/koopa_koot_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot_coins;
 							},
@@ -3443,7 +3603,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koopa Koot - Give Coconut',
-							icon: 'koopa_koot_coins',
+							icon: '/images/checks/koopa_koot_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot_coins;
 							},
@@ -3476,7 +3636,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Koopa Koot - Give Red jar',
-							icon: 'koopa_koot_favors',
+							icon: '/images/checks/koopa_koot_favors.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot;
 							},
@@ -3765,7 +3925,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Eldstar',
-							icon: 'stars/eldstar',
+							icon: '/images/checks/stars/eldstar.webp',
 							exists: () => {
 								return true;
 							},
@@ -3809,7 +3969,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Bush 1 near the train station',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -3819,7 +3979,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Bush 2 near the train station',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -3829,7 +3989,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Bush 3 near the train station',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -3839,7 +3999,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Super block',
-							icon: 'super_blocks',
+							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
@@ -3878,7 +4038,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 1 on slide',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -3888,7 +4048,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 2 on slide',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -3898,7 +4058,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 3 on slide',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -3937,7 +4097,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 1 on the ground in the gap at the far left of the room',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -3947,7 +4107,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 2 on the ground in the gap at the far left of the room',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -3967,7 +4127,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 1 of the circle of items at the far left of the room',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -3977,7 +4137,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 2 of the circle of items at the far left of the room',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -3987,7 +4147,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 3 of the circle of items at the far left of the room',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -3997,7 +4157,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 4 of the circle of items at the far left of the room',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -4007,7 +4167,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 5 of the circle of items at the far left of the room',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -4017,7 +4177,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 6 of the circle of items at the far left of the room',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -4027,7 +4187,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: '? block on top of the ledge on the left',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -4066,7 +4226,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Near the end of the slide, close to the wall on the right',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -4177,7 +4337,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Right ? block',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -4204,12 +4364,22 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Give Nutty Cake',
-							icon: 'trading_event_randomized',
+							icon: '/images/checks/trading_event_randomized',
 							exists: () => {
 								return save.data.configs.logic.trading_event_randomized;
 							},
 							available: () => {
 								return flags.koopa_village() && flags.dry_dry_desert() && flags.star_spirits_count() >= 3 && save.data.items.trading_event_toad;
+							}
+						},
+						{
+							name: 'Dry Dry Ruins',
+							icon: mamar_dungeon_shuffle_icon,
+							exists: () => {
+								return save.data.configs.randomizer.shuffle_dungeon_entrances;
+							},
+							available: () => {
+								return flags.dry_dry_desert() && save.data.items.pulse_stone;
 							}
 						}
 					]
@@ -4258,7 +4428,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Tree',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -4268,7 +4438,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Block near the tree',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -4330,7 +4500,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Left ? block',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -4350,7 +4520,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Block in the center of the room',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -4432,7 +4602,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Top left ? block',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -4442,7 +4612,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Top right ? block',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -4462,7 +4632,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Bottom left ? block',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -4472,7 +4642,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Bottom right ? block',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -4518,7 +4688,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Second block from the right',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -4528,7 +4698,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Third block from the right',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -4547,7 +4717,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Tree',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -4601,7 +4771,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Close to the petrified cactus',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -4620,7 +4790,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Nomadimouse',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -4630,7 +4800,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Tree',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -4649,7 +4819,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Tree near the left entrance',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -4668,7 +4838,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Far left tree',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -4678,7 +4848,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Second tree from the left',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -4688,7 +4858,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Fourth tree from the right',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -4717,7 +4887,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Center block',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -4752,7 +4922,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: '? block',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -4809,7 +4979,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: '? block in the middle of the room',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -4829,7 +4999,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Bottom tree',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -4864,7 +5034,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Block in the center',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -4899,7 +5069,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Tree',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -4919,7 +5089,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Block near the tree',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -4958,7 +5128,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Super block',
-							icon: 'super_blocks',
+							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
@@ -4968,7 +5138,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Tree at the bottom left of the room',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -4978,7 +5148,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Tree down of the heart block',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -5040,7 +5210,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: '? block',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -5067,7 +5237,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Tree top right of the north exit',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -5077,7 +5247,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Brick block 1',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -5087,7 +5257,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Brick block 2',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -5097,7 +5267,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Brick block 3',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -5107,7 +5277,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Brick block 4',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -5117,7 +5287,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Brick block 5',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -5127,7 +5297,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Brick block 6',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -5156,7 +5326,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Red tree',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -5166,7 +5336,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 1',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -5176,7 +5346,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 2',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -5186,7 +5356,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 3',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -5196,7 +5366,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Little Mouser',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -5206,7 +5376,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Buy Dusty Hammer, Dried Pasta, Dusty Hammer, Dried Shroom',
-							icon: 'koopa_koot_favors',
+							icon: '/images/checks/koopa_koot_favors.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot;
 							},
@@ -5245,7 +5415,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Rooftop',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -5255,7 +5425,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Mr E',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -5265,7 +5435,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Talk to Merlee after Merluvlee requests her Crystal Ball',
-							icon: 'koopa_koot_favors',
+							icon: '/images/checks/koopa_koot_favors.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot;
 							},
@@ -5486,7 +5656,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Super block',
-							icon: 'super_blocks',
+							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
@@ -5594,7 +5764,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Mamar',
-							icon: 'stars/mamar',
+							icon: '/images/checks/stars/mamar.webp',
 							exists: () => {
 								return true;
 							},
@@ -5884,7 +6054,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Middle of the room',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -5911,7 +6081,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Franky',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -5921,7 +6091,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'By the couch',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -5931,7 +6101,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Talk to Franky (After Koopa Koot asks for the Old Photo)',
-							icon: 'koopa_koot_favors',
+							icon: '/images/checks/koopa_koot_favors.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot;
 							},
@@ -5994,7 +6164,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'In front of the grandfather clock downstairs',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -6110,7 +6280,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'On the left of the room near the door',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -6129,7 +6299,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Shop item 1',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -6139,7 +6309,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 2',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -6149,7 +6319,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 3',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -6159,7 +6329,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 4',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -6169,7 +6339,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 5',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -6179,7 +6349,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 6',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -6189,7 +6359,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Igor',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -6219,7 +6389,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'East of the gate',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -6238,12 +6408,12 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Tubba Blubba',
-							icon: 'stars/skolar',
+							icon: '/images/checks/stars/skolar.webp',
 							exists: () => {
 								return true;
 							},
 							available: () => {
-								return flags.tubba_blubba_castle() && save.data.items.tubba_castle_key >= 3;
+								return flags.gusty_gulch() && flags.tubba_blubba_castle() && save.data.items.tubba_castle_key >= 3;
 							}
 						}
 					]
@@ -6257,7 +6427,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Block in the far right house',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -6267,7 +6437,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Talk to the Boo nead the Save Block (After Koopa Koot asks for the Package)',
-							icon: 'koopa_koot_favors',
+							icon: '/images/checks/koopa_koot_favors.webp',
 							exists: () => {
 								return save.data.configs.logic.koopa_koot;
 							},
@@ -6314,7 +6484,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'First ? block',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -6334,7 +6504,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Left ? block near the Goomba',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -6378,7 +6548,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.tubba_blubba_castle();
+								return flags.gusty_gulch() && flags.partner('parakarry');
 							}
 						},
 						{
@@ -6388,27 +6558,27 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.tubba_blubba_castle();
+								return flags.gusty_gulch() && flags.partner('parakarry');
 							}
 						},
 						{
 							name: '? block near the east exit',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
 							available: () => {
-								return flags.tubba_blubba_castle();
+								return flags.gusty_gulch() && flags.partner('parakarry');
 							}
 						},
 						{
 							name: 'Near the east exit',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
-								return flags.tubba_blubba_castle();
+								return flags.gusty_gulch() && flags.partner('parakarry');
 							}
 						}
 					]
@@ -6419,7 +6589,18 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 1,
 					w: 1,
 					h: 1,
-					checks: []
+					checks: [
+						{
+							name: "Tubba Blubba's Castle",
+							icon: skolar_dungeon_shuffle_icon,
+							exists: () => {
+								return save.data.configs.randomizer.shuffle_dungeon_entrances;
+							},
+							available: () => {
+								return flags.gusty_gulch() && flags.partner('parakarry');
+							}
+						}
+					]
 				}
 			}
 		},
@@ -6517,7 +6698,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Super block',
-							icon: 'super_blocks',
+							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
@@ -6616,7 +6797,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Coin on the bed 1',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -6626,7 +6807,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Coin on the bed 2',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -6636,7 +6817,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Coin on the bed 3',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -6646,7 +6827,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Coin on the bed 4',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -6656,7 +6837,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Coin on the bed 5',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -6666,7 +6847,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Coin on the bed 6',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -6762,7 +6943,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'In front of the station',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -6781,7 +6962,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Item 1 on the left spring',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -6791,7 +6972,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 2 on the left spring',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -6801,7 +6982,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 3 on the left spring',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -6811,7 +6992,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 1 on the spring of top of the first wall',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -6821,7 +7002,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 2 on the spring of top of the first wall',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -6831,7 +7012,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 3 on the spring of top of the first wall',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -6841,7 +7022,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 4 on the spring of top of the first wall',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -6851,7 +7032,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 5 on the spring of top of the first wall',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -6881,7 +7062,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: '? block on the west side of the last wall',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -6891,7 +7072,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: '? block on the east side of the last wall',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -6961,7 +7142,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: '? block near the west exit',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -7079,7 +7260,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'In front of the station',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -7108,7 +7289,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: '? block in the alley past the house',
-							name: 'coin_blocks',
+							name: 'coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -7157,7 +7338,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: '? block on top of the podium south of the tracks',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -7167,7 +7348,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'West ? block north of the tracks',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -7177,7 +7358,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'East ? block north of the tracks',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -7187,7 +7368,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Block between the two ? blocks north of the tracks',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -7227,7 +7408,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Left ? block north of the tracks, right of the Gourmet Guy Gate',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -7247,7 +7428,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Right ? block north of the tracks, right of the Gourmet Guy Gate',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -7266,7 +7447,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'In front of the station',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -7295,7 +7476,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Item 1 on the first threadmill',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -7305,7 +7486,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 2 on the first threadmill',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -7315,7 +7496,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 3 on the first threadmill',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -7325,7 +7506,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 1 on the second threadmill',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -7335,7 +7516,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 2 on the second threadmill',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -7345,7 +7526,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 3 on the second threadmill',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -7365,7 +7546,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Block on the pink moving platform',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -7375,7 +7556,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Coin 1 inside the fort',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -7385,7 +7566,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Coin 2 inside the fort',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -7395,7 +7576,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Coin 3 inside the fort',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -7405,7 +7586,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Coin 4 inside the fort',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -7415,7 +7596,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Coin 5 inside the fort',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -7425,7 +7606,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Coin 6 inside the fort',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -7474,7 +7655,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'In front of the station',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -7513,7 +7694,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'On top of the wheel',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -7523,7 +7704,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Left ? block in the middle of the room',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -7543,7 +7724,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Right ? block in the middle of the room',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -7563,7 +7744,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Super block',
-							icon: 'super_blocks',
+							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -7617,7 +7798,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Invisible ? block near the item on top of the brick block',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -7654,7 +7835,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Muskular',
-							icon: 'stars/muskular',
+							icon: '/images/checks/stars/muskular.webp',
 							exists: () => {
 								return true;
 							},
@@ -7678,7 +7859,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Item 1 on the spinning flower',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -7688,7 +7869,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 2 on the spinning flower',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -7817,7 +7998,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 1 on the spinning flower',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -7827,7 +8008,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item 2 on the spinning flower',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -7856,7 +8037,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'In front of the raven statue',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -7907,7 +8088,7 @@ export const useLogicStore = defineStore('logic', () => {
 						// 6 shop items
 						{
 							name: 'Shop item 1',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -7917,7 +8098,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 2',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -7927,7 +8108,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 3',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -7937,7 +8118,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 4',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -7947,7 +8128,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 5',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -7957,7 +8138,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 6',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -7967,7 +8148,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Red Yoshi Kid',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -8023,6 +8204,16 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.lava_lava_island();
 							}
+						},
+						{
+							name: 'Mt. Lavalava',
+							icon: misstar_dungeon_shuffle_icon,
+							exists: () => {
+								return save.data.configs.randomizer.shuffle_dungeon_entrances;
+							},
+							available: () => {
+								return flags.lava_lava_island_jungle_behind_raven_statue() && save.data.items.boots >= 1;
+							}
 						}
 					]
 				},
@@ -8045,7 +8236,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Coin 1 underwater',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -8055,7 +8246,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Coin 2 underwater',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -8065,7 +8256,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Coin 3 underwater',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -8075,7 +8266,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Super block',
-							icon: 'super_blocks',
+							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
@@ -8085,7 +8276,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Tree near the north exit',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -8095,7 +8286,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Tree near the east exit',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -8105,7 +8296,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Bush near the north exit',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -8115,7 +8306,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Bush near the south exit',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -8144,7 +8335,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Tree near the east exit',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -8154,7 +8345,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Bush near the south exit',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -8164,7 +8355,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'South-west bush',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -8261,7 +8452,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Tree on the ledge',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -8271,7 +8462,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Item on the sucking flower',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -8281,7 +8472,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Bush near the south exit',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -8291,7 +8482,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Bush near the east exit',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -8310,7 +8501,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Item underwater on the east side of the room',
-							icon: 'overworld_coins',
+							icon: '/images/checks/overworld_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.overworld_coins;
 							},
@@ -8320,7 +8511,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Tree near the raven statue',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -8339,7 +8530,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Tree',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -8378,7 +8569,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Tree near bell plant',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -8397,7 +8588,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Far left tree',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -8455,7 +8646,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Near the middle of the room',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -8465,7 +8656,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Tree near the east exit',
-							icon: 'foliage_coins',
+							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
 							},
@@ -8544,7 +8735,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: '? block 1',
-							icon: 'coin_block',
+							icon: '/images/checks/coin_block',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -8554,7 +8745,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: '? block 2',
-							icon: 'coin_block',
+							icon: '/images/checks/coin_block',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -8564,7 +8755,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: '? block 3',
-							icon: 'coin_block',
+							icon: '/images/checks/coin_block',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -8574,7 +8765,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: '? block 4',
-							icon: 'coin_block',
+							icon: '/images/checks/coin_block',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -8603,7 +8794,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Super Block',
-							icon: 'super_blocks',
+							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
@@ -8687,7 +8878,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Super Block',
-							icon: 'super_blocks',
+							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
@@ -8697,7 +8888,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'East side of the lower level',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -8740,7 +8931,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'West of the Heart Block',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -8788,7 +8979,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Misstar',
-							icon: 'stars/misstar',
+							icon: '/images/checks/stars/misstar.webp',
 							exists: () => {
 								return true;
 							},
@@ -8896,7 +9087,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Hidden block between the brick block and the spring',
-							icon: 'coin_blocks',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -8925,7 +9116,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'East of the exit pipe',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
@@ -8963,7 +9154,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'In front of the tree',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -9041,7 +9232,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Super block',
-							icon: 'super_blocks',
+							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
@@ -9137,7 +9328,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'South-west of the room',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -9215,7 +9406,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Super block',
-							icon: 'super_blocks',
+							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
@@ -9277,7 +9468,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Near the east exit',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -9352,7 +9543,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Klevar',
-							icon: 'stars/klevar',
+							icon: '/images/checks/stars/klevar.webp',
 							exists: () => {
 								return true;
 							},
@@ -9384,7 +9575,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: "Next the mayor's house",
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -9394,7 +9585,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Mayor penguin',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -9433,7 +9624,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Shop item 1',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -9443,7 +9634,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 2',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -9453,7 +9644,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 3',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -9463,7 +9654,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 4',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -9473,7 +9664,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 5',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -9483,7 +9674,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Shop item 6',
-							icon: 'shopsanity',
+							icon: '/images/checks/shopsanity.webp',
 							exists: () => {
 								return save.data.configs.logic.shopsanity;
 							},
@@ -9549,7 +9740,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'South of the room',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -9617,7 +9808,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Frost T.',
-							icon: 'letters_randomized',
+							icon: '/images/checks/letters_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.letters_randomized;
 							},
@@ -9675,7 +9866,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Super block',
-							icon: 'super_blocks',
+							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
@@ -9750,6 +9941,16 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.shiver_mountain_tunnel() && save.data.items.star_stone;
 							}
+						},
+						{
+							name: 'Crystal Palace',
+							icon: kalmar_dungeon_shuffle_icon,
+							exists: () => {
+								return save.data.configs.randomizer.shuffle_dungeon_entrances;
+							},
+							available: () => {
+								return flags.shiver_mountain_tunnel() && save.data.items.star_stone;
+							}
 						}
 					]
 				},
@@ -9813,7 +10014,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: '2 blocks past the blue door',
-							icon: 'multicoin_blocks_randomized',
+							icon: '/images/checks/multicoin_blocks_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.multicoin_blocks_randomized;
 							},
@@ -10019,7 +10220,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Under the ? block',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -10075,7 +10276,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Under the ? block',
-							icon: 'panels_randomized',
+							icon: '/images/checks/panels_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.panels;
 							},
@@ -10139,7 +10340,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: [
 						{
 							name: 'Kalmar',
-							icon: 'stars/kalmar',
+							icon: '/images/checks/stars/kalmar.webp',
 							exists: () => {
 								return true;
 							},

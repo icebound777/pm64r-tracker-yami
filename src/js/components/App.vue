@@ -1038,11 +1038,7 @@
 												@click="map.selectCheck(map.currentMapCategory, map.currentMap, checkKey)"
 												@contextmenu="map.unselectCheck(map.currentMapCategory, map.currentMap, checkKey)"
 												v-tooltip="check.tooltip !== undefined ? check.tooltip : null">
-												<img
-													v-if="check.icon"
-													class="h-3 mr-2"
-													:src="`/images/checks/${check.icon}.webp`"
-													v-tooltip="{ content: check.icon.titlize().capitalize(), delay: { show: 0 } }" />
+												<img v-if="check.icon" class="h-3 mr-2" :src="check.icon" v-tooltip="{ content: check.icon.titlize().capitalize(), delay: { show: 0 } }" />
 												<p :class="[save.data.configs.tracker.map_text_size == undefined ? 'text-base' : `text-${save.data.configs.tracker.map_text_size}`]">
 													{{ check.name }}
 												</p>
@@ -1446,7 +1442,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, watch } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 
 import { useSaveStore } from '../stores/save';
 import { useTrackerStore } from '../stores/tracker';
