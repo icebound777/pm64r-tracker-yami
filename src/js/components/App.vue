@@ -106,6 +106,9 @@
 							<font-awesome-icon :icon="['far', 'circle-question']" />
 							<p class="hidden xl:block ml-4">How to use</p>
 						</button>
+						<button class="hidden lg:flex flex items-center bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" v-tooltip="{ content: 'Github', delay: { show: 0 } }" @click="openGithub()">
+							<font-awesome-icon :icon="['fab', 'github']" />
+						</button>
 					</div>
 				</div>
 			</div>
@@ -1917,6 +1920,10 @@ const resetLayoutPrompt = () => {
 	if (confirm('Are you sure you want to reset your tracker layout? It will revert to the default layout. It will not reset any progression, logic or tracker configs.')) {
 		save.resetTrackerLayout = true;
 	}
+};
+
+const openGithub = () => {
+	window.open('https://github.com/mryamiouji/pm64r-tracker', '_blank');
 };
 
 //OnLoad Function Calls

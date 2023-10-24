@@ -16,8 +16,9 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 import { faBars, faBan, faBrain, faBraille, faCheck, faDownload, faDice, faFileCirclePlus, faFloppyDisk, faSpinner, faTable, faTrash, faWrench } from '@fortawesome/free-solid-svg-icons';
 import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
-library.add(faBars, faBan, faBrain, faBraille, faCheck, faCircleQuestion, faDownload, faDice, faFileCirclePlus, faFloppyDisk, faSpinner, faTable, faTrash, faWrench);
+library.add(faBars, faBan, faBrain, faBraille, faCheck, faCircleQuestion, faDownload, faDice, faFileCirclePlus, faFloppyDisk, faGithub, faSpinner, faTable, faTrash, faWrench);
 
 const pinia = createPinia();
 const app = createApp(App)

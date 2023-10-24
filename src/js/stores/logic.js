@@ -9571,6 +9571,25 @@ export const useLogicStore = defineStore('logic', () => {
 		shiver_region: {
 			name: 'Shiver Region',
 			maps: {
+				sewers_entrance: {
+					name: 'Sewers Entrance',
+					x: 1,
+					y: 6,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Super Block',
+							icon: '/images/checks/super_blocks.webp',
+							exists: () => {
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
+							},
+							available: () => {
+								return flags.shiver_city();
+							}
+						}
+					]
+				},
 				west_shiver_city: {
 					name: 'West Shiver City',
 					x: 1,
