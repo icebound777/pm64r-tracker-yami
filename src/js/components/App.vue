@@ -7,7 +7,7 @@
 			</div>
 			<div class="flex justify-between">
 				<div class="flex flex-wrap">
-					<div class="flex flex-wrap gap-2 p-3 w-[260px] mr-0 md:mr-10">
+					<div class="flex flex-wrap gap-2 p-3 w-[260px] mr-0 2xl:mr-10">
 						<button
 							class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
 							type="button"
@@ -35,7 +35,7 @@
 						</button>
 					</div>
 
-					<div class="hidden lg:flex flex-wrap gap-2 p-3 w-[210px] mr-10">
+					<div class="hidden xl:flex flex-wrap gap-2 p-3 w-[210px] mr-0 2xl:mr-10">
 						<button
 							class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
 							type="button"
@@ -81,7 +81,7 @@
 						</button>
 						<div
 							v-if="!save.data.configs.tracker.deactivate_layout_system"
-							class="bg-sky-950 hover:bg-sky-800 w-fit flex rounded-md p-3 items-center ml-10"
+							class="hidden lg:flex bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3 items-center ml-0 2xl:ml-10"
 							type="button"
 							v-tooltip="{ content: 'Edit tracker layout', delay: { show: 0 } }">
 							<p class="mr-5">
@@ -92,7 +92,7 @@
 						</div>
 						<button
 							v-if="!save.data.configs.tracker.deactivate_layout_system"
-							class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
+							class="hidden lg:flex bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
 							type="button"
 							v-tooltip="{ content: 'Restore default layout', delay: { show: 0 } }"
 							@click="resetLayoutPrompt">
