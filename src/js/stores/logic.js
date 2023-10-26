@@ -226,15 +226,15 @@ export const useLogicStore = defineStore('logic', () => {
 					7: 'kalmar'
 				};
 
-				let found_dungeon = 0;
+				// let found_dungeon = 0;
 
-				for (let i = 1; i <= 7; i++) {
-					if (save.data.items[`${stars[i]}_dungeon_shuffle`] == dungeon) {
-						found_dungeon = i;
-					}
-				}
+				// for (let i = 1; i <= 7; i++) {
+				// 	if (save.data.items[`${stars[i]}_dungeon_shuffle`] == dungeon) {
+				// 		found_dungeon = i;
+				// 	}
+				// }
 
-				return requirements[found_dungeon];
+				return requirements[save.data.items[`${stars[dungeon]}_dungeon_shuffle`]];
 			} else {
 				return requirements[dungeon];
 			}
@@ -471,7 +471,7 @@ export const useLogicStore = defineStore('logic', () => {
 			return flags.leave_shiver_city() && save.data.items.bucket && save.data.items.scarf && save.data.items.boots >= 2;
 		},
 		shiver_mountain_tunnel: () => {
-			flags.shiver_mountain() && save.data.items.kooper && save.data.items.hammer;
+			return flags.shiver_mountain() && flags.partner('kooper') && save.data.items.hammer >= 1;
 		},
 		crystal_palace: () => {
 			return flags.dungeon_entrance_requirements(7);
@@ -489,11 +489,55 @@ export const useLogicStore = defineStore('logic', () => {
 			7: 'kalmar'
 		};
 
-		if (stars[save.data.items.eldstar_dungeon_shuffle] !== undefined) {
-			return `/images/stars/${stars[save.data.items.eldstar_dungeon_shuffle]}.webp`;
+		let found_dungeon = 0;
+
+		for (let i = 1; i <= 7; i++) {
+			if (save.data.items[`${stars[i]}_dungeon_shuffle`] == 1) {
+				found_dungeon = i;
+			}
+		}
+
+		if (stars[found_dungeon] !== undefined) {
+			return `/images/stars/${stars[found_dungeon]}.webp`;
 		}
 
 		return null;
+	});
+
+	const eldstar_dungeon_shuffle_name = computed(() => {
+		let stars = {
+			1: 'eldstar',
+			2: 'mamar',
+			3: 'skolar',
+			4: 'muskular',
+			5: 'misstar',
+			6: 'klevar',
+			7: 'kalmar'
+		};
+
+		let dungeons = {
+			1: 'Koopa Bros. Fortress',
+			2: 'Dry Dry Ruins',
+			3: 'Tubba Blubba Castle',
+			4: "Shy Guy's Toybox",
+			5: 'Mt. Lavalava',
+			6: 'Flower Fields',
+			7: 'Crystal Palace'
+		};
+
+		let found_dungeon = 0;
+
+		for (let i = 1; i <= 7; i++) {
+			if (save.data.items[`${stars[i]}_dungeon_shuffle`] == 1) {
+				found_dungeon = i;
+			}
+		}
+
+		if (dungeons[found_dungeon] !== undefined) {
+			return dungeons[found_dungeon];
+		}
+
+		return 'Unknown Dungeon';
 	});
 
 	const mamar_dungeon_shuffle_icon = computed(() => {
@@ -507,11 +551,55 @@ export const useLogicStore = defineStore('logic', () => {
 			7: 'kalmar'
 		};
 
-		if (stars[save.data.items.mamar_dungeon_shuffle] !== undefined) {
-			return `/images/stars/${stars[save.data.items.mamar_dungeon_shuffle]}.webp`;
+		let found_dungeon = 0;
+
+		for (let i = 1; i <= 7; i++) {
+			if (save.data.items[`${stars[i]}_dungeon_shuffle`] == 2) {
+				found_dungeon = i;
+			}
+		}
+
+		if (stars[found_dungeon] !== undefined) {
+			return `/images/stars/${stars[found_dungeon]}.webp`;
 		}
 
 		return null;
+	});
+
+	const mamar_dungeon_shuffle_name = computed(() => {
+		let stars = {
+			1: 'eldstar',
+			2: 'mamar',
+			3: 'skolar',
+			4: 'muskular',
+			5: 'misstar',
+			6: 'klevar',
+			7: 'kalmar'
+		};
+
+		let dungeons = {
+			1: 'Koopa Bros. Fortress',
+			2: 'Dry Dry Ruins',
+			3: 'Tubba Blubba Castle',
+			4: "Shy Guy's Toybox",
+			5: 'Mt. Lavalava',
+			6: 'Flower Fields',
+			7: 'Crystal Palace'
+		};
+
+		let found_dungeon = 0;
+
+		for (let i = 1; i <= 7; i++) {
+			if (save.data.items[`${stars[i]}_dungeon_shuffle`] == 2) {
+				found_dungeon = i;
+			}
+		}
+
+		if (dungeons[found_dungeon] !== undefined) {
+			return dungeons[found_dungeon];
+		}
+
+		return 'Unknown Dungeon';
 	});
 
 	const skolar_dungeon_shuffle_icon = computed(() => {
@@ -525,11 +613,55 @@ export const useLogicStore = defineStore('logic', () => {
 			7: 'kalmar'
 		};
 
-		if (stars[save.data.items.skolar_dungeon_shuffle] !== undefined) {
-			return `/images/stars/${stars[save.data.items.skolar_dungeon_shuffle]}.webp`;
+		let found_dungeon = 0;
+
+		for (let i = 1; i <= 7; i++) {
+			if (save.data.items[`${stars[i]}_dungeon_shuffle`] == 3) {
+				found_dungeon = i;
+			}
+		}
+
+		if (stars[found_dungeon] !== undefined) {
+			return `/images/stars/${stars[found_dungeon]}.webp`;
 		}
 
 		return null;
+	});
+
+	const skolar_dungeon_shuffle_name = computed(() => {
+		let stars = {
+			1: 'eldstar',
+			2: 'mamar',
+			3: 'skolar',
+			4: 'muskular',
+			5: 'misstar',
+			6: 'klevar',
+			7: 'kalmar'
+		};
+
+		let dungeons = {
+			1: 'Koopa Bros. Fortress',
+			2: 'Dry Dry Ruins',
+			3: 'Tubba Blubba Castle',
+			4: "Shy Guy's Toybox",
+			5: 'Mt. Lavalava',
+			6: 'Flower Fields',
+			7: 'Crystal Palace'
+		};
+
+		let found_dungeon = 0;
+
+		for (let i = 1; i <= 7; i++) {
+			if (save.data.items[`${stars[i]}_dungeon_shuffle`] == 3) {
+				found_dungeon = i;
+			}
+		}
+
+		if (dungeons[found_dungeon] !== undefined) {
+			return dungeons[found_dungeon];
+		}
+
+		return 'Unknown Dungeon';
 	});
 
 	const muskular_dungeon_shuffle_icon = computed(() => {
@@ -543,11 +675,55 @@ export const useLogicStore = defineStore('logic', () => {
 			7: 'kalmar'
 		};
 
-		if (stars[save.data.items.muskular_dungeon_shuffle] !== undefined) {
-			return `/images/stars/${stars[save.data.items.muskular_dungeon_shuffle]}.webp`;
+		let found_dungeon = 0;
+
+		for (let i = 1; i <= 7; i++) {
+			if (save.data.items[`${stars[i]}_dungeon_shuffle`] == 4) {
+				found_dungeon = i;
+			}
+		}
+
+		if (stars[found_dungeon] !== undefined) {
+			return `/images/stars/${stars[found_dungeon]}.webp`;
 		}
 
 		return null;
+	});
+
+	const muskular_dungeon_shuffle_name = computed(() => {
+		let stars = {
+			1: 'eldstar',
+			2: 'mamar',
+			3: 'skolar',
+			4: 'muskular',
+			5: 'misstar',
+			6: 'klevar',
+			7: 'kalmar'
+		};
+
+		let dungeons = {
+			1: 'Koopa Bros. Fortress',
+			2: 'Dry Dry Ruins',
+			3: 'Tubba Blubba Castle',
+			4: "Shy Guy's Toybox",
+			5: 'Mt. Lavalava',
+			6: 'Flower Fields',
+			7: 'Crystal Palace'
+		};
+
+		let found_dungeon = 0;
+
+		for (let i = 1; i <= 7; i++) {
+			if (save.data.items[`${stars[i]}_dungeon_shuffle`] == 4) {
+				found_dungeon = i;
+			}
+		}
+
+		if (dungeons[found_dungeon] !== undefined) {
+			return dungeons[found_dungeon];
+		}
+
+		return 'Unknown Dungeon';
 	});
 
 	const misstar_dungeon_shuffle_icon = computed(() => {
@@ -561,11 +737,55 @@ export const useLogicStore = defineStore('logic', () => {
 			7: 'kalmar'
 		};
 
-		if (stars[save.data.items.misstar_dungeon_shuffle] !== undefined) {
-			return `/images/stars/${stars[save.data.items.misstar_dungeon_shuffle]}.webp`;
+		let found_dungeon = 0;
+
+		for (let i = 1; i <= 7; i++) {
+			if (save.data.items[`${stars[i]}_dungeon_shuffle`] == 5) {
+				found_dungeon = i;
+			}
+		}
+
+		if (stars[found_dungeon] !== undefined) {
+			return `/images/stars/${stars[found_dungeon]}.webp`;
 		}
 
 		return null;
+	});
+
+	const misstar_dungeon_shuffle_name = computed(() => {
+		let stars = {
+			1: 'eldstar',
+			2: 'mamar',
+			3: 'skolar',
+			4: 'muskular',
+			5: 'misstar',
+			6: 'klevar',
+			7: 'kalmar'
+		};
+
+		let dungeons = {
+			1: 'Koopa Bros. Fortress',
+			2: 'Dry Dry Ruins',
+			3: 'Tubba Blubba Castle',
+			4: "Shy Guy's Toybox",
+			5: 'Mt. Lavalava',
+			6: 'Flower Fields',
+			7: 'Crystal Palace'
+		};
+
+		let found_dungeon = 0;
+
+		for (let i = 1; i <= 7; i++) {
+			if (save.data.items[`${stars[i]}_dungeon_shuffle`] == 5) {
+				found_dungeon = i;
+			}
+		}
+
+		if (dungeons[found_dungeon] !== undefined) {
+			return dungeons[found_dungeon];
+		}
+
+		return 'Unknown Dungeon';
 	});
 
 	const klevar_dungeon_shuffle_icon = computed(() => {
@@ -579,11 +799,55 @@ export const useLogicStore = defineStore('logic', () => {
 			7: 'kalmar'
 		};
 
-		if (stars[save.data.items.klevar_dungeon_shuffle] !== undefined) {
-			return `/images/stars/${stars[save.data.items.klevar_dungeon_shuffle]}.webp`;
+		let found_dungeon = 0;
+
+		for (let i = 1; i <= 7; i++) {
+			if (save.data.items[`${stars[i]}_dungeon_shuffle`] == 6) {
+				found_dungeon = i;
+			}
+		}
+
+		if (stars[found_dungeon] !== undefined) {
+			return `/images/stars/${stars[found_dungeon]}.webp`;
 		}
 
 		return null;
+	});
+
+	const klevar_dungeon_shuffle_name = computed(() => {
+		let stars = {
+			1: 'eldstar',
+			2: 'mamar',
+			3: 'skolar',
+			4: 'muskular',
+			5: 'misstar',
+			6: 'klevar',
+			7: 'kalmar'
+		};
+
+		let dungeons = {
+			1: 'Koopa Bros. Fortress',
+			2: 'Dry Dry Ruins',
+			3: 'Tubba Blubba Castle',
+			4: "Shy Guy's Toybox",
+			5: 'Mt. Lavalava',
+			6: 'Flower Fields',
+			7: 'Crystal Palace'
+		};
+
+		let found_dungeon = 0;
+
+		for (let i = 1; i <= 7; i++) {
+			if (save.data.items[`${stars[i]}_dungeon_shuffle`] == 6) {
+				found_dungeon = i;
+			}
+		}
+
+		if (dungeons[found_dungeon] !== undefined) {
+			return dungeons[found_dungeon];
+		}
+
+		return 'Unknown Dungeon';
 	});
 
 	const kalmar_dungeon_shuffle_icon = computed(() => {
@@ -597,11 +861,55 @@ export const useLogicStore = defineStore('logic', () => {
 			7: 'kalmar'
 		};
 
-		if (stars[save.data.items.kalmar_dungeon_shuffle] !== undefined) {
-			return `/images/stars/${stars[save.data.items.kalmar_dungeon_shuffle]}.webp`;
+		let found_dungeon = 0;
+
+		for (let i = 1; i <= 7; i++) {
+			if (save.data.items[`${stars[i]}_dungeon_shuffle`] == 1) {
+				found_dungeon = i;
+			}
+		}
+
+		if (stars[found_dungeon] !== undefined) {
+			return `/images/stars/${stars[found_dungeon]}.webp`;
 		}
 
 		return null;
+	});
+
+	const kalmar_dungeon_shuffle_name = computed(() => {
+		let stars = {
+			1: 'eldstar',
+			2: 'mamar',
+			3: 'skolar',
+			4: 'muskular',
+			5: 'misstar',
+			6: 'klevar',
+			7: 'kalmar'
+		};
+
+		let dungeons = {
+			1: 'Koopa Bros. Fortress',
+			2: 'Dry Dry Ruins',
+			3: 'Tubba Blubba Castle',
+			4: "Shy Guy's Toybox",
+			5: 'Mt. Lavalava',
+			6: 'Flower Fields',
+			7: 'Crystal Palace'
+		};
+
+		let found_dungeon = 0;
+
+		for (let i = 1; i <= 7; i++) {
+			if (save.data.items[`${stars[i]}_dungeon_shuffle`] == 1) {
+				found_dungeon = i;
+			}
+		}
+
+		if (dungeons[found_dungeon] !== undefined) {
+			return dungeons[found_dungeon];
+		}
+
+		return 'Unknown Dungeon';
 	});
 
 	const checks = reactive({
@@ -1462,7 +1770,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Give Koopa Leaf to Trading Event Toad',
-							icon: '/images/checks/trading_event_randomized',
+							icon: '/images/checks/trading_event_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.trading_event_randomized;
 							},
@@ -1472,7 +1780,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Defeat Chan',
-							icon: '/images/checks/dojo_randomized',
+							icon: '/images/checks/dojo_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.dojo_randomized;
 							},
@@ -1482,7 +1790,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Defeat Lee',
-							icon: '/images/checks/dojo_randomized',
+							icon: '/images/checks/dojo_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.dojo_randomized;
 							},
@@ -1492,7 +1800,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Defeat Master',
-							icon: '/images/checks/dojo_randomized',
+							icon: '/images/checks/dojo_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.dojo_randomized;
 							},
@@ -1502,7 +1810,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Defeat Master 2',
-							icon: '/images/checks/dojo_randomized',
+							icon: '/images/checks/dojo_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.dojo_randomized;
 							},
@@ -1512,7 +1820,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: 'Defeat Master 3',
-							icon: '/images/checks/dojo_randomized',
+							icon: '/images/checks/dojo_randomized.webp',
 							exists: () => {
 								return save.data.configs.logic.dojo_randomized;
 							},
@@ -1550,6 +1858,16 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
+							name: 'Merlon',
+							icon: '/images/checks/letters_randomized.webp',
+							exists: () => {
+								return save.data.configs.logic.letters_randomized;
+							},
+							available: () => {
+								return flags.toad_town() && flags.deliver_letters() && save.data.items.letters.merlon;
+							}
+						},
+						{
 							name: 'Give Calculator to Rowf',
 							icon: null,
 							exists: () => {
@@ -1577,6 +1895,16 @@ export const useLogicStore = defineStore('logic', () => {
 							},
 							available: () => {
 								return flags.toad_town() && save.data.items.boots >= 2;
+							}
+						},
+						{
+							name: 'Minh T.',
+							icon: '/images/checks/letters_randomized.webp',
+							exists: () => {
+								return save.data.configs.logic.letters_randomized;
+							},
+							available: () => {
+								return flags.toad_town() && flags.deliver_letters() && save.data.items.letters.minh_t;
 							}
 						},
 						{
@@ -1740,7 +2068,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Flower Fields',
+							name: klevar_dungeon_shuffle_name,
 							icon: klevar_dungeon_shuffle_icon,
 							exists: () => {
 								return save.data.configs.randomizer.shuffle_dungeon_entrances;
@@ -1899,7 +2227,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: "Shy Guy's Toy Box",
+							name: muskular_dungeon_shuffle_name,
 							icon: muskular_dungeon_shuffle_icon,
 							exists: () => {
 								return save.data.configs.randomizer.shuffle_dungeon_entrances;
@@ -2883,7 +3211,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Koopa Bros. Fortress',
+							name: eldstar_dungeon_shuffle_name,
 							icon: eldstar_dungeon_shuffle_icon,
 							exists: () => {
 								return save.data.configs.randomizer.shuffle_dungeon_entrances;
@@ -3767,7 +4095,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.koopa_bros_fortress() && flags.jump_ledges() && save.data.items.fortress_key >= 4;
+								return flags.koopa_bros_fortress() && flags.jump_ledges() && save.data.items.fortress_key >= 4 && (flags.partner('kooper') || flags.partner('parakarry'));
 							}
 						}
 					]
@@ -3794,7 +4122,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.koopa_bros_fortress() && flags.jump_ledges() && (flags.partner('bombette') || save.data.items.fortress_key >= 3);
+								return flags.koopa_bros_fortress() && save.data.items.fortress_key >= 3 && flags.partner('bombette') && (flags.partner('kooper') || flags.partner('parakarry'));
 							}
 						},
 						{
@@ -3922,7 +4250,13 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.koopa_bros_fortress() && flags.jump_ledges() && flags.partner('bombette') && save.data.items.fortress_key >= 4;
+								return (
+									flags.koopa_bros_fortress() &&
+									flags.jump_ledges() &&
+									flags.partner('bombette') &&
+									save.data.items.fortress_key >= 4 &&
+									(flags.partner('kooper') || flags.partner('parakarry'))
+								);
 							}
 						}
 					]
@@ -3941,7 +4275,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.koopa_bros_fortress() && flags.jump_ledges() && save.data.items.fortress_key >= 4;
+								return flags.koopa_bros_fortress() && flags.jump_ledges() && save.data.items.fortress_key >= 4 && (flags.partner('kooper') || flags.partner('parakarry'));
 							}
 						}
 					]
@@ -4384,7 +4718,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Dry Dry Ruins',
+							name: mamar_dungeon_shuffle_name,
 							icon: mamar_dungeon_shuffle_icon,
 							exists: () => {
 								return save.data.configs.randomizer.shuffle_dungeon_entrances;
@@ -6602,7 +6936,7 @@ export const useLogicStore = defineStore('logic', () => {
 					h: 1,
 					checks: [
 						{
-							name: "Tubba Blubba's Castle",
+							name: skolar_dungeon_shuffle_name,
 							icon: skolar_dungeon_shuffle_icon,
 							exists: () => {
 								return save.data.configs.randomizer.shuffle_dungeon_entrances;
@@ -7300,7 +7634,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: '? block in the alley past the house',
-							name: 'coin_blocks.webp',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -8217,7 +8551,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Mt. Lavalava',
+							name: misstar_dungeon_shuffle_name,
 							icon: misstar_dungeon_shuffle_icon,
 							exists: () => {
 								return save.data.configs.randomizer.shuffle_dungeon_entrances;
@@ -9503,7 +9837,13 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.flower_fields() && save.data.items.yellow_berry && (flags.partner('lakilester') || flags.partner('parakarry')) && flags.jump_ledges();
+								return (
+									flags.flower_fields() &&
+									save.data.items.yellow_berry &&
+									(flags.partner('lakilester') || flags.partner('parakarry')) &&
+									flags.jump_ledges() &&
+									save.data.items.water_stone
+								);
 							}
 						},
 						{
@@ -9973,7 +10313,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Crystal Palace',
+							name: kalmar_dungeon_shuffle_name,
 							icon: kalmar_dungeon_shuffle_icon,
 							exists: () => {
 								return save.data.configs.randomizer.shuffle_dungeon_entrances;
@@ -10446,10 +10786,12 @@ export const useLogicStore = defineStore('logic', () => {
 		if (mapCategoryKey === null) {
 			for (const [mapCategoryToCheckKey, mapCategory] of Object.entries(checks)) {
 				for (const [mapToCheckKey, mapToCheck] of Object.entries(mapCategory.maps)) {
-					// console.log(mapCategoryToCheckKey, mapToCheckKey, mapToCheck.checks);
-
 					if (save.data.checks[mapCategoryToCheckKey] !== undefined && save.data.checks[mapCategoryToCheckKey][mapToCheckKey] !== undefined) {
-						totalChecks += save.data.checks[mapCategoryToCheckKey][mapToCheckKey].length;
+						mapToCheck.checks.forEach((check, checkIndex) => {
+							if (check.exists() && check.available() && save.data.checks[mapCategoryToCheckKey][mapToCheckKey].includes(checkIndex)) {
+								totalChecks++;
+							}
+						});
 					}
 				}
 			}
@@ -10457,12 +10799,23 @@ export const useLogicStore = defineStore('logic', () => {
 			if (mapKey === null) {
 				for (const [mapToCheckKey, mapToCheck] of Object.entries(checks[mapCategoryKey].maps)) {
 					if (save.data.checks[mapCategoryKey] !== undefined && save.data.checks[mapCategoryKey][mapToCheckKey] !== undefined) {
-						totalChecks += save.data.checks[mapCategoryKey][mapToCheckKey].length;
+						mapToCheck.checks.forEach((check, checkIndex) => {
+							if (check.exists() && check.available() && save.data.checks[mapCategoryKey][mapToCheckKey].includes(checkIndex)) {
+								totalChecks++;
+							}
+						});
 					}
 				}
 			} else {
 				if (save.data.checks[mapCategoryKey] !== undefined && save.data.checks[mapCategoryKey][mapKey] !== undefined) {
-					totalChecks += save.data.checks[mapCategoryKey][mapKey].length;
+					for (const [checkKey, check] of Object.entries(checks[mapCategoryKey][mapKey])) {
+						console.log(checkKey, check);
+						checks[mapCategoryKey]['maps'][mapKey].checks.forEach((check, checkIndex) => {
+							if (check.exists() && check.available() && save.data.checks[mapCategoryKey][mapKey].includes(checkIndex)) {
+								totalChecks++;
+							}
+						});
+					}
 				}
 			}
 		}
