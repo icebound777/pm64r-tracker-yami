@@ -209,12 +209,13 @@ export const useSaveStore = defineStore('save', () => {
 		shopsanity: false,
 		rowf_shop: false,
 		merlow: false,
-		merlow_reward_cost_1: 5,
-		merlow_reward_cost_2: 10,
-		merlow_reward_cost_3: 15,
-		merlow_reward_cost_4: 20,
-		merlow_reward_cost_5: 25,
-		merlow_reward_cost_6: 30,
+		merlow_rewards_pricing: 'normal',
+		merlow_reward_cost_1: 10,
+		merlow_reward_cost_2: 20,
+		merlow_reward_cost_3: 30,
+		merlow_reward_cost_4: 40,
+		merlow_reward_cost_5: 50,
+		merlow_reward_cost_6: 60,
 		rip_cheato: 0,
 		panels: false,
 		overworld_coins: false,
@@ -316,7 +317,7 @@ export const useSaveStore = defineStore('save', () => {
 			const pmr_endpoint = 'https://paper-mario-randomizer-server.ue.r.appspot.com/randomizer_settings/';
 			axios.get(pmr_endpoint + currentSave.randomizer_seed).then((response) => {
 				let randomizerData = response.data;
-				// console.log(randomizerData);
+				console.log(randomizerData);
 
 				resetConfigs();
 				resetSave();
@@ -340,6 +341,15 @@ export const useSaveStore = defineStore('save', () => {
 				currentSave.configs.logic.shopsanity = randomizerData.IncludeShops;
 				currentSave.configs.logic.rowf_shop = randomizerData.ProgressionOnRowf;
 				currentSave.configs.logic.merlow = randomizerData.ProgressionOnMerlow;
+
+				if (randomizerData.MerlowRewardPricing == 0) {
+					currentSave.configs.logic.merlow_rewards_pricing = 'cheap';
+				}
+
+				if (randomizerData.MerlowRewardPricing == 1) {
+					currentSave.configs.logic.merlow_rewards_pricing = 'normal';
+				}
+
 				currentSave.configs.logic.rip_cheato = randomizerData.RipCheatoItemsInLogic;
 				currentSave.configs.logic.panels = randomizerData.IncludePanels;
 				currentSave.configs.logic.overworld_coins = randomizerData.IncludeCoinsOverworld;
@@ -466,26 +476,53 @@ export const useSaveStore = defineStore('save', () => {
 	);
 
 	//Merlow cost randomized
-	// watch(
-	// 	() => currentSave.configs.logic.merlow,
-	// 	(newValue, oldValue) => {
-	// 		if (newValue) {
-	// 			tracker.configs.logic.merlow_reward_cost_1.enabled = true;
-	// 			tracker.configs.logic.merlow_reward_cost_2.enabled = true;
-	// 			tracker.configs.logic.merlow_reward_cost_3.enabled = true;
-	// 			tracker.configs.logic.merlow_reward_cost_4.enabled = true;
-	// 			tracker.configs.logic.merlow_reward_cost_5.enabled = true;
-	// 			tracker.configs.logic.merlow_reward_cost_6.enabled = true;
-	// 		} else {
-	// 			tracker.configs.logic.merlow_reward_cost_1.enabled = false;
-	// 			tracker.configs.logic.merlow_reward_cost_2.enabled = false;
-	// 			tracker.configs.logic.merlow_reward_cost_3.enabled = false;
-	// 			tracker.configs.logic.merlow_reward_cost_4.enabled = false;
-	// 			tracker.configs.logic.merlow_reward_cost_5.enabled = false;
-	// 			tracker.configs.logic.merlow_reward_cost_6.enabled = false;
-	// 		}
-	// 	}
-	// );
+	watch(
+		() => currentSave.configs.logic.merlow,
+		(newValue, oldValue) => {
+			tracker.configs.logic.merlow_rewards_pricing.enabled = newValue;
+
+			// if (newValue) {
+			// 	tracker.configs.logic.merlow_reward_cost_1.enabled = true;
+			// 	tracker.configs.logic.merlow_reward_cost_2.enabled = true;
+			// 	tracker.configs.logic.merlow_reward_cost_3.enabled = true;
+			// 	tracker.configs.logic.merlow_reward_cost_4.enabled = true;
+			// 	tracker.configs.logic.merlow_reward_cost_5.enabled = true;
+			// 	tracker.configs.logic.merlow_reward_cost_6.enabled = true;
+			// } else {
+			// 	tracker.configs.logic.merlow_reward_cost_1.enabled = false;
+			// 	tracker.configs.logic.merlow_reward_cost_2.enabled = false;
+			// 	tracker.configs.logic.merlow_reward_cost_3.enabled = false;
+			// 	tracker.configs.logic.merlow_reward_cost_4.enabled = false;
+			// 	tracker.configs.logic.merlow_reward_cost_5.enabled = false;
+			// 	tracker.configs.logic.merlow_reward_cost_6.enabled = false;
+			// }
+		}
+	);
+
+	watch(
+		() => currentSave.configs.logic.merlow_rewards_pricing,
+		(newValue, oldValue) => {
+			switch (newValue) {
+				case 'normal':
+					currentSave.configs.logic.merlow_reward_cost_1 = 10;
+					currentSave.configs.logic.merlow_reward_cost_2 = 20;
+					currentSave.configs.logic.merlow_reward_cost_3 = 30;
+					currentSave.configs.logic.merlow_reward_cost_4 = 40;
+					currentSave.configs.logic.merlow_reward_cost_5 = 50;
+					currentSave.configs.logic.merlow_reward_cost_6 = 60;
+					break;
+
+				case 'cheap':
+					currentSave.configs.logic.merlow_reward_cost_1 = 5;
+					currentSave.configs.logic.merlow_reward_cost_2 = 10;
+					currentSave.configs.logic.merlow_reward_cost_3 = 15;
+					currentSave.configs.logic.merlow_reward_cost_4 = 20;
+					currentSave.configs.logic.merlow_reward_cost_5 = 25;
+					currentSave.configs.logic.merlow_reward_cost_6 = 30;
+					break;
+			}
+		}
+	);
 
 	watch(
 		() => currentSave.configs.logic.letters_randomized,

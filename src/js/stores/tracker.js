@@ -862,6 +862,20 @@ export const useTrackerStore = defineStore('tracker', () => {
 				enabled: false,
 				type: 'switch'
 			},
+			merlow_rewards_pricing: {
+				enabled: false,
+				type: 'select',
+				options: [
+					{
+						value: 'normal',
+						text: 'Normal'
+					},
+					{
+						value: 'cheap',
+						text: 'Cheap'
+					}
+				]
+			},
 			// merlow_reward_cost_1: {
 			// 	enabled: false,
 			// 	type: 'number',
