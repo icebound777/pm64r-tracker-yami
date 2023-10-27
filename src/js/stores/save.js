@@ -233,7 +233,7 @@ export const useSaveStore = defineStore('save', () => {
 		deactivate_layout_system: false,
 		no_layout_width: 400,
 		map: true,
-		map_text_size: 'base',
+		map_text_size: 'sm',
 		always_show_super_blocks: false,
 		star_menu_enabled: false,
 		item_icon_size: 'md',

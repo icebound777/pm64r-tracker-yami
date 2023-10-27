@@ -1,6 +1,6 @@
 <template>
-	<div @contextmenu="$event.preventDefault()">
-		<!-- <div> -->
+	<!-- <div @contextmenu="$event.preventDefault()"> -->
+	<div>
 		<header>
 			<div class="hidden md:flex justify-items-center items-center ml-4 mt-2">
 				<p v-if="save.data.randomizer_seed_hash_items">Hash items: {{ save.data.randomizer_seed_hash_items }}</p>

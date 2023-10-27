@@ -475,6 +475,32 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		crystal_palace: () => {
 			return flags.dungeon_entrance_requirements(7);
+		},
+		star_haven: () => {
+			return flags.toad_town() && flags.star_spirits_count() >= 7 && flags.jump_ledges();
+		},
+		west_bowser_castle: () => {
+			return flags.star_haven();
+		},
+		east_bowser_castle: () => {
+			return (
+				flags.west_bowser_castle() &&
+				save.data.items.castle_key >= 3 &&
+				save.data.items.boots >= 1 &&
+				flags.partner('lakilester') &&
+				flags.partner('bow') &&
+				flags.partner('parakarry') &&
+				flags.partner('watt') &&
+				flags.partner('sushie') &&
+				flags.partner('bombette')
+			);
+		},
+		peach_castle: () => {
+			if (save.data.configs.randomizer.fast_bowser_castle) {
+				return flags.star_haven();
+			} else {
+				return flags.east_bowser_castle() && save.data.items.castle_key >= 5;
+			}
 		}
 	});
 
@@ -8498,7 +8524,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.letters_randomized;
 							},
 							available: () => {
-								return flags.lava_lava_island() && flags.deliver_letters() && save.data.items.letters.red_yoshi_kid && flags.partner('sushie');
+								return flags.lava_lava_island() && flags.deliver_letters() && save.data.items.letters.red_yoshi_kid;
 							}
 						},
 						{
@@ -8508,7 +8534,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.lava_lava_island() && flags.toad_town() && flags.partner('watt') && flags.partner('sushie') && save.data.items.hammer >= 1;
+								return flags.lava_lava_island() && flags.toad_town() && flags.partner('watt') && flags.partner('sushie') && save.data.items.hammer >= 1 && save.data.items.misstar;
 							}
 						},
 						{
@@ -8656,7 +8682,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.foliage_coins;
 							},
 							available: () => {
-								return flags.lava_lava_island() && flags.partner('sushie');
+								return flags.lava_lava_island();
 							}
 						}
 					]
@@ -8903,7 +8929,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Tree vide near the bell plant',
+							name: 'Tree vine near the bell plant',
 							icon: null,
 							exists: () => {
 								return true;
@@ -8971,7 +8997,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Tree vine near the exit',
+							name: 'Tree vine far east',
 							icon: null,
 							exists: () => {
 								return true;
@@ -9080,7 +9106,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: '? block 1',
-							icon: '/images/checks/coin_block',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -9090,7 +9116,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: '? block 2',
-							icon: '/images/checks/coin_block',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -9100,7 +9126,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: '? block 3',
-							icon: '/images/checks/coin_block',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -9110,7 +9136,7 @@ export const useLogicStore = defineStore('logic', () => {
 						},
 						{
 							name: '? block 4',
-							icon: '/images/checks/coin_block',
+							icon: '/images/checks/coin_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.coin_blocks;
 							},
@@ -10742,6 +10768,976 @@ export const useLogicStore = defineStore('logic', () => {
 							},
 							available: () => {
 								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette') && save.data.items.palace_key;
+							}
+						}
+					]
+				}
+			}
+		},
+		star_haven: {
+			name: 'Star Haven',
+			maps: {
+				shooting_star_summit: {
+					name: 'Shooting Star Summit',
+					x: 1,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				star_spiral: {
+					name: 'Star Spiral',
+					x: 2,
+					y: 1,
+					w: 1,
+					h: 4,
+					checks: []
+				},
+				star_haven_west: {
+					name: 'Star Haven West',
+					x: 3,
+					y: 1,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Shop item 1',
+							icon: '/images/checks/shopsanity.webp',
+							exists: () => {
+								return save.data.configs.logic.shopsanity;
+							},
+							available: () => {
+								return flags.star_haven();
+							}
+						},
+						{
+							name: 'Shop item 2',
+							icon: '/images/checks/shopsanity.webp',
+							exists: () => {
+								return save.data.configs.logic.shopsanity;
+							},
+							available: () => {
+								return flags.star_haven();
+							}
+						},
+						{
+							name: 'Shop item 3',
+							icon: '/images/checks/shopsanity.webp',
+							exists: () => {
+								return save.data.configs.logic.shopsanity;
+							},
+							available: () => {
+								return flags.star_haven();
+							}
+						},
+						{
+							name: 'Shop item 4',
+							icon: '/images/checks/shopsanity.webp',
+							exists: () => {
+								return save.data.configs.logic.shopsanity;
+							},
+							available: () => {
+								return flags.star_haven();
+							}
+						},
+						{
+							name: 'Shop item 5',
+							icon: '/images/checks/shopsanity.webp',
+							exists: () => {
+								return save.data.configs.logic.shopsanity;
+							},
+							available: () => {
+								return flags.star_haven();
+							}
+						},
+						{
+							name: 'Shop item 6',
+							icon: '/images/checks/shopsanity.webp',
+							exists: () => {
+								return save.data.configs.logic.shopsanity;
+							},
+							available: () => {
+								return flags.star_haven();
+							}
+						}
+					]
+				},
+				star_haven_east: {
+					name: 'Star Haven East',
+					x: 4,
+					y: 1,
+					w: 1,
+					h: 1,
+					checks: []
+				}
+			}
+		},
+		west_bowser_castle: {
+			name: "West Bowser's Castle",
+			maps: {
+				diaper_garage: {
+					name: 'Diaper Garage',
+					x: 1,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				front_door: {
+					name: 'Front Door',
+					x: 1,
+					y: 3,
+					w: 2,
+					h: 1,
+					checks: [
+						{
+							name: '? block on the ledge',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return flags.west_bowser_castle() && save.data.items.castle_key >= 1 && flags.partner('lakilester') && flags.jump_coin_blocks();
+							}
+						}
+					]
+				},
+				lava_bridge: {
+					name: 'Lava Bridge',
+					x: 2,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				first_bowser_door: {
+					name: 'First Bowser Door',
+					x: 3,
+					y: 2,
+					w: 4,
+					h: 1,
+					checks: []
+				},
+				lower_jail: {
+					name: 'Lower Jail',
+					x: 3,
+					y: 3,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Bottom left crate',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return flags.west_bowser_castle() && save.data.items.castle_key >= 1 && save.data.items.boots >= 2;
+							}
+						},
+						{
+							name: 'Bottom right crate',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return flags.west_bowser_castle() && save.data.items.castle_key >= 1 && save.data.items.boots >= 2;
+							}
+						}
+					]
+				},
+				outside_jail_cell: {
+					name: 'Outside Jail Cell',
+					x: 2,
+					y: 4,
+					w: 2,
+					h: 1,
+					checks: [
+						{
+							name: 'Defeat the Koopatrol',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return flags.west_bowser_castle();
+							}
+						},
+						{
+							name: '? block',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return flags.west_bowser_castle() && save.data.items.castle_key >= 1 && flags.partner('lakilester') && flags.jump_coin_blocks();
+							}
+						}
+					]
+				},
+				lava_channel1: {
+					name: 'Lava Channel 1',
+					x: 3,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				lava_channel2: {
+					name: 'Lava Channel 2',
+					x: 4,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				lava_key: {
+					name: 'Lava Key',
+					x: 4,
+					y: 3,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Chest',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return (
+									flags.west_bowser_castle() &&
+									save.data.items.castle_key >= 1 &&
+									save.data.items.boots >= 1 &&
+									flags.partner('lakilester') &&
+									flags.partner('bow') &&
+									flags.partner('parakarry')
+								);
+							}
+						}
+					]
+				},
+				lava_channel3: {
+					name: 'Lava Channel 3',
+					x: 5,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'On the first island',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return (
+									flags.west_bowser_castle() &&
+									save.data.items.castle_key >= 1 &&
+									save.data.items.boots >= 1 &&
+									flags.partner('lakilester') &&
+									flags.partner('bow') &&
+									flags.partner('parakarry')
+								);
+							}
+						},
+						{
+							name: 'On the second island',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return (
+									flags.west_bowser_castle() &&
+									save.data.items.castle_key >= 1 &&
+									save.data.items.boots >= 1 &&
+									flags.partner('lakilester') &&
+									flags.partner('bow') &&
+									flags.partner('parakarry')
+								);
+							}
+						}
+					]
+				},
+				lavafall: {
+					name: 'Lavafall',
+					x: 5,
+					y: 3,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				dark_cave1: {
+					name: 'Dark Cave 1',
+					x: 6,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: '? block',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return (
+									flags.west_bowser_castle() &&
+									save.data.items.castle_key >= 2 &&
+									save.data.items.boots >= 1 &&
+									flags.partner('lakilester') &&
+									flags.partner('bow') &&
+									flags.partner('parakarry') &&
+									flags.partner('watt')
+								);
+							}
+						}
+					]
+				},
+				dark_cave2: {
+					name: 'Dark Cave 2',
+					x: 6,
+					y: 3,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: '? block',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return (
+									flags.west_bowser_castle() &&
+									save.data.items.castle_key >= 2 &&
+									save.data.items.boots >= 1 &&
+									flags.partner('lakilester') &&
+									flags.partner('bow') &&
+									flags.partner('parakarry') &&
+									flags.partner('watt')
+								);
+							}
+						}
+					]
+				},
+				first_hub: {
+					name: 'Hub',
+					x: 7,
+					y: 1,
+					w: 1,
+					h: 2,
+					checks: []
+				},
+				goomba_shop: {
+					name: 'Goomba Shop',
+					x: 6,
+					y: 1,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Shop item 1',
+							icon: '/images/checks/shopsanity.webp',
+							exists: () => {
+								return save.data.configs.logic.shopsanity && !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return (
+									flags.west_bowser_castle() &&
+									save.data.items.castle_key >= 2 &&
+									save.data.items.boots >= 1 &&
+									flags.partner('lakilester') &&
+									flags.partner('bow') &&
+									flags.partner('parakarry') &&
+									flags.partner('watt')
+								);
+							}
+						},
+						{
+							name: 'Shop item 2',
+							icon: '/images/checks/shopsanity.webp',
+							exists: () => {
+								return save.data.configs.logic.shopsanity && !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return (
+									flags.west_bowser_castle() &&
+									save.data.items.castle_key >= 2 &&
+									save.data.items.boots >= 1 &&
+									flags.partner('lakilester') &&
+									flags.partner('bow') &&
+									flags.partner('parakarry') &&
+									flags.partner('watt')
+								);
+							}
+						},
+						{
+							name: 'Shop item 3',
+							icon: '/images/checks/shopsanity.webp',
+							exists: () => {
+								return save.data.configs.logic.shopsanity && !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return (
+									flags.west_bowser_castle() &&
+									save.data.items.castle_key >= 2 &&
+									save.data.items.boots >= 1 &&
+									flags.partner('lakilester') &&
+									flags.partner('bow') &&
+									flags.partner('parakarry') &&
+									flags.partner('watt')
+								);
+							}
+						},
+						{
+							name: 'Shop item 4',
+							icon: '/images/checks/shopsanity.webp',
+							exists: () => {
+								return save.data.configs.logic.shopsanity && !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return (
+									flags.west_bowser_castle() &&
+									save.data.items.castle_key >= 2 &&
+									save.data.items.boots >= 1 &&
+									flags.partner('lakilester') &&
+									flags.partner('bow') &&
+									flags.partner('parakarry') &&
+									flags.partner('watt')
+								);
+							}
+						},
+						{
+							name: 'Shop item 5',
+							icon: '/images/checks/shopsanity.webp',
+							exists: () => {
+								return save.data.configs.logic.shopsanity && !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return (
+									flags.west_bowser_castle() &&
+									save.data.items.castle_key >= 2 &&
+									save.data.items.boots >= 1 &&
+									flags.partner('lakilester') &&
+									flags.partner('bow') &&
+									flags.partner('parakarry') &&
+									flags.partner('watt')
+								);
+							}
+						},
+						{
+							name: 'Shop item 6',
+							icon: '/images/checks/shopsanity.webp',
+							exists: () => {
+								return save.data.configs.logic.shopsanity && !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return (
+									flags.west_bowser_castle() &&
+									save.data.items.castle_key >= 2 &&
+									save.data.items.boots >= 1 &&
+									flags.partner('lakilester') &&
+									flags.partner('bow') &&
+									flags.partner('parakarry') &&
+									flags.partner('watt')
+								);
+							}
+						}
+					]
+				},
+				east_jail_cell: {
+					name: 'East Jail Cell',
+					x: 8,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Defeat the Koopatrol',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return (
+									flags.west_bowser_castle() &&
+									save.data.items.castle_key >= 2 &&
+									save.data.items.boots >= 1 &&
+									flags.partner('lakilester') &&
+									flags.partner('bow') &&
+									flags.partner('parakarry') &&
+									flags.partner('watt')
+								);
+							}
+						}
+					]
+				},
+				corridor1: {
+					name: 'Corridor',
+					x: 8,
+					y: 1,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				water_puzzle_west: {
+					name: 'Water Puzzle west',
+					x: 9,
+					y: 1,
+					w: 1,
+					h: 2,
+					checks: [
+						{
+							name: 'On the ledge on top of the room to the west',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return flags.east_bowser_castle();
+							}
+						}
+					]
+				},
+				water_puzzle_east: {
+					name: 'Water Puzzle east',
+					x: 10,
+					y: 1,
+					w: 1,
+					h: 2,
+					checks: [
+						{
+							name: 'Invisible block on top of the room',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return flags.east_bowser_castle();
+							}
+						}
+					]
+				},
+				cannons1: {
+					name: 'Cannons 1',
+					x: 11,
+					y: 1,
+					w: 1,
+					h: 2,
+					checks: []
+				}
+			}
+		},
+		east_bowser_castle: {
+			name: "East Bowser's Castle",
+			maps: {
+				hidden_door: {
+					name: 'Hidden Door',
+					x: 1,
+					y: 5,
+					w: 2,
+					h: 1,
+					checks: [
+						{
+							name: 'Invisible block',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return flags.east_bowser_castle();
+							}
+						},
+						{
+							name: '? block',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return flags.east_bowser_castle();
+							}
+						}
+					]
+				},
+				hidden_rooms: {
+					name: 'Hidden rooms',
+					x: 2,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'On the ground',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return flags.east_bowser_castle();
+							}
+						}
+					]
+				},
+				bowser_door_quiz: {
+					name: 'Bowser Door Quiz',
+					x: 3,
+					y: 5,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				outside_bridge: {
+					name: 'Outside Bridge',
+					x: 4,
+					y: 3,
+					w: 1,
+					h: 3,
+					checks: [
+						{
+							name: '? block west of the door',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return flags.east_bowser_castle();
+							}
+						},
+						{
+							name: '? block east of the door',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return flags.east_bowser_castle();
+							}
+						},
+						{
+							name: '? block near the bottom of the stairs',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return flags.east_bowser_castle();
+							}
+						},
+						{
+							name: 'Item on the ledge of the stairs',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return flags.east_bowser_castle();
+							}
+						}
+					]
+				},
+				hub: {
+					name: 'Hub',
+					x: 3,
+					y: 2,
+					w: 1,
+					h: 2,
+					checks: []
+				},
+				upper_jail: {
+					name: 'Upper Jail',
+					x: 2,
+					y: 3,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Defeat the Koopatrol',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return flags.east_bowser_castle();
+							}
+						}
+					]
+				},
+				fast_switch: {
+					name: 'Fast Switch',
+					x: 2,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				ultra_shroom: {
+					name: 'Ultra Shroom',
+					x: 1,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Item on the ground',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return flags.east_bowser_castle();
+							}
+						}
+					]
+				},
+				stair_corridor_puzzle: {
+					name: 'Stair Corridor Puzzle',
+					x: 4,
+					y: 1,
+					w: 1,
+					h: 2,
+					checks: []
+				},
+				fast_switch2: {
+					name: 'Fast Switch 2',
+					x: 5,
+					y: 1,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				castle_key: {
+					name: 'Castle Key',
+					x: 6,
+					y: 1,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Item on the ground',
+							icon: null,
+							exists: () => {
+								return !save.data.configs.logic.fast_bowser_castle;
+							},
+							available: () => {
+								return flags.east_bowser_castle();
+							}
+						}
+					]
+				},
+				infinite_corridor: {
+					name: 'Infinite Corridor',
+					x: 5,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				koopa_bridge: {
+					name: 'Koopa Bridge',
+					x: 6,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				peach_duplighost: {
+					name: 'Peach Duplighost',
+					x: 7,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				koopa_bros_bowser_door: {
+					name: 'Koopa Bros Bowser Door',
+					x: 8,
+					y: 2,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				stairs: {
+					name: 'Stairs',
+					x: 9,
+					y: 1,
+					w: 1,
+					h: 2,
+					checks: []
+				}
+			}
+		},
+		peach_castle: {
+			name: "Peach's Castle",
+			maps: {
+				outside: {
+					name: 'Outside',
+					x: 2,
+					y: 8,
+					w: 3,
+					h: 1,
+					checks: [
+						{
+							name: 'Invisible block',
+							icon: true,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.peach_castle();
+							}
+						}
+					]
+				},
+				first_floor: {
+					name: 'First Floor',
+					x: 2,
+					y: 6,
+					w: 3,
+					h: 2,
+					checks: []
+				},
+				quiz_room: {
+					name: 'Quiz Room',
+					x: 1,
+					y: 6,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				kitchen: {
+					name: 'Kitchen',
+					x: 5,
+					y: 6,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				guest_room: {
+					name: 'Guest Room',
+					x: 5,
+					y: 7,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Chest',
+							icon: true,
+							exists: () => {
+								return null;
+							},
+							available: () => {
+								return flags.peach_castle();
+							}
+						}
+					]
+				},
+				second_floor: {
+					name: 'Second Floor',
+					x: 2,
+					y: 4,
+					w: 3,
+					h: 2,
+					checks: []
+				},
+				corridor: {
+					name: 'Corridor',
+					x: 3,
+					y: 2,
+					w: 1,
+					h: 2,
+					checks: []
+				},
+				library: {
+					name: 'Library',
+					x: 1,
+					y: 5,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Between the bookshelfs down the ledge',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.peach_castle();
+							}
+						},
+						{
+							name: 'On the ledge',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.peach_castle() & (save.data.items.boots >= 1);
+							}
+						}
+					]
+				},
+				bowser_diary: {
+					name: 'Bowser Diary',
+					x: 1,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				peach_room: {
+					name: "Peach's Room",
+					x: 2,
+					y: 3,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				dining_room: {
+					name: 'Dining Room',
+					x: 5,
+					y: 5,
+					w: 1,
+					h: 1,
+					checks: []
+				},
+				store_room: {
+					name: 'Store Room',
+					x: 5,
+					y: 4,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'On the ground',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.peach_castle();
+							}
+						}
+					]
+				},
+				bowser: {
+					name: 'Bowser',
+					x: 3,
+					y: 1,
+					w: 1,
+					h: 1,
+					checks: [
+						{
+							name: 'Defeat Bowser',
+							icon: '/images/checks/stars/starrod.webp',
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.peach_castle();
 							}
 						}
 					]
