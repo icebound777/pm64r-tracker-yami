@@ -10951,7 +10951,7 @@ export const useLogicStore = defineStore('logic', () => {
 					name: 'Outside Jail Cell',
 					x: 2,
 					y: 4,
-					w: 2,
+					w: 1,
 					h: 1,
 					checks: [
 						{
