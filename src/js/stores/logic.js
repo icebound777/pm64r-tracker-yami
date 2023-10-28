@@ -3450,9 +3450,8 @@ export const useLogicStore = defineStore('logic', () => {
 									save.data.items.koopa_koot_favors.life_shroom &&
 									save.data.items.koopa_koot_favors.nutty_cake &&
 									save.data.items.koopa_koot_favors.old_photo &&
-									save.data.items.koopa_koot_favors.koopasta
-									// And apparently bombette??
-									// save.data.items.bombette
+									save.data.items.koopa_koot_favors.koopasta &&
+									flags.partner('bombette')
 								);
 							}
 						}
@@ -4086,13 +4085,14 @@ export const useLogicStore = defineStore('logic', () => {
 					h: 1,
 					checks: [
 						{
-							name: 'Chest on the ledge (Access from the bombable wall in the room on the left)',
+							name: 'Chest on the ledge',
+							tooltip: 'Access from the bombable wall in the room on the left',
 							icon: null,
 							exists: () => {
 								return true;
 							},
 							available: () => {
-								return flags.koopa_bros_fortress() && flags.partner('bombette');
+								return flags.koopa_village() && flags.partner('kooper') && flags.partner('bombette');
 							}
 						}
 					]
@@ -8682,7 +8682,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.foliage_coins;
 							},
 							available: () => {
-								return flags.lava_lava_island();
+								return flags.lava_lava_island() && flags.jump_ledges();
 							}
 						}
 					]
@@ -9416,7 +9416,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.flower_fields() && flags.jump_ledges() && flags.partner('bombette') && (save.data.items.bubble_berry || flags.partner('lakilester')); // Bombette??
+								return flags.flower_fields() && flags.jump_ledges() && flags.partner('bombette') && (save.data.items.bubble_berry || flags.partner('lakilester'));
 							}
 						},
 						{
@@ -9762,7 +9762,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.flower_fields() && save.data.items.yellow_berry && flags.trees();
+								return flags.flower_fields() && save.data.items.yellow_berry && (flags.partner('lakilester') || flags.partner('parakarry')) && flags.trees();
 							}
 						},
 						{

@@ -317,7 +317,7 @@ export const useSaveStore = defineStore('save', () => {
 			const pmr_endpoint = 'https://paper-mario-randomizer-server.ue.r.appspot.com/randomizer_settings/';
 			axios.get(pmr_endpoint + currentSave.randomizer_seed).then((response) => {
 				let randomizerData = response.data;
-				console.log(randomizerData);
+				// console.log(randomizerData);
 
 				resetConfigs();
 				resetSave();
@@ -448,6 +448,13 @@ export const useSaveStore = defineStore('save', () => {
 
 			tracker.items.stars.power_stars.enabled = newValue;
 			tracker.items.stars.starrod.enabled = !newValue;
+		}
+	);
+
+	watch(
+		() => currentSave.configs.randomizer.star_hunt_star_count,
+		(newValue, oldValue) => {
+			tracker.items.stars.power_stars.max = newValue;
 		}
 	);
 
