@@ -33,7 +33,7 @@ export const useLogicStore = defineStore('logic', () => {
 			return save.data.items.boots >= 1 || flags.partner('parakarry');
 		},
 		ultra_jump_blocks: () => {
-			return save.data.items.boots >= 2;
+			return save.data.items.boots >= 3;
 		},
 		panels: () => {
 			return save.data.items.boots >= 2 || save.data.items.hammer >= 3;
