@@ -1232,7 +1232,7 @@
 				<p class="capitalize">Randomizer seed</p>
 				<input class="rounded-md" type="number" v-model="save.data.randomizer_seed" />
 			</div>
-			<p class="mt-3 text-sm">If you have randomized your starting location, you need to set it manually after you booted your ROM and knows where you spawned.</p>
+			<p class="mt-3 text-sm">If you have randomized your starting location, you need to set it manually after you booted your ROM and know where you spawned.</p>
 			<button class="border-2 border-sky-800 bg-sky-900 rounded-md p-1 w-full mt-5" @click="save.loadSeed">
 				<font-awesome-icon :icon="['fas', 'trash']" />
 				Load seed
@@ -1426,7 +1426,7 @@
 
 		<!-- Tutorial Modal -->
 		<Modal :show="tutorialModalVisible" @onClose="tutorialModalVisible = false" :large="true">
-			<p class="text-2xl mb-3">How do I use this tracker?</p>
+			<p class="text-2xl mb-3">How to use this tracker?</p>
 			<p>
 				Remember that this is only a tracker for the Paper Mario 64 Randomizer. To download and play the randomizer, you can go to
 				<a class="no-underline" href="https://pm64randomizer.com/" target="_blank">their website</a>
