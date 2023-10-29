@@ -1,5 +1,5 @@
 <template>
-	<div @contextmenu="$event.preventDefault()">
+	<div @contextmenu="$event.preventDefault()" @click.middle="$event.preventDefault()">
 		<!-- <div> -->
 		<header>
 			<div class="hidden md:flex justify-items-center items-center ml-4 mt-2">
@@ -92,7 +92,7 @@
 						</div>
 						<button
 							v-if="!save.data.configs.tracker.deactivate_layout_system"
-							class="hidden lg:flex bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
+							class="hidden lg:flex bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3 items-center"
 							type="button"
 							v-tooltip="{ content: 'Restore default layout', delay: { show: 0 } }"
 							@click="resetLayoutPrompt">
@@ -156,6 +156,7 @@
 											<Item
 												@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 												@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+												@click.middle="trackerMiddleClick($event, trackerItemKey, trackerItemConfigs)"
 												:itemName="trackerItemConfigs.name"
 												:itemKey="trackerItemKey"
 												imageFolder="stars"
@@ -256,6 +257,7 @@
 											<Item
 												@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 												@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+												@click.middle="trackerMiddleClick($event, trackerItemKey, trackerItemConfigs)"
 												:itemName="trackerItemConfigs.name"
 												:itemKey="trackerItemKey"
 												imageFolder="stars"
@@ -980,16 +982,20 @@
 
 								<!-- Map colors: Nothing: bg-slate-600 hover:bg-slate-500 | Available: bg-green-800 hover:bg-green-700 | Unavailable: bg-red-900 hover:bg-red-800 | Selected: bg-sky-600 -->
 								<div class="flex flex-wrap items-center justify-center gap-1">
-									<div
-										class="border-2 border-black rounded-md px-2"
-										:class="[map.getMapColorClasses(mapCategoryKey)]"
-										v-for="(mapCategoryConfigs, mapCategoryKey) in logic.checks"
-										:key="mapCategoryKey"
-										@click="map.selectMapCategory(mapCategoryKey)">
-										<p class="text-center" :class="[save.data.configs.tracker.map_text_size == undefined ? 'text-base' : `text-${save.data.configs.tracker.map_text_size}`]">
-											{{ mapCategoryConfigs.name }}
-										</p>
-									</div>
+									<template v-for="(mapCategoryConfigs, mapCategoryKey) in logic.checks" :key="mapCategoryKey">
+										<div
+											v-if="mapCategoryConfigs.exists()"
+											class="border-2 border-black rounded-md px-2"
+											:class="[map.getMapColorClasses(mapCategoryKey)]"
+											@click="map.selectMapCategory(mapCategoryKey)">
+											<p class="text-center" :class="[save.data.configs.tracker.map_text_size == undefined ? 'text-base' : `text-${save.data.configs.tracker.map_text_size}`]">
+												{{ mapCategoryConfigs.name }}
+												<template v-if="logic.getTotalAvailableChecksOnMap(mapCategoryKey) - logic.getTotalAvailableCheckedChecksOnMap(mapCategoryKey) > 0">
+													({{ logic.getTotalAvailableChecksOnMap(mapCategoryKey) - logic.getTotalAvailableCheckedChecksOnMap(mapCategoryKey) }})
+												</template>
+											</p>
+										</div>
+									</template>
 								</div>
 								<div class="bg-white h-[1px] my-4" />
 								<div class="flex justify-between mb-3">
@@ -1083,6 +1089,7 @@
 							<Item
 								@click="trackerLeftClick($event, trackerItemKey, trackerItemConfigs)"
 								@contextmenu="trackerRightClick($event, trackerItemKey, trackerItemConfigs)"
+								@click.middle="trackerMiddleClick($event, trackerItemKey, trackerItemConfigs)"
 								:itemName="trackerItemConfigs.name"
 								:itemKey="trackerItemKey"
 								imageFolder="stars"
@@ -1427,19 +1434,56 @@
 			</p>
 			<div class="bg-white h-[1px] my-4" />
 			<p class="text-lg">Default mode</p>
-			<p>Left click: Mark item as acquired / Add countable items</p>
-			<p>Right click: Mark item as not acquired / Remove countable items</p>
-			<p>Ctrl + Left click on stars: Increment the difficulty marker on the stars</p>
-			<p>Shift + Left click on stars: Increment the dungeon shuffle on the stars</p>
-			<p>Shift + Left click on the items: Mark the item as handed the the final NPC</p>
-			<p>Shift + Right click on items: Mark the item as a Merlow's reward</p>
+			<div class="ml-5">
+				<p>Left click: Mark item as acquired / Add countable items</p>
+				<p>Right click: Mark item as not acquired / Remove countable items</p>
+				<p>Ctrl + Left click on stars: Increment the difficulty marker on the stars</p>
+				<p>Shift + Left click on stars: Increment the dungeon shuffle on the stars</p>
+				<p>Shift + Left click on the items: Mark the item as handed the the final NPC</p>
+				<p>Shift + Right click on items: Mark the item as a Merlow's reward</p>
+				<p>Middle mouse click: Mark chapter as disabled (Limited Chapter Logic)</p>
+			</div>
 			<div class="bg-white h-[1px] my-4" />
-			<p class="text-lg">Competitive mode (one handed mouse only controls)</p>
-			<p>Left click: Mark item as acquired/not acquired</p>
-			<p>Right click on stars: Increment the difficulty marker on the stars</p>
-			<p>Right click on items: Mark the item as handed the the final NPC</p>
-			<p>Left click maintained then right click on stars: Increment the dungeon shuffle on the stars</p>
-			<p>Left click maintained then right click on items: Mark the item as a Merlow's reward</p>
+			<p class="text-lg">Competitive mode (single-handed mouse only controls)</p>
+			<div class="ml-5">
+				<p>Left click: Mark item as acquired/not acquired</p>
+				<p>Right click on stars: Increment the difficulty marker on the stars</p>
+				<p>Right click on items: Mark the item as handed the the final NPC</p>
+				<p>Left click maintained then right click on stars: Increment the dungeon shuffle on the stars</p>
+				<p>Left click maintained then right click on items: Mark the item as a Merlow's reward</p>
+				<p>Middle mouse click: Mark chapter as disabled (Limited Chapter Logic)</p>
+			</div>
+			<div class="bg-white h-[1px] my-4" />
+			<p class="text-2xl mb-3">Change logs</p>
+			<p class="text-sm">
+				For any issue on the tracker, you can communicate with me on
+				<a href="https://github.com/mryamiouji/pm64r-tracker" target="_blank">Github</a>
+				by opening an issue or on the
+				<a href="https://discord.gg/4Z5G69ZNJg" target="_blank">PMR Discord</a>
+				in the channel "Discussion & Support > pmr-tracker".
+			</p>
+			<p class="text-lg">Version 2</p>
+			<div class="ml-5">
+				<p>Added LCL (Limited Chapter Logic) logic in the map tracker</p>
+			</div>
+			<p class="text-lg">Version 1</p>
+			<div class="ml-5">
+				<p>Added dungeon shuffle logic in the map tracker</p>
+			</div>
+			<p class="text-lg">Version 0</p>
+			<div class="ml-5">
+				<p>Added a new tracker layout system</p>
+				<p>Added a new streamer (competitive) mode (single-handed mouse only controls)</p>
+				<p>Added new tracker settings</p>
+				<p>Added new randomizer settings</p>
+				<p>Added new logic settings</p>
+				<p>Added a new disable items settings</p>
+				<p>Added a new tutorial modal</p>
+				<p>Added more tracker customization in the tracker settings</p>
+				<p>Added a new map tracker</p>
+				<p>Added partner rank tracking</p>
+				<p>Added chapter difficulty tracking</p>
+			</div>
 		</Modal>
 	</div>
 </template>
@@ -1468,6 +1512,15 @@ const logicSettingsModalVisible = ref(false);
 const trackerSettingsModalVisible = ref(false);
 const disableItemsModalVisible = ref(false);
 const tutorialModalVisible = ref(false);
+
+const version = ref(localStorage.getItem('version'));
+const currentVersion = 2;
+
+if (version.value == null || version.value <= currentVersion) {
+	tutorialModalVisible.value = true;
+	version.value = currentVersion + 1;
+	localStorage.setItem('version', version.value);
+}
 
 const showStarMenu = reactive({
 	eldstar: false,
@@ -1851,6 +1904,18 @@ const trackerRightClick = (event, key, configs, itemSubCategory = null) => {
 				}
 			} else {
 				console.log('Error: Max value is not a number');
+			}
+		}
+	}
+};
+
+const trackerMiddleClick = (event, key, configs, itemSubCategory = null) => {
+	if (key == 'eldstar' || key == 'mamar' || key == 'skolar' || key == 'muskular' || key == 'misstar' || key == 'klevar' || key == 'kalmar') {
+		if (save.data.configs.logic.limit_chapter_logic) {
+			if (save.data.items[`${key}_chapter_disabled`]) {
+				save.data.items[`${key}_chapter_disabled`] = false;
+			} else {
+				save.data.items[`${key}_chapter_disabled`] = true;
 			}
 		}
 	}

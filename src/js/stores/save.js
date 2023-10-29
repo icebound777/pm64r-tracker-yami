@@ -56,6 +56,13 @@ export const useSaveStore = defineStore('save', () => {
 			misstar_dungeon_shuffle: 0,
 			klevar_dungeon_shuffle: 0,
 			kalmar_dungeon_shuffle: 0,
+			eldstar_chapter_disabled: false,
+			mamar_chapter_disabled: false,
+			skolar_chapter_disabled: false,
+			muskular_chapter_disabled: false,
+			misstar_chapter_disabled: false,
+			klevar_chapter_disabled: false,
+			kalmar_chapter_disabled: false,
 			starrod: false,
 			goombario: false,
 			kooper: false,
@@ -227,7 +234,8 @@ export const useSaveStore = defineStore('save', () => {
 		koopa_koot: false,
 		koopa_koot_coins: false,
 		dojo_randomized: false,
-		trading_event_randomized: false
+		trading_event_randomized: false,
+		limit_chapter_logic: false
 	};
 
 	const defaultTrackerConfigs = {
@@ -317,7 +325,7 @@ export const useSaveStore = defineStore('save', () => {
 			const pmr_endpoint = 'https://paper-mario-randomizer-server.ue.r.appspot.com/randomizer_settings/';
 			axios.get(pmr_endpoint + currentSave.randomizer_seed).then((response) => {
 				let randomizerData = response.data;
-				// console.log(randomizerData);
+				console.log(randomizerData);
 
 				resetConfigs();
 				resetSave();
@@ -362,6 +370,7 @@ export const useSaveStore = defineStore('save', () => {
 				currentSave.configs.logic.koopa_koot_coins = randomizerData.IncludeCoinsFavors;
 				currentSave.configs.logic.dojo_randomized = randomizerData.IncludeDojo;
 				currentSave.configs.logic.trading_event_randomized = randomizerData.IncludeRadioTradeEvent;
+				currentSave.configs.logic.limit_chapter_logic = randomizerData.LimitChapterLogic;
 
 				currentSave.items.boots = randomizerData.StartingBoots + 1;
 				currentSave.items.hammer = randomizerData.StartingHammer + 1;

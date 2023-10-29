@@ -38,4 +38,4 @@ Big thanks to [Phantom5800](https://www.twitch.tv/phantom5800) for the base trac
 
 Big thanks to [Axl_SR](https://www.twitch.tv/axl_sr) for all the constructive inputs for the "Competitive Mode".
 
-Big thanks to scatter for sharing his [tracker](https://pmr-tracker-vue-production.up.railway.app/) [sources](https://github.com/christianlegge/pmr-tracker-vue) with me. I completed my logic with his tracker.
+Big thanks to scatter for sharing his [tracker](https://pmr-tracker.christianlegge.dev/) [sources](https://github.com/christianlegge/pmr-tracker-vue) with me. I completed my logic with his tracker.

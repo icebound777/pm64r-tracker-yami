@@ -961,6 +961,10 @@ export const useTrackerStore = defineStore('tracker', () => {
 			trading_event_randomized: {
 				enabled: true,
 				type: 'switch'
+			},
+			limit_chapter_logic: {
+				enabled: true,
+				type: 'switch'
 			}
 		},
 		tracker: {

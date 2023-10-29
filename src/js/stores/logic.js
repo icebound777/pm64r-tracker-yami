@@ -226,14 +226,6 @@ export const useLogicStore = defineStore('logic', () => {
 					7: 'kalmar'
 				};
 
-				// let found_dungeon = 0;
-
-				// for (let i = 1; i <= 7; i++) {
-				// 	if (save.data.items[`${stars[i]}_dungeon_shuffle`] == dungeon) {
-				// 		found_dungeon = i;
-				// 	}
-				// }
-
 				return requirements[save.data.items[`${stars[dungeon]}_dungeon_shuffle`]];
 			} else {
 				return requirements[dungeon];
@@ -244,6 +236,35 @@ export const useLogicStore = defineStore('logic', () => {
 				return flags.toad_town() && flags.jump_ledges();
 			} else {
 				return flags.toad_town() && flags.jump_ledges() && flags.partner('bow');
+			}
+		},
+
+		//LCL
+		lcl: (chapter, isDungeon = false) => {
+			if (save.data.configs.logic.limit_chapter_logic) {
+				let stars = {
+					1: 'eldstar',
+					2: 'mamar',
+					3: 'skolar',
+					4: 'muskular',
+					5: 'misstar',
+					6: 'klevar',
+					7: 'kalmar'
+				};
+
+				if (save.data.configs.randomizer.shuffle_dungeon_entrances && isDungeon) {
+					for (let i = 1; i <= 7; i++) {
+						if (!save.data.items[`${stars[i]}_chapter_disabled`] && save.data.items[`${stars[chapter]}_dungeon_shuffle`] == i) {
+							return true;
+						}
+					}
+
+					return false;
+				} else {
+					return !save.data.items[`${stars[chapter]}_chapter_disabled`];
+				}
+			} else {
+				return true;
 			}
 		},
 
@@ -941,6 +962,9 @@ export const useLogicStore = defineStore('logic', () => {
 	const checks = reactive({
 		prologue: {
 			name: 'Prologue',
+			exists: () => {
+				return true;
+			},
 			maps: {
 				playground: {
 					name: 'Playground',
@@ -1444,6 +1468,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		toad_town: {
 			name: 'Toad Town',
+			exists: () => {
+				return true;
+			},
 			maps: {
 				outside_toad_town: {
 					name: 'Outside Toad Town',
@@ -2377,6 +2404,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		sewers: {
 			name: 'Sewers',
+			exists: () => {
+				return true;
+			},
 			maps: {
 				entrance: {
 					name: 'Entrance',
@@ -3002,6 +3032,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		pleasant_path: {
 			name: 'Pleasant Path',
+			exists: () => {
+				return flags.lcl(1);
+			},
 			maps: {
 				outside_toad_town: {
 					name: 'Outside Toad Town',
@@ -3252,6 +3285,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		koopa_village: {
 			name: 'Koopa Village',
+			exists: () => {
+				return flags.lcl(1);
+			},
 			maps: {
 				west: {
 					name: 'West',
@@ -4076,6 +4112,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		koopa_bros_fortress: {
 			name: 'Koopa Bros. Fortress',
+			exists: () => {
+				return flags.lcl(1, true);
+			},
 			maps: {
 				outside_fortress: {
 					name: 'Outside Fortress',
@@ -4310,6 +4349,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		mt_rugged: {
 			name: 'Mt. Rugged',
+			exists: () => {
+				return flags.lcl(2);
+			},
 			maps: {
 				train_station: {
 					name: 'Train Station',
@@ -4679,6 +4721,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		dry_dry_desert: {
 			name: 'Dry Dry Desert',
+			exists: () => {
+				return flags.lcl(2);
+			},
 			maps: {
 				left_entrance: {
 					name: 'West Entrance',
@@ -5831,6 +5876,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		dry_dry_ruins: {
 			name: 'Dry Dry Ruins',
+			exists: () => {
+				return flags.lcl(2, true);
+			},
 			maps: {
 				entrance: {
 					name: 'Entrance',
@@ -6149,6 +6197,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		forever_forest: {
 			name: 'Forever Forest',
+			exists: () => {
+				return flags.lcl(3);
+			},
 			maps: {
 				toad_town: {
 					name: 'Toad Town',
@@ -6367,6 +6418,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		boo_mansion: {
 			name: "Boo's Mansion",
+			exists: () => {
+				return flags.lcl(3);
+			},
 			maps: {
 				bow_bedroom: {
 					name: "Bow's Bedroom",
@@ -6750,6 +6804,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		gusty_gulch: {
 			name: 'Gusty Gulch',
+			exists: () => {
+				return flags.lcl(3);
+			},
 			maps: {
 				gate: {
 					name: 'Gate',
@@ -6977,6 +7034,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		tubba_blubba_castle: {
 			name: "Tubba Blubba's Castle",
+			exists: () => {
+				return flags.lcl(3, true);
+			},
 			maps: {
 				main_hall: {
 					name: 'Main Hall',
@@ -7294,6 +7354,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		toybox: {
 			name: "Shy Guy's Toybox",
+			exists: () => {
+				return flags.lcl(4, true);
+			},
 			maps: {
 				blue_station: {
 					name: 'Blue Station',
@@ -8220,6 +8283,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		lava_lava_island: {
 			name: 'Lava Lava Island',
+			exists: () => {
+				return flags.lcl(5);
+			},
 			maps: {
 				whale: {
 					name: 'Whale',
@@ -9070,6 +9136,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		mt_lavalava: {
 			name: 'Mt. Lavalava',
+			exists: () => {
+				return flags.lcl(5, true);
+			},
 			maps: {
 				entrance: {
 					name: 'Entrance',
@@ -9364,6 +9433,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		flower_fields: {
 			name: 'Flower Fields',
+			exists: () => {
+				return flags.lcl(6, true);
+			},
 			maps: {
 				big_tree: {
 					name: 'Big tree',
@@ -9942,6 +10014,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		shiver_region: {
 			name: 'Shiver Region',
+			exists: () => {
+				return flags.lcl(7);
+			},
 			maps: {
 				sewers_entrance: {
 					name: 'Sewers Entrance',
@@ -10373,6 +10448,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		crystal_palace: {
 			name: 'Crystal Palace',
+			exists: () => {
+				return flags.lcl(7, true);
+			},
 			maps: {
 				cave: {
 					name: 'Cave',
@@ -10776,6 +10854,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		star_haven: {
 			name: 'Star Haven',
+			exists: () => {
+				return true;
+			},
 			maps: {
 				shooting_star_summit: {
 					name: 'Shooting Star Summit',
@@ -10874,6 +10955,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		west_bowser_castle: {
 			name: "West Bowser's Castle",
+			exists: () => {
+				return true;
+			},
 			maps: {
 				diaper_garage: {
 					name: 'Diaper Garage',
@@ -11333,6 +11417,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		east_bowser_castle: {
 			name: "East Bowser's Castle",
+			exists: () => {
+				return true;
+			},
 			maps: {
 				hidden_door: {
 					name: 'Hidden Door',
@@ -11572,6 +11659,9 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		peach_castle: {
 			name: "Peach's Castle",
+			exists: () => {
+				return true;
+			},
 			maps: {
 				outside: {
 					name: 'Outside',
@@ -11751,24 +11841,28 @@ export const useLogicStore = defineStore('logic', () => {
 
 		if (mapCategoryKey === null) {
 			for (const [mapCategoryToCheckKey, mapCategory] of Object.entries(checks)) {
-				for (const [mapToCheckKey, mapToCheck] of Object.entries(mapCategory.maps)) {
-					// console.log(mapCategoryToCheckKey, mapToCheckKey, mapToCheck.checks);
+				if (checks[mapCategoryToCheckKey].exists()) {
+					for (const [mapToCheckKey, mapToCheck] of Object.entries(mapCategory.maps)) {
+						// console.log(mapCategoryToCheckKey, mapToCheckKey, mapToCheck.checks);
 
-					if (save.data.checks[mapCategoryToCheckKey] !== undefined && save.data.checks[mapCategoryToCheckKey][mapToCheckKey] !== undefined) {
-						totalChecks += save.data.checks[mapCategoryToCheckKey][mapToCheckKey].length;
+						if (save.data.checks[mapCategoryToCheckKey] !== undefined && save.data.checks[mapCategoryToCheckKey][mapToCheckKey] !== undefined) {
+							totalChecks += save.data.checks[mapCategoryToCheckKey][mapToCheckKey].length;
+						}
 					}
 				}
 			}
 		} else {
-			if (mapKey === null) {
-				for (const [mapToCheckKey, mapToCheck] of Object.entries(checks[mapCategoryKey].maps)) {
-					if (save.data.checks[mapCategoryKey] !== undefined && save.data.checks[mapCategoryKey][mapToCheckKey] !== undefined) {
-						totalChecks += save.data.checks[mapCategoryKey][mapToCheckKey].length;
+			if (checks[mapCategoryKey].exists()) {
+				if (mapKey === null) {
+					for (const [mapToCheckKey, mapToCheck] of Object.entries(checks[mapCategoryKey].maps)) {
+						if (save.data.checks[mapCategoryKey] !== undefined && save.data.checks[mapCategoryKey][mapToCheckKey] !== undefined) {
+							totalChecks += save.data.checks[mapCategoryKey][mapToCheckKey].length;
+						}
 					}
-				}
-			} else {
-				if (save.data.checks[mapCategoryKey] !== undefined && save.data.checks[mapCategoryKey][mapKey] !== undefined) {
-					totalChecks += save.data.checks[mapCategoryKey][mapKey].length;
+				} else {
+					if (save.data.checks[mapCategoryKey] !== undefined && save.data.checks[mapCategoryKey][mapKey] !== undefined) {
+						totalChecks += save.data.checks[mapCategoryKey][mapKey].length;
+					}
 				}
 			}
 		}
@@ -11781,36 +11875,40 @@ export const useLogicStore = defineStore('logic', () => {
 
 		if (mapCategoryKey === null) {
 			for (const [mapCategoryToCheckKey, mapCategory] of Object.entries(checks)) {
-				for (const [mapToCheckKey, mapToCheck] of Object.entries(mapCategory.maps)) {
-					if (save.data.checks[mapCategoryToCheckKey] !== undefined && save.data.checks[mapCategoryToCheckKey][mapToCheckKey] !== undefined) {
-						mapToCheck.checks.forEach((check, checkIndex) => {
-							if (check.exists() && check.available() && save.data.checks[mapCategoryToCheckKey][mapToCheckKey].includes(checkIndex)) {
-								totalChecks++;
-							}
-						});
+				if (checks[mapCategoryToCheckKey].exists()) {
+					for (const [mapToCheckKey, mapToCheck] of Object.entries(mapCategory.maps)) {
+						if (save.data.checks[mapCategoryToCheckKey] !== undefined && save.data.checks[mapCategoryToCheckKey][mapToCheckKey] !== undefined) {
+							mapToCheck.checks.forEach((check, checkIndex) => {
+								if (check.exists() && check.available() && save.data.checks[mapCategoryToCheckKey][mapToCheckKey].includes(checkIndex)) {
+									totalChecks++;
+								}
+							});
+						}
 					}
 				}
 			}
 		} else {
-			if (mapKey === null) {
-				for (const [mapToCheckKey, mapToCheck] of Object.entries(checks[mapCategoryKey].maps)) {
-					if (save.data.checks[mapCategoryKey] !== undefined && save.data.checks[mapCategoryKey][mapToCheckKey] !== undefined) {
-						mapToCheck.checks.forEach((check, checkIndex) => {
-							if (check.exists() && check.available() && save.data.checks[mapCategoryKey][mapToCheckKey].includes(checkIndex)) {
-								totalChecks++;
-							}
-						});
+			if (checks[mapCategoryKey].exists()) {
+				if (mapKey === null) {
+					for (const [mapToCheckKey, mapToCheck] of Object.entries(checks[mapCategoryKey].maps)) {
+						if (save.data.checks[mapCategoryKey] !== undefined && save.data.checks[mapCategoryKey][mapToCheckKey] !== undefined) {
+							mapToCheck.checks.forEach((check, checkIndex) => {
+								if (check.exists() && check.available() && save.data.checks[mapCategoryKey][mapToCheckKey].includes(checkIndex)) {
+									totalChecks++;
+								}
+							});
+						}
 					}
-				}
-			} else {
-				if (save.data.checks[mapCategoryKey] !== undefined && save.data.checks[mapCategoryKey][mapKey] !== undefined) {
-					for (const [checkKey, check] of Object.entries(checks[mapCategoryKey][mapKey])) {
-						console.log(checkKey, check);
-						checks[mapCategoryKey]['maps'][mapKey].checks.forEach((check, checkIndex) => {
-							if (check.exists() && check.available() && save.data.checks[mapCategoryKey][mapKey].includes(checkIndex)) {
-								totalChecks++;
-							}
-						});
+				} else {
+					if (save.data.checks[mapCategoryKey] !== undefined && save.data.checks[mapCategoryKey][mapKey] !== undefined) {
+						for (const [checkKey, check] of Object.entries(checks[mapCategoryKey][mapKey])) {
+							console.log(checkKey, check);
+							checks[mapCategoryKey]['maps'][mapKey].checks.forEach((check, checkIndex) => {
+								if (check.exists() && check.available() && save.data.checks[mapCategoryKey][mapKey].includes(checkIndex)) {
+									totalChecks++;
+								}
+							});
+						}
 					}
 				}
 			}
@@ -11824,28 +11922,32 @@ export const useLogicStore = defineStore('logic', () => {
 
 		if (mapCategoryKey === null) {
 			for (const [mapCategoryToCheckKey, mapCategory] of Object.entries(checks)) {
-				for (const [mapToCheckKey, mapToCheck] of Object.entries(mapCategory.maps)) {
-					// console.log(mapCategoryToCheckKey, mapToCheckKey, mapToCheck.checks);
-					for (const [checkKey, check] of Object.entries(mapToCheck.checks)) {
-						if (check.exists()) {
-							totalChecks++;
+				if (checks[mapCategoryToCheckKey].exists()) {
+					for (const [mapToCheckKey, mapToCheck] of Object.entries(mapCategory.maps)) {
+						// console.log(mapCategoryToCheckKey, mapToCheckKey, mapToCheck.checks);
+						for (const [checkKey, check] of Object.entries(mapToCheck.checks)) {
+							if (check.exists()) {
+								totalChecks++;
+							}
 						}
 					}
 				}
 			}
 		} else {
-			if (mapKey === null) {
-				for (const [mapToCheckKey, mapToCheck] of Object.entries(checks[mapCategoryKey].maps)) {
-					for (const [checkKey, check] of Object.entries(mapToCheck.checks)) {
+			if (checks[mapCategoryKey].exists()) {
+				if (mapKey === null) {
+					for (const [mapToCheckKey, mapToCheck] of Object.entries(checks[mapCategoryKey].maps)) {
+						for (const [checkKey, check] of Object.entries(mapToCheck.checks)) {
+							if (check.exists()) {
+								totalChecks++;
+							}
+						}
+					}
+				} else {
+					for (const [checkKey, check] of Object.entries(checks[mapCategoryKey].maps[mapKey].checks)) {
 						if (check.exists()) {
 							totalChecks++;
 						}
-					}
-				}
-			} else {
-				for (const [checkKey, check] of Object.entries(checks[mapCategoryKey].maps[mapKey].checks)) {
-					if (check.exists()) {
-						totalChecks++;
 					}
 				}
 			}
@@ -11859,28 +11961,31 @@ export const useLogicStore = defineStore('logic', () => {
 
 		if (mapCategoryKey === null) {
 			for (const [mapCategoryToCheckKey, mapCategory] of Object.entries(checks)) {
-				for (const [mapToCheckKey, mapToCheck] of Object.entries(mapCategory.maps)) {
-					// console.log(mapCategoryToCheckKey, mapToCheckKey, mapToCheck.checks);
-					for (const [checkKey, check] of Object.entries(mapToCheck.checks)) {
-						if (check.exists() && check.available()) {
-							totalChecks++;
+				if (checks[mapCategoryToCheckKey].exists()) {
+					for (const [mapToCheckKey, mapToCheck] of Object.entries(mapCategory.maps)) {
+						for (const [checkKey, check] of Object.entries(mapToCheck.checks)) {
+							if (check.exists() && check.available()) {
+								totalChecks++;
+							}
 						}
 					}
 				}
 			}
 		} else {
-			if (mapKey === null) {
-				for (const [mapToCheckKey, mapToCheck] of Object.entries(checks[mapCategoryKey].maps)) {
-					for (const [checkKey, check] of Object.entries(mapToCheck.checks)) {
+			if (checks[mapCategoryKey].exists()) {
+				if (mapKey === null) {
+					for (const [mapToCheckKey, mapToCheck] of Object.entries(checks[mapCategoryKey].maps)) {
+						for (const [checkKey, check] of Object.entries(mapToCheck.checks)) {
+							if (check.exists() && check.available()) {
+								totalChecks++;
+							}
+						}
+					}
+				} else {
+					for (const [checkKey, check] of Object.entries(checks[mapCategoryKey].maps[mapKey].checks)) {
 						if (check.exists() && check.available()) {
 							totalChecks++;
 						}
-					}
-				}
-			} else {
-				for (const [checkKey, check] of Object.entries(checks[mapCategoryKey].maps[mapKey].checks)) {
-					if (check.exists() && check.available()) {
-						totalChecks++;
 					}
 				}
 			}

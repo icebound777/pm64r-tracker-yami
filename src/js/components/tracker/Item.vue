@@ -15,6 +15,7 @@
 		</template>
 		<img v-if="imageFolder == 'stars' && stars_dungeon_shuffle_images" class="absolute top-0 left-0 h-[20px]" :src="`/images/stars/${stars_dungeon_shuffle_images}.webp`" />
 		<p v-if="imageFolder == 'stars' && save.data.items[`${itemKey}_difficulty`]" class="absolute w-fit whitespace-nowrap bottom-[-10px] right-0">{{ save.data.items[`${itemKey}_difficulty`] }}</p>
+		<font-awesome-icon v-if="imageFolder == 'stars' && save.data.items[`${itemKey}_chapter_disabled`]" class="absolute text-red-600 z-10 top-0 right-0" :icon="['fas', 'ban']" />
 		<p
 			v-if="imageFolder != 'partners' && itemCountMax > 1 && !levelItem"
 			class="absolute w-fit whitespace-nowrap bottom-[-10px] text-base"
