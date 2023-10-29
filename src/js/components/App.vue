@@ -1,5 +1,5 @@
 <template>
-	<div @contextmenu="$event.preventDefault()" @click.middle="$event.preventDefault()">
+	<div @contextmenu="$event.preventDefault()" @mousedown="preventMiddleMouseScroll($event)">
 		<!-- <div> -->
 		<header>
 			<div class="hidden md:flex justify-items-center items-center ml-4 mt-2">
@@ -1989,6 +1989,13 @@ const resetLayoutPrompt = () => {
 
 const openGithub = () => {
 	window.open('https://github.com/mryamiouji/pm64r-tracker', '_blank');
+};
+
+const preventMiddleMouseScroll = (event) => {
+	if (event.button == 1) {
+		event.preventDefault();
+		return false;
+	}
 };
 
 //OnLoad Function Calls
