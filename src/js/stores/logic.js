@@ -405,10 +405,14 @@ export const useLogicStore = defineStore('logic', () => {
 		},
 		boo_mansion: (requireBoots = true) => {
 			if (requireBoots) {
-				return (save.data.items.boots >= 1 && flags.forever_forest()) || (flags.sewers() && save.data.items.boots >= 2);
+				return (
+					(save.data.items.boots >= 1 && flags.forever_forest()) ||
+					(flags.sewers() && save.data.items.boots >= 2) ||
+					(flags.rip_cheato() && flags.partner('bombette') && flags.partner('sushie'))
+				);
 			}
 
-			return flags.forever_forest() || (flags.sewers() && save.data.items.boots >= 2);
+			return flags.forever_forest() || (flags.sewers() && save.data.items.boots >= 2) || (flags.rip_cheato() && flags.partner('bombette') && flags.partner('sushie'));
 		},
 		gusty_gulch: () => {
 			return flags.boo_mansion() && save.data.items.boo_portrait;
@@ -477,7 +481,7 @@ export const useLogicStore = defineStore('logic', () => {
 			if (flags.toad_town()) {
 				if (
 					((save.data.items.boots >= 2 && flags.partner('sushie')) || (flags.rip_cheato() && flags.partner('bombette'))) &&
-					((save.data.configs.randomizer.chapter_7_bridge_visible && flags.jump_ledges()) || flags.ultra_jump_blocks())
+					((save.data.configs.randomizer.chapter_7_bridge_open && flags.jump_ledges()) || flags.ultra_jump_blocks())
 				) {
 					return true;
 				}
@@ -1080,7 +1084,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
-								return flags.goomba_village() && flags.jump_ledges() && flags.ground_blocks();
+								return flags.goomba_village() && flags.jump_ledges() && flags.yellow_blocks() && flags.ground_blocks();
 							}
 						}
 					]
@@ -1179,7 +1183,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.goomba_village() && flags.jump_ledges();
+								return flags.goomba_village() && flags.jump_ledges() && flags.ground_blocks();
 							}
 						}
 					]
@@ -1384,7 +1388,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.goomba_village() && flags.jump_coin_blocks() && save.data.items.hammer >= 1;
+								return flags.goomba_village() && flags.yellow_blocks() && flags.jump_coin_blocks();
 							}
 						},
 						{
@@ -1394,7 +1398,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.goomba_village() && save.data.items.hammer >= 1;
+								return flags.goomba_village() && flags.yellow_blocks();
 							}
 						}
 					]
@@ -1429,7 +1433,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.goomba_village() && flags.trees();
+								return flags.goomba_village() && flags.yellow_blocks() && flags.trees();
 							}
 						},
 						{
@@ -3270,6 +3274,17 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
+							name: 'Chest on the ledge in the next screen',
+							tooltip: 'Access from the bombable wall in the room on the left',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.koopa_village() && flags.partner('kooper') && flags.partner('bombette');
+							}
+						},
+						{
 							name: eldstar_dungeon_shuffle_name,
 							icon: eldstar_dungeon_shuffle_icon,
 							exists: () => {
@@ -4122,19 +4137,7 @@ export const useLogicStore = defineStore('logic', () => {
 					y: 4,
 					w: 1,
 					h: 1,
-					checks: [
-						{
-							name: 'Chest on the ledge',
-							tooltip: 'Access from the bombable wall in the room on the left',
-							icon: null,
-							exists: () => {
-								return true;
-							},
-							available: () => {
-								return flags.koopa_village() && flags.partner('kooper') && flags.partner('bombette');
-							}
-						}
-					]
+					checks: []
 				},
 				fortress_entrance: {
 					name: 'Fortress Entrance',
@@ -8610,7 +8613,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.lava_lava_island() && save.data.items.volcano_vase;
+								return flags.lava_lava_island() && flags.partner('watt') && flags.partner('sushie') && save.data.items.hammer >= 1 && save.data.items.volcano_vase;
 							}
 						},
 						{
@@ -10623,7 +10626,7 @@ export const useLogicStore = defineStore('logic', () => {
 					]
 				},
 				elevator_and_clubba: {
-					name: 'Elevator and Clubba',
+					name: 'Red Door Corridor',
 					x: 4,
 					y: 4,
 					w: 1,
@@ -10631,7 +10634,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: []
 				},
 				bomb_switch: {
-					name: 'Bomb Switch',
+					name: 'Red Door Bombette Puzzle',
 					x: 5,
 					y: 4,
 					w: 1,
@@ -10659,7 +10662,7 @@ export const useLogicStore = defineStore('logic', () => {
 					]
 				},
 				mirror_corridor: {
-					name: 'Mirror Corridor',
+					name: 'Blue Door Corridor',
 					x: 4,
 					y: 5,
 					w: 1,
@@ -10667,7 +10670,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: []
 				},
 				mirror_hole: {
-					name: 'Mirror Hole',
+					name: 'Blue door Cul-de-sac',
 					x: 5,
 					y: 5,
 					w: 1,

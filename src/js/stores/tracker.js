@@ -798,6 +798,24 @@ export const useTrackerStore = defineStore('tracker', () => {
 				enabled: true,
 				type: 'switch'
 			},
+			gear_shuffle: {
+				enabled: true,
+				type: 'select',
+				options: [
+					{
+						value: 'vanilla',
+						text: 'Vanilla'
+					},
+					{
+						value: 'vgs',
+						text: 'Gear Location Shuffle'
+					},
+					{
+						value: 'full_shuffle',
+						text: 'Full Shuffle'
+					}
+				]
+			},
 			shuffle_dungeon_entrances: {
 				enabled: true,
 				type: 'switch'

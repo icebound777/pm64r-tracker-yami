@@ -1426,70 +1426,87 @@
 
 		<!-- Tutorial Modal -->
 		<Modal :show="tutorialModalVisible" @onClose="tutorialModalVisible = false" :large="true">
-			<p class="text-2xl mb-3">How to use this tracker?</p>
-			<p>
-				Remember that this is only a tracker for the Paper Mario 64 Randomizer. To download and play the randomizer, you can go to
-				<a class="no-underline" href="https://pm64randomizer.com/" target="_blank">their website</a>
-				.
-			</p>
-			<div class="bg-white h-[1px] my-4" />
-			<p class="text-lg">Default mode</p>
-			<div class="ml-5">
-				<p>Left click: Mark item as acquired / Add countable items</p>
-				<p>Right click: Mark item as not acquired / Remove countable items</p>
-				<p>Ctrl + Left click on stars: Increment the difficulty marker on the stars</p>
-				<p>Shift + Left click on stars: Increment the dungeon shuffle on the stars</p>
-				<p>Shift + Left click on the items: Mark the item as handed the the final NPC</p>
-				<p>Shift + Right click on items: Mark the item as a Merlow's reward</p>
-				<p>Middle mouse click: Mark chapter as disabled (Limited Chapter Logic)</p>
-			</div>
-			<div class="bg-white h-[1px] my-4" />
-			<p class="text-lg">Competitive mode (single-handed mouse only controls)</p>
-			<div class="ml-5">
-				<p>Left click: Mark item as acquired/not acquired</p>
-				<p>Right click on stars: Increment the difficulty marker on the stars</p>
-				<p>Right click on items: Mark the item as handed the the final NPC</p>
-				<p>Left click maintained then right click on stars: Increment the dungeon shuffle on the stars</p>
-				<p>Left click maintained then right click on items: Mark the item as a Merlow's reward</p>
-				<p>Middle mouse click: Mark chapter as disabled (Limited Chapter Logic)</p>
-			</div>
-			<div class="bg-white h-[1px] my-4" />
-			<p class="text-2xl mb-3">Change logs</p>
-			<p class="text-sm">
-				For any issue on the tracker, you can communicate with me on
-				<a href="https://github.com/mryamiouji/pm64r-tracker" target="_blank">Github</a>
-				by opening an issue or on the
-				<a href="https://discord.gg/4Z5G69ZNJg" target="_blank">PMR Discord</a>
-				in the channel "Discussion & Support > pmr-tracker".
-			</p>
-			<p class="text-lg">Version 2</p>
-			<div class="ml-5">
-				<p>Added LCL (Limited Chapter Logic) logic in the map tracker</p>
-			</div>
-			<p class="text-lg">Version 1</p>
-			<div class="ml-5">
-				<p>Added dungeon shuffle logic in the map tracker</p>
-			</div>
-			<p class="text-lg">Version 0</p>
-			<div class="ml-5">
-				<p>Added a new tracker layout system</p>
-				<p>Added a new streamer (competitive) mode (single-handed mouse only controls)</p>
-				<p>Added new tracker settings</p>
-				<p>Added new randomizer settings</p>
-				<p>Added new logic settings</p>
-				<p>Added a new disable items settings</p>
-				<p>Added a new tutorial modal</p>
-				<p>Added more tracker customization in the tracker settings</p>
-				<p>Added a new map tracker</p>
-				<p>Added partner rank tracking</p>
-				<p>Added chapter difficulty tracking</p>
+			<div class="about">
+				<p class="text-2xl mb-3">About the tracker</p>
+				<p class="mb-3">
+					This is only a tracker for the Paper Mario 64 Randomizer and not the randomizer itself. To download and play the randomizer, you can go to
+					<a class="no-underline" href="https://pm64randomizer.com/" target="_blank">their website</a>
+					.
+				</p>
+				<p class="mb-3">
+					You can also join the
+					<a class="no-underline" href="https://discord.gg/4Z5G69ZNJg" target="_blank">PMR Discord</a>
+					to get help and discuss about the randomizer.
+				</p>
+				<p class="mb-3">
+					Note that the tracker is not perfect and can have some bugs. If you find any bug, you can report it on the Github repository of the tracker by opening an issue. You can also report
+					it on the PMR Discord in the channel "Discussion & Support > pmr-tracker". You can also suggest new features on the Github repository or on the PMR Discord. If you want to
+					contribute to the tracker, you can also do it on the Github repository.
+				</p>
+				<p class="mb-3">
+					Also note that for now, VGS (Vanilla Gear Shuffle or Gear Location Shuffle) logic is not perfectly handled by the map tracker. It is a known issue and it will be fixed in the
+					future.
+				</p>
+				<div class="bg-white h-[1px] my-4" />
+				<p class="text-2xl mb-3">How to use this tracker?</p>
+				<p class="text-lg">Default mode</p>
+				<div class="ml-5">
+					<p>Left click: Mark item as acquired / Add countable items</p>
+					<p>Right click: Mark item as not acquired / Remove countable items</p>
+					<p>Ctrl + Left click on stars: Increment the difficulty marker on the stars</p>
+					<p>Shift + Left click on stars: Increment the dungeon shuffle on the stars</p>
+					<p>Shift + Left click on the items: Mark the item as handed the the final NPC</p>
+					<p>Shift + Right click on items: Mark the item as a Merlow's reward</p>
+					<p>Middle mouse click: Mark chapter as disabled (Limited Chapter Logic)</p>
+				</div>
+				<div class="bg-white h-[1px] my-4" />
+				<p class="text-lg">Competitive mode (single-handed mouse only controls)</p>
+				<div class="ml-5">
+					<p>Left click: Mark item as acquired/not acquired</p>
+					<p>Right click on stars: Increment the difficulty marker on the stars</p>
+					<p>Right click on items: Mark the item as handed the the final NPC</p>
+					<p>Left click maintained then right click on stars: Increment the dungeon shuffle on the stars</p>
+					<p>Left click maintained then right click on items: Mark the item as a Merlow's reward</p>
+					<p>Middle mouse click: Mark chapter as disabled (Limited Chapter Logic)</p>
+				</div>
+				<div class="bg-white h-[1px] my-4" />
+				<p class="text-2xl mb-3">Change logs</p>
+				<p class="text-sm">
+					For any issue on the tracker, you can communicate with me on
+					<a href="https://github.com/mryamiouji/pm64r-tracker" target="_blank">Github</a>
+					by opening an issue or on the
+					<a href="https://discord.gg/4Z5G69ZNJg" target="_blank">PMR Discord</a>
+					in the channel "Discussion & Support > pmr-tracker".
+				</p>
+				<p class="text-lg mt-3">Version 2</p>
+				<div class="ml-5">
+					<p>Added LCL (Limited Chapter Logic) logic in the map tracker</p>
+				</div>
+				<p class="text-lg mt-3">Version 1</p>
+				<div class="ml-5">
+					<p>Added dungeon shuffle logic in the map tracker</p>
+				</div>
+				<p class="text-lg mt-3">Version 0</p>
+				<div class="ml-5">
+					<p>Added a new tracker layout system</p>
+					<p>Added a new streamer (competitive) mode (single-handed mouse only controls)</p>
+					<p>Added new tracker settings</p>
+					<p>Added new randomizer settings</p>
+					<p>Added new logic settings</p>
+					<p>Added a new disable items settings</p>
+					<p>Added a new tutorial modal</p>
+					<p>Added more tracker customization in the tracker settings</p>
+					<p>Added a new map tracker</p>
+					<p>Added partner rank tracking</p>
+					<p>Added chapter difficulty tracking</p>
+				</div>
 			</div>
 		</Modal>
 	</div>
 </template>
 
 <script setup>
-import { computed, reactive, ref, watch } from 'vue';
+import { reactive, ref, watch } from 'vue';
 
 import { useSaveStore } from '../stores/save';
 import { useTrackerStore } from '../stores/tracker';
@@ -1514,7 +1531,7 @@ const disableItemsModalVisible = ref(false);
 const tutorialModalVisible = ref(false);
 
 const version = ref(localStorage.getItem('version'));
-const currentVersion = 2;
+const currentVersion = 3;
 
 if (version.value == null || version.value <= currentVersion) {
 	tutorialModalVisible.value = true;

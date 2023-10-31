@@ -203,6 +203,7 @@ export const useSaveStore = defineStore('save', () => {
 		whale_open: false,
 		chapter_7_bridge_open: false,
 		blue_house_open: false,
+		gear_shuffle: 'vanilla',
 		shuffle_dungeon_entrances: false,
 		magical_seed_required: 4,
 		starting_location: 65796,
@@ -325,7 +326,7 @@ export const useSaveStore = defineStore('save', () => {
 			const pmr_endpoint = 'https://paper-mario-randomizer-server.ue.r.appspot.com/randomizer_settings/';
 			axios.get(pmr_endpoint + currentSave.randomizer_seed).then((response) => {
 				let randomizerData = response.data;
-				console.log(randomizerData);
+				// console.log(randomizerData);
 
 				resetConfigs();
 				resetSave();
@@ -339,6 +340,19 @@ export const useSaveStore = defineStore('save', () => {
 				currentSave.configs.randomizer.toybox_open = randomizerData.ToyboxOpen;
 				currentSave.configs.randomizer.whale_open = randomizerData.WhaleOpen;
 				currentSave.configs.randomizer.chapter_7_bridge_open = randomizerData.Ch7BridgeVisible;
+
+				if (randomizerData.GearShuffleMode == 0) {
+					currentSave.configs.randomizer.gear_shuffle = 'vanilla';
+				}
+
+				if (randomizerData.GearShuffleMode == 1) {
+					currentSave.configs.randomizer.gear_shuffle = 'vgs';
+				}
+
+				if (randomizerData.GearShuffleMode == 2) {
+					currentSave.configs.randomizer.gear_shuffle = 'full_shuffle';
+				}
+
 				currentSave.configs.randomizer.shuffle_dungeon_entrances = randomizerData.ShuffleDungeonEntrances;
 				currentSave.configs.randomizer.magical_seed_required = randomizerData.MagicalSeedsRequired;
 				currentSave.configs.randomizer.starting_location = randomizerData.StartingMap;
