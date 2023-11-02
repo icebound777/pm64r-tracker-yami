@@ -1011,8 +1011,8 @@
 								<div
 									class="grid grid-flow-col gap-0.5"
 									:class="[`grid-cols-${map.getHighestXForMap(map.currentMapCategory)}`, `grid-rows-${map.getHighestYForMap(map.currentMapCategory)}`]">
-									<template v-for="y in map.getHighestYForMap(map.currentMapCategory)">
-										<template v-for="x in map.getHighestXForMap(map.currentMapCategory)">
+									<template v-for="y in map.getHighestYForMap(map.currentMapCategory)" :key="y">
+										<template v-for="x in map.getHighestXForMap(map.currentMapCategory)" :key="x">
 											<div
 												v-if="map.getMapByCoordinates(map.currentMapCategory, x, y) !== null"
 												class="flex items-center justify-center rounded-md px-1.5 py-0.5"
@@ -1026,7 +1026,8 @@
 														'border-2 border-black': !map.getMapByCoordinates(map.currentMapCategory, x, y).transparent
 													}
 												]"
-												@click="map.selectMap(map.getMapByCoordinates(map.currentMapCategory, x, y).key)">
+												@click="map.selectMap(map.getMapByCoordinates(map.currentMapCategory, x, y).key)"
+												@contextmenu="map.checkAllMapChecksFromCategory(map.currentMapCategory, map.getMapByCoordinates(map.currentMapCategory, x, y).key)">
 												<p
 													class="text-center"
 													:class="[save.data.configs.tracker.map_text_size == undefined ? 'text-base' : `text-${save.data.configs.tracker.map_text_size}`]"
@@ -1452,7 +1453,8 @@
 				<p class="text-lg">Default mode</p>
 				<div class="ml-5">
 					<p>Left click: Mark item as acquired / Add countable items</p>
-					<p>Right click: Mark item as not acquired / Remove countable items</p>
+					<p>Right click on an item: Mark item as not acquired / Remove countable items</p>
+					<p>Right click on the map tracker: Checks all the available checks of the map</p>
 					<p>Ctrl + Left click on stars: Increment the difficulty marker on the stars</p>
 					<p>Shift + Left click on stars: Increment the dungeon shuffle on the stars</p>
 					<p>Shift + Left click on the items: Mark the item as handed the the final NPC</p>
@@ -1465,6 +1467,7 @@
 					<p>Left click: Mark item as acquired/not acquired</p>
 					<p>Right click on stars: Increment the difficulty marker on the stars</p>
 					<p>Right click on items: Mark the item as handed the the final NPC</p>
+					<p>Right click on the map tracker: Checks all the available checks of the map</p>
 					<p>Left click maintained then right click on stars: Increment the dungeon shuffle on the stars</p>
 					<p>Left click maintained then right click on items: Mark the item as a Merlow's reward</p>
 					<p>Middle mouse click: Mark chapter as disabled (Limited Chapter Logic)</p>
@@ -1478,6 +1481,10 @@
 					<a href="https://discord.gg/4Z5G69ZNJg" target="_blank">PMR Discord</a>
 					in the channel "Discussion & Support > pmr-tracker".
 				</p>
+				<p class="text-lg mt-3">Version 3</p>
+				<div class="ml-5">
+					<p>Added the possibility to right click a map to check all the available checks at once</p>
+				</div>
 				<p class="text-lg mt-3">Version 2</p>
 				<div class="ml-5">
 					<p>Added LCL (Limited Chapter Logic) logic in the map tracker</p>

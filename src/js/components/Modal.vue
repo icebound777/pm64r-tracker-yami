@@ -25,7 +25,7 @@
 						v-show="show"
 						class="sm:w-full p-5 mb-6 sm:mx-auto bg-sky-950 rounded-lg shadow-xl transform transition-all max-h-[80%] overflow-y-scroll"
 						:class="{
-							'max-w-[950px]': large,
+							'max-w-[600px] lg:max-w-[950px] xl:max-w-[1300px]': large,
 							'max-w-lg': !large
 						}">
 						<slot />

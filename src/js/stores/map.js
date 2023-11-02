@@ -150,6 +150,27 @@ export const useMapStore = defineStore('map', () => {
 		currentMap.value = map;
 	};
 
+	const checkAllMapChecksFromCategory = (mapCategoryKey, mapKey, availableOnly = true) => {
+		if (save.data.checks[mapCategoryKey] == undefined) {
+			save.data.checks[mapCategoryKey] = {};
+		}
+		if (save.data.checks[mapCategoryKey][mapKey] == undefined) {
+			save.data.checks[mapCategoryKey][mapKey] = [];
+		}
+
+		for (const [checkKey, check] of Object.entries(logic.checks[mapCategoryKey].maps[mapKey].checks)) {
+			if (check.exists() && !save.data.checks[mapCategoryKey][mapKey].includes(parseInt(checkKey))) {
+				if (availableOnly) {
+					if (check.available()) {
+						save.data.checks[mapCategoryKey][mapKey].push(parseInt(checkKey));
+					}
+				} else {
+					save.data.checks[mapCategoryKey][mapKey].push(parseInt(checkKey));
+				}
+			}
+		}
+	};
+
 	const selectCheck = (mapCategoryKey, mapKey, checkKey) => {
 		if (save.data.checks[mapCategoryKey] == undefined) {
 			save.data.checks[mapCategoryKey] = {};
@@ -158,8 +179,8 @@ export const useMapStore = defineStore('map', () => {
 			save.data.checks[mapCategoryKey][mapKey] = [];
 		}
 
-		if (!save.data.checks[mapCategoryKey][mapKey].includes(checkKey)) {
-			save.data.checks[mapCategoryKey][mapKey].push(checkKey);
+		if (!save.data.checks[mapCategoryKey][mapKey].includes(parseInt(checkKey))) {
+			save.data.checks[mapCategoryKey][mapKey].push(parseInt(checkKey));
 		}
 	};
 
@@ -217,6 +238,7 @@ export const useMapStore = defineStore('map', () => {
 
 		//Map interactions
 		selectMapCategory: selectMapCategory,
+		checkAllMapChecksFromCategory: checkAllMapChecksFromCategory,
 		selectMap: selectMap,
 		selectCheck: selectCheck,
 		unselectCheck: unselectCheck,
