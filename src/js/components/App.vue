@@ -972,6 +972,15 @@
 								</div>
 							</template>
 							<template v-if="grid_item.i == 'map'">
+								<div
+									v-if="save.data.configs.randomizer.starting_location == tracker.startingLocations.random"
+									class="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-red-500 bg-opacity-40">
+									<p>
+										Choose a starting location in the
+										<a class="cursor-pointer" @click="randomizerSettingsModalVisible = true">randomizer settings</a>
+										before using the map tracker
+									</p>
+								</div>
 								<div class="flex justify-between mb-3">
 									<h2>Map</h2>
 									<p>
@@ -1048,7 +1057,7 @@
 												@click="map.selectCheck(map.currentMapCategory, map.currentMap, checkKey)"
 												@contextmenu="map.unselectCheck(map.currentMapCategory, map.currentMap, checkKey)"
 												v-tooltip="check.tooltip !== undefined ? check.tooltip : null">
-												<img v-if="check.icon" class="h-3 mr-2" :src="check.icon" v-tooltip="{ content: check.icon.titlize().capitalize(), delay: { show: 0 } }" />
+												<img v-if="check.icon" class="h-3 mr-2" :src="check.icon" />
 												<p :class="[save.data.configs.tracker.map_text_size == undefined ? 'text-base' : `text-${save.data.configs.tracker.map_text_size}`]">
 													{{ check.name }}
 												</p>

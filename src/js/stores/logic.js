@@ -3452,16 +3452,6 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: "Talk to Kolorado's wife (After Koopa Koot asks for the Koopa Legends)",
-							icon: '/images/checks/koopa_koot_favors.webp',
-							exists: () => {
-								return save.data.configs.logic.koopa_koot;
-							},
-							available: () => {
-								return flags.koopa_village();
-							}
-						},
-						{
 							name: 'Bush closest of the east exit (After Koopa Koot asks for his wallet)',
 							icon: '/images/checks/koopa_koot_favors.webp',
 							exists: () => {
@@ -3574,6 +3564,16 @@ export const useLogicStore = defineStore('logic', () => {
 							icon: '/images/checks/foliage_coins.webp',
 							exists: () => {
 								return save.data.configs.logic.foliage_coins;
+							},
+							available: () => {
+								return flags.koopa_village();
+							}
+						},
+						{
+							name: "Talk to Kolorado's wife (After Koopa Koot asks for the Koopa Legends)",
+							icon: '/images/checks/koopa_koot_favors.webp',
+							exists: () => {
+								return save.data.configs.logic.koopa_koot;
 							},
 							available: () => {
 								return flags.koopa_village();
