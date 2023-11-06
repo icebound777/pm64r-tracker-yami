@@ -28,7 +28,8 @@ Then copy the "images" folder in the new "dist" folder.
 
 ## Road map for the tracker
 
--   Highlight the starspirits when they can be completed
+-   Highlight the stars when they can be completed
+-   Highlight the Koot items when they can be delivered
 -   Add the possibility to load a spoiler log and check what is where on the tracker (I have to check the feasibility of it, but that's an idea that I had...);
 -   Sync the dungeon checks with their dungeon availability;
 -   Explore the auto-tracking possibility with BizHawk.

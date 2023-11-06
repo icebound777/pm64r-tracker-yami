@@ -340,6 +340,7 @@ export const useSaveStore = defineStore('save', () => {
 				currentSave.configs.randomizer.toybox_open = randomizerData.ToyboxOpen;
 				currentSave.configs.randomizer.whale_open = randomizerData.WhaleOpen;
 				currentSave.configs.randomizer.chapter_7_bridge_open = randomizerData.Ch7BridgeVisible;
+				currentSave.configs.randomizer.blue_house_open = randomizerData.BlueHouseOpen;
 
 				if (randomizerData.GearShuffleMode == 0) {
 					currentSave.configs.randomizer.gear_shuffle = 'vanilla';
