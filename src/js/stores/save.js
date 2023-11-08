@@ -236,7 +236,8 @@ export const useSaveStore = defineStore('save', () => {
 		koopa_koot_coins: false,
 		dojo_randomized: false,
 		trading_event_randomized: false,
-		limit_chapter_logic: false
+		limit_chapter_logic: false,
+		cook_without_frying_pan: false
 	};
 
 	const defaultTrackerConfigs = {
@@ -326,7 +327,7 @@ export const useSaveStore = defineStore('save', () => {
 			const pmr_endpoint = 'https://paper-mario-randomizer-server.ue.r.appspot.com/randomizer_settings/';
 			axios.get(pmr_endpoint + currentSave.randomizer_seed).then((response) => {
 				let randomizerData = response.data;
-				// console.log(randomizerData);
+				console.log(randomizerData);
 
 				resetConfigs();
 				resetSave();
@@ -386,6 +387,7 @@ export const useSaveStore = defineStore('save', () => {
 				currentSave.configs.logic.dojo_randomized = randomizerData.IncludeDojo;
 				currentSave.configs.logic.trading_event_randomized = randomizerData.IncludeRadioTradeEvent;
 				currentSave.configs.logic.limit_chapter_logic = randomizerData.LimitChapterLogic;
+				currentSave.configs.logic.cook_without_frying_pan = randomizerData.CookWithoutFryingPan;
 
 				currentSave.items.boots = randomizerData.StartingBoots + 1;
 				currentSave.items.hammer = randomizerData.StartingHammer + 1;

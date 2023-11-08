@@ -983,6 +983,10 @@ export const useTrackerStore = defineStore('tracker', () => {
 			limit_chapter_logic: {
 				enabled: true,
 				type: 'switch'
+			},
+			cook_without_frying_pan: {
+				enabled: true,
+				type: 'switch'
 			}
 		},
 		tracker: {

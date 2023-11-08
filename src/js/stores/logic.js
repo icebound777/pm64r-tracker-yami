@@ -1533,7 +1533,7 @@ export const useLogicStore = defineStore('logic', () => {
 									flags.can_koot() &&
 									flags.star_spirits_count() >= 1 &&
 									save.data.items.koopa_koot_favors.koopa_legends &&
-									save.data.items.sleepy_sheep &&
+									save.data.items.koopa_koot_favors.sleepy_sheep &&
 									save.data.items.koopa_koot_favors.tape &&
 									save.data.items.koopa_koot_favors.koopa_tea
 								);
@@ -2319,7 +2319,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toad_town();
+								return flags.toad_town() && flags.jump_ledges();
 							}
 						},
 						{
@@ -5771,7 +5771,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.dry_dry_desert() && save.data.items.letters.lyrics;
+								return flags.dry_dry_desert() && save.data.items.lyrics;
 							}
 						},
 						{
@@ -6905,7 +6905,7 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return (
 									flags.boo_mansion() &&
-									flags.star_spirits_count() >= 5 &&
+									flags.star_spirits_count() >= 6 &&
 									save.data.items.koopa_koot_favors.koopa_legends &&
 									save.data.items.koopa_koot_favors.sleepy_sheep &&
 									save.data.items.koopa_koot_favors.tape &&
@@ -8523,7 +8523,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.lava_lava_island() && flags.partner('watt') && flags.partner('sushie') && save.data.items.hammer >= 1;
+								return flags.lava_lava_island() && flags.partner('watt') && flags.partner('sushie') && flags.jump_ledges() && save.data.items.hammer >= 1;
 							}
 						},
 						{
@@ -8633,7 +8633,16 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.lava_lava_island() && flags.toad_town() && flags.partner('watt') && flags.partner('sushie') && save.data.items.hammer >= 1;
+								return (
+									flags.lava_lava_island() &&
+									flags.toad_town() &&
+									flags.partner('watt') &&
+									flags.partner('sushie') &&
+									flags.jump_ledges() &&
+									save.data.items.hammer >= 1 &&
+									save.data.items.misstar &&
+									(save.data.configs.logic.cook_without_frying_pan || save.data.items.frying_pan)
+								);
 							}
 						},
 						{
@@ -8647,6 +8656,7 @@ export const useLogicStore = defineStore('logic', () => {
 									flags.lava_lava_island() &&
 									flags.partner('watt') &&
 									flags.partner('sushie') &&
+									flags.jump_ledges() &&
 									save.data.items.hammer >= 1 &&
 									save.data.items.volcano_vase &&
 									save.data.items.misstar
