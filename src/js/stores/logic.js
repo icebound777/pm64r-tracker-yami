@@ -42,7 +42,7 @@ export const useLogicStore = defineStore('logic', () => {
 			return save.data.items.hammer >= 1 || flags.partner('bombette');
 		},
 		ground_blocks: () => {
-			return save.data.items.hammer >= 1 || flags.partner('kooper') || flags.partner('bombette');
+			return save.data.items.hammer >= 1 || save.data.items.boots >= 2 || flags.partner('kooper') || flags.partner('bombette');
 		},
 
 		//Passives
@@ -358,7 +358,7 @@ export const useLogicStore = defineStore('logic', () => {
 						return true;
 					}
 
-					if (save.data.items.boots >= 1 && (flags.partner('bombette') || flags.stone_blocks())) {
+					if (flags.partner('bombette') || flags.stone_blocks()) {
 						return true;
 					}
 			}
@@ -1186,7 +1186,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.goomba_village() && flags.jump_ledges() && flags.ground_blocks();
+								return flags.goomba_village() && flags.jump_ledges() && flags.jump_coin_blocks() && flags.stone_blocks();
 							}
 						}
 					]
@@ -1472,7 +1472,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.foliage_coins;
 							},
 							available: () => {
-								return flags.toad_town() && flags.trees();
+								return flags.toad_town() && flags.trees() && flags.jump_ledges();
 							}
 						}
 					]
@@ -2399,7 +2399,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.letters_randomized;
 							},
 							available: () => {
-								return flags.toad_town() && flags.deliver_letters() && save.data.items.letters.dane_t >= 1;
+								return flags.toad_town() && flags.deliver_letters() && save.data.items.letters.dane_t >= 1 && save.data.items.boots >= 1;
 							}
 						},
 						{
@@ -2409,7 +2409,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.letters_randomized;
 							},
 							available: () => {
-								return flags.toad_town() && flags.deliver_letters() && save.data.items.letters.dane_t >= 2;
+								return flags.toad_town() && flags.deliver_letters() && save.data.items.letters.dane_t >= 2 && save.data.items.boots >= 1;
 							}
 						}
 					]
@@ -2870,7 +2870,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.coin_blocks;
 							},
 							available: () => {
-								return flags.sewers() && flags.shiver_city() && (flags.ultra_jump_blocks() || (save.data.configs.randomizer.chapter_7_bridge_open && save.data.items.boots >= 2));
+								return flags.sewers() && flags.shiver_city() && (flags.ultra_jump_blocks() || save.data.items.boots >= 2);
 							}
 						},
 						{
@@ -6363,7 +6363,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.forever_forest();
+								return flags.forever_forest() && flags.jump_coin_blocks();
 							}
 						}
 					]
@@ -6425,7 +6425,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.forever_forest();
+								return flags.forever_forest() && flags.jump_coin_blocks();
 							}
 						}
 					]
@@ -7140,7 +7140,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.tubba_blubba_castle();
+								return flags.tubba_blubba_castle() && save.data.items.tubba_castle_key >= 1;
 							}
 						}
 					]
