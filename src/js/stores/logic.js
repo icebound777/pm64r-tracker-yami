@@ -2518,7 +2518,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.sewers() && flags.stone_blocks();
+								return flags.sewers() && flags.stone_blocks() && flags.partner('parakarry');
 							}
 						}
 					]
@@ -10276,7 +10276,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.leave_shiver_city() && flags.trees();
+								return flags.leave_shiver_city() && save.data.items.hammer >= 1;
 							}
 						},
 						{

@@ -391,6 +391,400 @@ export const useSaveStore = defineStore('save', () => {
 
 				currentSave.items.boots = randomizerData.StartingBoots + 1;
 				currentSave.items.hammer = randomizerData.StartingHammer + 1;
+
+				let arrayofStartingItemsToCheck = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F'];
+				for (let i = 0; i < arrayofStartingItemsToCheck.length; i++) {
+					let itemToCheck = arrayofStartingItemsToCheck[i];
+					let itemToCheckName = 'StartingItem' + itemToCheck;
+					let itemToCheckValue = randomizerData[itemToCheckName];
+
+					switch (itemToCheckValue) {
+						case 0x000f:
+							currentSave.items.ultra_stone = true;
+							break;
+
+						case 0x0012:
+							currentSave.items.pulse_stone = true;
+							break;
+
+						case 0x0014:
+							currentSave.items.palace_key = true;
+							break;
+
+						case 0x0015:
+							currentSave.items.lunar_stone = true;
+							break;
+
+						case 0x0016:
+							currentSave.items.pyramid_stone = true;
+							break;
+
+						case 0x0017:
+							currentSave.items.diamond_stone = true;
+							break;
+
+						case 0x0019:
+							currentSave.items.kooper_shell = true;
+							break;
+
+						case 0x001b:
+							currentSave.items.forest_pass = true;
+							break;
+
+						case 0x001c:
+							currentSave.items.weight = true;
+							break;
+
+						case 0x001d:
+							currentSave.items.boo_portrait = true;
+							break;
+
+						case 0x001e:
+							currentSave.items.crystal_berry = true;
+							break;
+
+						case 0x0020:
+							currentSave.items.storeroom_key = true;
+							break;
+
+						case 0x0021:
+							currentSave.items.toy_train = true;
+							break;
+
+						case 0x0022:
+							currentSave.items.record = true;
+							break;
+
+						case 0x0023:
+							currentSave.items.frying_pan = true;
+							break;
+
+						case 0x0024:
+							currentSave.items.dictionary = true;
+							break;
+
+						case 0x0025:
+							currentSave.items.mystery_note = true;
+							break;
+
+						case 0x0027:
+							currentSave.items.koopa_koot_favors.crystal_ball = true;
+							break;
+
+						case 0x0029:
+							currentSave.items.cookbook = true;
+							break;
+
+						case 0x002a:
+							currentSave.items.jade_raven = true;
+							break;
+
+						case 0x002b:
+							currentSave.items.pink_magical_seed = true;
+							break;
+
+						case 0x002c:
+							currentSave.items.purple_magical_seed = true;
+							break;
+
+						case 0x002d:
+							currentSave.items.green_magical_seed = true;
+							break;
+
+						case 0x002e:
+							currentSave.items.yellow_magical_seed = true;
+							break;
+
+						case 0x0030:
+							currentSave.items.calculator = true;
+							break;
+
+						case 0x0031:
+							currentSave.items.bucket = true;
+							break;
+
+						case 0x0032:
+							currentSave.items.scarf = true;
+							break;
+
+						case 0x0033:
+							currentSave.items.red_key = true;
+							break;
+
+						case 0x0034:
+							currentSave.items.blue_key = true;
+							break;
+
+						//LETTERS GOES HERE
+						case 0x0036:
+							currentSave.items.letters.merlon = true;
+							break;
+
+						case 0x0037:
+							currentSave.items.letters.goompa = true;
+							break;
+
+						case 0x0038:
+							currentSave.items.letters.mort_t = true;
+							break;
+
+						case 0x0039:
+							currentSave.items.letters.russ_t = true;
+							break;
+
+						case 0x003a:
+							currentSave.items.letters.mayor_penguin = true;
+							break;
+
+						case 0x003b:
+							currentSave.items.letters.merlow = true;
+							break;
+
+						case 0x003c:
+							currentSave.items.letters.fice_t = true;
+							break;
+
+						case 0x003d:
+							currentSave.items.letters.nomadimouse = true;
+							break;
+
+						case 0x003e:
+							currentSave.items.letters.minh_t = true;
+							break;
+
+						case 0x0040:
+						case 0x0052:
+							currentSave.items.letters.goompapa++;
+							break;
+
+						case 0x0041:
+							currentSave.items.letters.igor = true;
+							break;
+
+						case 0x0045:
+							currentSave.items.letters.franky = true;
+							break;
+
+						case 0x0046:
+							currentSave.items.letters.muss_t = true;
+							break;
+
+						case 0x0047:
+						case 0x0049:
+							currentSave.items.letters.koover++;
+							break;
+
+						case 0x0048:
+							currentSave.items.letters.fishmael = true;
+							break;
+
+						case 0x004a:
+							currentSave.items.letters.mr_e = true;
+							break;
+
+						case 0x004b:
+							currentSave.items.letters.miss_t = true;
+							break;
+
+						case 0x004c:
+							currentSave.items.letters.little_mouser = true;
+							break;
+
+						case 0x004f:
+							currentSave.items.letters.red_yoshi_kid = true;
+							break;
+
+						case 0x004e:
+						case 0x0050:
+							currentSave.items.letters.dane_t++;
+							break;
+
+						case 0x0051:
+							currentSave.items.letters.frost_t = true;
+							break;
+
+						case 0x0054:
+							currentSave.items.letters.kolorado = true;
+							break;
+
+						case 0x0053:
+							currentSave.items.artifact = true;
+							break;
+
+						case 0x0056:
+							currentSave.items.dolly = true;
+							break;
+
+						case 0x0057:
+							currentSave.items.water_stone = true;
+							break;
+
+						case 0x0058:
+							currentSave.items.magical_bean = true;
+							break;
+
+						case 0x0059:
+							currentSave.items.fertile_soil = true;
+							break;
+
+						case 0x005a:
+							currentSave.items.miracle_water = true;
+							break;
+
+						case 0x005b:
+							currentSave.volcano_vase = true;
+							break;
+
+						case 0x005c:
+							currentSave.items.koopa_koot_favors.tape = true;
+							break;
+
+						case 0x0067:
+							currentSave.items.lyrics = true;
+							break;
+
+						case 0x0068:
+							currentSave.items.melody = true;
+							break;
+
+						case 0x0069:
+							currentSave.items.mailbag = true;
+							break;
+
+						case 0x006b:
+							currentSave.items.odd_key = true;
+							break;
+
+						case 0x006c:
+							currentSave.items.star_stone = true;
+							break;
+
+						case 0x006e:
+							currentSave.items.koopa_koot_favors.koopa_legends = true;
+							break;
+
+						case 0x006f:
+							currentSave.items.koopa_koot_favors.luigi_autograph = true;
+							break;
+
+						case 0x0070:
+							currentSave.items.koopa_koot_favors.empty_wallet = true;
+							break;
+
+						case 0x0071:
+							currentSave.items.koopa_koot_favors.merluvlee_autograph = true;
+							break;
+
+						case 0x0073:
+							currentSave.items.koopa_koot_favors.old_photo = true;
+							break;
+
+						case 0x0074:
+							currentSave.items.koopa_koot_favors.glasses = true;
+							break;
+
+						case 0x0076:
+							currentSave.items.koopa_koot_favors.package = true;
+							break;
+
+						case 0x0077:
+							currentSave.items.koopa_koot_favors.red_jar = true;
+							break;
+
+						case 0x0079:
+							currentSave.items.warehouse_key = true;
+							break;
+
+						case 0x016d:
+						case 0x016e:
+						case 0x016f:
+						case 0x0170:
+							currentSave.items.fortress_key++;
+							break;
+
+						case 0x0171:
+						case 0x0172:
+						case 0x0173:
+						case 0x0174:
+							currentSave.items.ruins_key++;
+							break;
+
+						case 0x0175:
+						case 0x0176:
+						case 0x0177:
+							currentSave.items.tubba_castle_key++;
+							break;
+
+						case 0x0178:
+						case 0x0179:
+						case 0x017a:
+						case 0x017b:
+						case 0x017c:
+							currentSave.items.castle_key++;
+							break;
+
+						case 0x017d:
+						case 0x017e:
+							currentSave.items.prison_key++;
+							break;
+
+						case 0x00ac:
+							currentSave.items.koopa_koot_favors.coconut = true;
+							currentSave.items.trading_event_toad.coconut = true;
+							break;
+
+						case 0x008f:
+							currentSave.items.koopa_koot_favors.sleepy_sheep = true;
+							break;
+
+						case 0x00c3:
+							currentSave.items.koopa_koot_favors.koopa_teas = true;
+							break;
+
+						case 0x0089:
+							currentSave.items.koopa_koot_favors.tasty_tonic = true;
+							break;
+
+						case 0x0095:
+							currentSave.items.koopa_koot_favors.life_shroom = true;
+							break;
+
+						case 0x00d6:
+							currentSave.items.koopa_koot_favors.nutty_cake = true;
+							currentSave.items.trading_event_toad.nutty_cake = true;
+							break;
+
+						case 0x00b5:
+							currentSave.items.koopa_koot_favors.koopasta = true;
+							break;
+
+						case 0x009d:
+							currentSave.items.koopa_koot_favors.lime = true;
+							break;
+
+						case 0x00d3:
+							currentSave.items.koopa_koot_favors.kooky_cookie = true;
+							break;
+
+						case 0x00a6:
+							currentSave.items.koopa_koot_favors.koopa_leaf = true;
+							break;
+
+						case 0x00c1:
+							currentSave.items.cake = true;
+							break;
+
+						case 0x00aa:
+							if (currentSave.configs.logic.cook_without_frying_pan) {
+								currentSave.items.cake = true;
+							}
+							break;
+
+						case 0x00cb:
+							currentSave.items.anti_guy = true;
+							break;
+					}
+				}
 			});
 		}
 	};
