@@ -10,7 +10,11 @@ You can user the tracker online [here](https://pm64r-tracker.mryami.com/).
 
 ## Installation
 
-This tracker has been developed with Vue3. To install it and run it on your PC, you need to install node.js > 18.18.1 LTS
+This tracker has been developed with Vue3.
+
+To install it and run it on your computer, you need to install Node.js > 18.18.1 LTS.
+
+On Linux, you can install Node.js using [nvm](https://github.com/nvm-sh/nvm).
 
 Then run:
 

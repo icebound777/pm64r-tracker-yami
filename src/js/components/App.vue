@@ -1490,6 +1490,11 @@
 					<a href="https://discord.gg/4Z5G69ZNJg" target="_blank">PMR Discord</a>
 					in the channel "Discussion & Support > pmr-tracker".
 				</p>
+				<p class="text-lg mt-3">Version 4</p>
+				<div class="ml-5">
+					<p>Added the "Install" button in the URL bar of Google Chrome and Microsoft Edge.</p>
+					<p>Made some fixes to the map tracker logic</p>
+				</div>
 				<p class="text-lg mt-3">Version 3</p>
 				<div class="ml-5">
 					<p>Added the possibility to right click a map to check all the available checks at once</p>
@@ -1547,7 +1552,7 @@ const disableItemsModalVisible = ref(false);
 const tutorialModalVisible = ref(false);
 
 const version = ref(localStorage.getItem('version'));
-const currentVersion = 3;
+const currentVersion = 4;
 
 if (version.value == null || version.value <= currentVersion) {
 	tutorialModalVisible.value = true;
