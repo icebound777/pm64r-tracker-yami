@@ -329,7 +329,7 @@ export const useSaveStore = defineStore('save', () => {
 			const pmr_endpoint = 'https://paper-mario-randomizer-server.ue.r.appspot.com/randomizer_settings/';
 			axios.get(pmr_endpoint + currentSave.randomizer_seed).then((response) => {
 				let randomizerData = response.data;
-				// console.log(randomizerData);
+				console.log(randomizerData);
 
 				resetConfigs();
 				resetSave();
@@ -386,7 +386,7 @@ export const useSaveStore = defineStore('save', () => {
 				currentSave.configs.logic.foliage_coins = randomizerData.IncludeCoinsFoliage;
 				currentSave.configs.logic.partners_always_usable = randomizerData.PartnersAlwaysUsable;
 				currentSave.configs.logic.letters_randomized = randomizerData.IncludeLettersMode == 2 || randomizerData.IncludeLettersMode == 3 ? true : false;
-				currentSave.configs.logic.koopa_koot = randomizerData.IncludeFavorsMode == 2 ? true : false;
+				currentSave.configs.logic.koopa_koot = randomizerData.IncludeFavorsMode == 2 || randomizerData.IncludeCoinsFavors ? true : false;
 				currentSave.configs.logic.koopa_koot_coins = randomizerData.IncludeCoinsFavors;
 				currentSave.configs.logic.dojo_randomized = randomizerData.IncludeDojo;
 				currentSave.configs.logic.trading_event_randomized = randomizerData.IncludeRadioTradeEvent;

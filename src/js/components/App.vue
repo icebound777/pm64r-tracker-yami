@@ -1490,6 +1490,11 @@
 					<a href="https://discord.gg/4Z5G69ZNJg" target="_blank">PMR Discord</a>
 					in the channel "Discussion & Support > pmr-tracker".
 				</p>
+				<p class="text-lg mt-3">Version 5</p>
+				<div class="ml-5">
+					<p>Removing the dungeons in dungeon shuffle as proper "checks"</p>
+					<p>Automatically update the status of the dungeons checks according to the right dungeon</p>
+				</div>
 				<p class="text-lg mt-3">Version 4</p>
 				<div class="ml-5">
 					<p>Added the "Install" button in the URL bar of Google Chrome and Microsoft Edge.</p>
@@ -1552,7 +1557,7 @@ const disableItemsModalVisible = ref(false);
 const tutorialModalVisible = ref(false);
 
 const version = ref(localStorage.getItem('version'));
-const currentVersion = 4;
+const currentVersion = 5;
 
 if (version.value == null || version.value <= currentVersion) {
 	tutorialModalVisible.value = true;

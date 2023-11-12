@@ -129,8 +129,12 @@ export const useMapStore = defineStore('map', () => {
 
 	const getCheckColorClasses = (mapCategoryKey, mapKey, checkKey, check) => {
 		//Map colors: Nothing: bg-slate-600 | Available: bg-green-800 hover:bg-green-700 | Unavailable: bg-red-900 hover:bg-red-800
-		if (save.data.checks[mapCategoryKey] !== undefined && save.data.checks[mapCategoryKey][mapKey] !== undefined && save.data.checks[mapCategoryKey][mapKey].includes(checkKey)) {
+		if (check.dungeon && !logic.flags.dungeon_checks_depleted(check.dungeon)) {
 			return 'bg-slate-600';
+		} else {
+			if (save.data.checks[mapCategoryKey] !== undefined && save.data.checks[mapCategoryKey][mapKey] !== undefined && save.data.checks[mapCategoryKey][mapKey].includes(checkKey)) {
+				return 'bg-slate-600';
+			}
 		}
 
 		if (check.available()) {
@@ -159,7 +163,7 @@ export const useMapStore = defineStore('map', () => {
 		}
 
 		for (const [checkKey, check] of Object.entries(logic.checks[mapCategoryKey].maps[mapKey].checks)) {
-			if (check.exists() && !save.data.checks[mapCategoryKey][mapKey].includes(parseInt(checkKey))) {
+			if (check.exists() && !check.dungeon && !save.data.checks[mapCategoryKey][mapKey].includes(parseInt(checkKey))) {
 				if (availableOnly) {
 					if (check.available()) {
 						save.data.checks[mapCategoryKey][mapKey].push(parseInt(checkKey));
@@ -172,15 +176,19 @@ export const useMapStore = defineStore('map', () => {
 	};
 
 	const selectCheck = (mapCategoryKey, mapKey, checkKey) => {
-		if (save.data.checks[mapCategoryKey] == undefined) {
-			save.data.checks[mapCategoryKey] = {};
-		}
-		if (save.data.checks[mapCategoryKey][mapKey] == undefined) {
-			save.data.checks[mapCategoryKey][mapKey] = [];
-		}
+		if (logic.checks[mapCategoryKey].maps[mapKey].checks[checkKey].dungeon) {
+			//TODO: Open the right map category corresponding to the dungeon
+		} else {
+			if (save.data.checks[mapCategoryKey] == undefined) {
+				save.data.checks[mapCategoryKey] = {};
+			}
+			if (save.data.checks[mapCategoryKey][mapKey] == undefined) {
+				save.data.checks[mapCategoryKey][mapKey] = [];
+			}
 
-		if (!save.data.checks[mapCategoryKey][mapKey].includes(parseInt(checkKey))) {
-			save.data.checks[mapCategoryKey][mapKey].push(parseInt(checkKey));
+			if (!save.data.checks[mapCategoryKey][mapKey].includes(parseInt(checkKey))) {
+				save.data.checks[mapCategoryKey][mapKey].push(parseInt(checkKey));
+			}
 		}
 	};
 

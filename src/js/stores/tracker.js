@@ -770,6 +770,32 @@ export const useTrackerStore = defineStore('tracker', () => {
 	//Types = switch, select, number
 	const configs = reactive({
 		randomizer: {
+			starting_location: {
+				enabled: true,
+				type: 'select',
+				options: [
+					{
+						value: startingLocations.random,
+						text: 'Select a location for logic'
+					},
+					{
+						value: startingLocations.goomba_village,
+						text: 'Goomba Village'
+					},
+					{
+						value: startingLocations.toad_town,
+						text: 'Toad Town'
+					},
+					{
+						value: startingLocations.dry_dry_outpost,
+						text: 'Dry Dry Outpost'
+					},
+					{
+						value: startingLocations.yoshi_village,
+						text: 'Yoshi Village'
+					}
+				]
+			},
 			// required_star_spirits: {
 			// 	enabled: true,
 			// 	type: 'number',
@@ -831,32 +857,6 @@ export const useTrackerStore = defineStore('tracker', () => {
 				type: 'number',
 				min: 1,
 				max: 4
-			},
-			starting_location: {
-				enabled: true,
-				type: 'select',
-				options: [
-					{
-						value: startingLocations.random,
-						text: 'Select a location for logic'
-					},
-					{
-						value: startingLocations.goomba_village,
-						text: 'Goomba Village'
-					},
-					{
-						value: startingLocations.toad_town,
-						text: 'Toad Town'
-					},
-					{
-						value: startingLocations.dry_dry_outpost,
-						text: 'Dry Dry Outpost'
-					},
-					{
-						value: startingLocations.yoshi_village,
-						text: 'Yoshi Village'
-					}
-				]
 			},
 			star_hunt_enabled: {
 				enabled: true,
