@@ -314,7 +314,7 @@ export const useLogicStore = defineStore('logic', () => {
 			if (found_dungeon == 0) {
 				return false;
 			} else {
-				return getTotalChecksOnMap(mapCategories[found_dungeon]) - getTotalCheckedChecksOnMap(mapCategories[found_dungeon]) > 0 ? true : false;
+				return getTotalChecksOnMap(mapCategories[found_dungeon]) - getTotalCheckedChecksOnMap(mapCategories[found_dungeon]) > 0 ? false : true;
 			}
 		},
 
@@ -1917,7 +1917,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.trading_event_randomized;
 							},
 							available: () => {
-								return flags.koopa_village() && flags.toad_town() && flags.star_spirits_count() >= 1 && save.data.items.trading_event_toad.koopa_leaf;
+								return flags.koopa_village() && flags.toad_town() && flags.star_spirits_count() >= 1 && save.data.items.trading_event_toad.koopa_leaf && save.data.items.hammer >= 1;
 							}
 						},
 						{
@@ -2276,7 +2276,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.trading_event_randomized;
 							},
 							available: () => {
-								return flags.koopa_village() && flags.toad_town() && flags.star_spirits_count() >= 5 && save.data.items.trading_event_toad.coconut;
+								return flags.koopa_village() && flags.toad_town() && flags.star_spirits_count() >= 5 && save.data.items.trading_event_toad.coconut && save.data.items.hammer >= 1;
 							}
 						},
 						{
@@ -4552,7 +4552,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.mt_rugged() && save.data.items.hammer >= 1;
+								return flags.mt_rugged() && (save.data.items.hammer >= 1 || flags.partner('bombette'));
 							}
 						},
 						{
@@ -4901,7 +4901,9 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.trading_event_randomized;
 							},
 							available: () => {
-								return flags.koopa_village() && flags.dry_dry_desert() && flags.star_spirits_count() >= 3 && save.data.items.trading_event_toad.nutty_cake;
+								return (
+									flags.koopa_village() && flags.dry_dry_desert() && flags.star_spirits_count() >= 3 && save.data.items.trading_event_toad.nutty_cake && save.data.items.hammer >= 1
+								);
 							}
 						},
 						{
@@ -7143,6 +7145,16 @@ export const useLogicStore = defineStore('logic', () => {
 							},
 							available: () => {
 								return flags.dungeon_checks_available(3);
+							}
+						},
+						{
+							name: '? block near the Goomba',
+							icon: null,
+							exists: () => {
+								return true;
+							},
+							available: () => {
+								return flags.gusty_gulch() && flags.partner('parakarry');
 							}
 						}
 					]
@@ -12053,8 +12065,8 @@ export const useLogicStore = defineStore('logic', () => {
 					}
 				} else {
 					if (save.data.checks[mapCategoryKey] !== undefined && save.data.checks[mapCategoryKey][mapKey] !== undefined) {
-						for (const [checkKey, check] of Object.entries(checks[mapCategoryKey][mapKey])) {
-							checks[mapCategoryKey]['maps'][mapKey].checks.forEach((check, checkIndex) => {
+						for (const [checkKey, check] of Object.entries(checks[mapCategoryKey].maps[mapKey])) {
+							checks[mapCategoryKey].maps[mapKey].checks.forEach((check, checkIndex) => {
 								if (check.exists() && !check.dungeon && check.available() && save.data.checks[mapCategoryKey][mapKey].includes(checkIndex)) {
 									totalChecks++;
 								}
@@ -12068,7 +12080,7 @@ export const useLogicStore = defineStore('logic', () => {
 		return totalChecks;
 	};
 
-	const getTotalChecksOnMap = (mapCategoryKey = null, mapKey = null) => {
+	const getTotalChecksOnMap = (mapCategoryKey = null, mapKey = null, ignoreDungeon = false) => {
 		let totalChecks = 0;
 
 		if (mapCategoryKey === null) {
@@ -12077,8 +12089,14 @@ export const useLogicStore = defineStore('logic', () => {
 					for (const [mapToCheckKey, mapToCheck] of Object.entries(mapCategory.maps)) {
 						// console.log(mapCategoryToCheckKey, mapToCheckKey, mapToCheck.checks);
 						for (const [checkKey, check] of Object.entries(mapToCheck.checks)) {
-							if (check.exists() && !check.dungeon) {
-								totalChecks++;
+							if (ignoreDungeon) {
+								if (check.exists()) {
+									totalChecks++;
+								}
+							} else {
+								if (check.exists() && !check.dungeon) {
+									totalChecks++;
+								}
 							}
 						}
 					}
@@ -12089,15 +12107,27 @@ export const useLogicStore = defineStore('logic', () => {
 				if (mapKey === null) {
 					for (const [mapToCheckKey, mapToCheck] of Object.entries(checks[mapCategoryKey].maps)) {
 						for (const [checkKey, check] of Object.entries(mapToCheck.checks)) {
-							if (check.exists() && !check.dungeon) {
-								totalChecks++;
+							if (ignoreDungeon) {
+								if (check.exists()) {
+									totalChecks++;
+								}
+							} else {
+								if (check.exists() && !check.dungeon) {
+									totalChecks++;
+								}
 							}
 						}
 					}
 				} else {
 					for (const [checkKey, check] of Object.entries(checks[mapCategoryKey].maps[mapKey].checks)) {
-						if (check.exists() && !check.dungeon) {
-							totalChecks++;
+						if (ignoreDungeon) {
+							if (check.exists()) {
+								totalChecks++;
+							}
+						} else {
+							if (check.exists() && !check.dungeon) {
+								totalChecks++;
+							}
 						}
 					}
 				}

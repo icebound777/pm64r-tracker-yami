@@ -57,8 +57,30 @@ export const useMapStore = defineStore('map', () => {
 				return 'bg-sky-600 cursor-default';
 			}
 
-			if (!logic.getTotalChecksOnMap(mapCategoryKey) || logic.getTotalCheckedChecksOnMap(mapCategoryKey) >= logic.getTotalChecksOnMap(mapCategoryKey)) {
-				return 'bg-slate-600 hover:bg-slate-500 cursor-pointer';
+			let hasDungeon = false;
+			let dungeonChecksDepleted = false;
+
+			for (const [mapToCheckKey, mapToCheckConfigs] of Object.entries(logic.checks[mapCategoryKey].maps)) {
+				for (const [checkKey, check] of Object.entries(logic.checks[mapCategoryKey].maps[mapToCheckKey].checks)) {
+					if (check.exists() && check.dungeon) {
+						hasDungeon = true;
+						if (logic.flags.dungeon_checks_depleted(check.dungeon)) {
+							dungeonChecksDepleted = true;
+							break;
+						}
+					}
+				}
+			}
+
+			// console.log(mapCategoryKey, mapKey, logic.getTotalCheckedChecksOnMap(mapCategoryKey, mapKey), logic.getTotalChecksOnMap(mapCategoryKey, mapKey, true), dungeonChecksDepleted);
+			if (hasDungeon) {
+				if (logic.getTotalCheckedChecksOnMap(mapCategoryKey, mapKey) >= logic.getTotalChecksOnMap(mapCategoryKey, mapKey) && dungeonChecksDepleted) {
+					return 'bg-slate-600 hover:bg-slate-500 cursor-pointer';
+				}
+			} else {
+				if (logic.getTotalCheckedChecksOnMap(mapCategoryKey, mapKey) >= logic.getTotalChecksOnMap(mapCategoryKey, mapKey)) {
+					return 'bg-slate-600 hover:bg-slate-500 cursor-pointer';
+				}
 			}
 
 			let available = false;
@@ -100,9 +122,35 @@ export const useMapStore = defineStore('map', () => {
 				return 'bg-sky-600 cursor-default';
 			}
 
-			if (!logic.getTotalChecksOnMap(mapCategoryKey, mapKey) || logic.getTotalCheckedChecksOnMap(mapCategoryKey, mapKey) >= logic.getTotalChecksOnMap(mapCategoryKey, mapKey)) {
-				return 'bg-slate-600 hover:bg-slate-500 cursor-pointer';
+			let hasDungeon = false;
+			let dungeonChecksDepleted = false;
+
+			for (const [checkKey, check] of Object.entries(logic.checks[mapCategoryKey].maps[mapKey].checks)) {
+				if (check.exists() && check.dungeon) {
+					hasDungeon = true;
+					if (logic.flags.dungeon_checks_depleted(check.dungeon)) {
+						dungeonChecksDepleted = true;
+						break;
+					}
+				}
 			}
+
+			// console.log(mapCategoryKey, mapKey, logic.getTotalCheckedChecksOnMap(mapCategoryKey, mapKey), logic.getTotalChecksOnMap(mapCategoryKey, mapKey, true), dungeonChecksDepleted);
+			if (hasDungeon) {
+				if (logic.getTotalCheckedChecksOnMap(mapCategoryKey, mapKey) >= logic.getTotalChecksOnMap(mapCategoryKey, mapKey) && dungeonChecksDepleted) {
+					return 'bg-slate-600 hover:bg-slate-500 cursor-pointer';
+				}
+			} else {
+				if (logic.getTotalCheckedChecksOnMap(mapCategoryKey, mapKey) >= logic.getTotalChecksOnMap(mapCategoryKey, mapKey)) {
+					return 'bg-slate-600 hover:bg-slate-500 cursor-pointer';
+				}
+			}
+
+			// if (logic.getTotalAvailableChecksOnMap(mapCategoryKey, mapKey) - logic.getTotalAvailableCheckedChecksOnMap(mapCategoryKey, mapKey) > 0) {
+			// 	return 'bg-green-800 hover:bg-green-700 cursor-pointer';
+			// } else {
+			// 	return 'bg-red-900 hover:bg-red-800 cursor-pointer';
+			// }
 
 			let available = false;
 
@@ -129,7 +177,7 @@ export const useMapStore = defineStore('map', () => {
 
 	const getCheckColorClasses = (mapCategoryKey, mapKey, checkKey, check) => {
 		//Map colors: Nothing: bg-slate-600 | Available: bg-green-800 hover:bg-green-700 | Unavailable: bg-red-900 hover:bg-red-800
-		if (check.dungeon && !logic.flags.dungeon_checks_depleted(check.dungeon)) {
+		if (check.dungeon && logic.flags.dungeon_checks_depleted(check.dungeon)) {
 			return 'bg-slate-600';
 		} else {
 			if (save.data.checks[mapCategoryKey] !== undefined && save.data.checks[mapCategoryKey][mapKey] !== undefined && save.data.checks[mapCategoryKey][mapKey].includes(checkKey)) {
