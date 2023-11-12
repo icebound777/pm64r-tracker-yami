@@ -40,8 +40,10 @@ Then copy the "images" folder in the new "dist" folder.
 
 ## Special thanks
 
-Big thanks to [Phantom5800](https://www.twitch.tv/phantom5800) for the base tracker. I based all my checks and check logic from his [tracker](https://pmr-tracker.phantom-games.com/).
+Thank you to [Phantom5800](https://www.twitch.tv/phantom5800) for the base tracker. I based all my checks and check logic from his [tracker](https://pmr-tracker.phantom-games.com/).
 
-Big thanks to [Axl_SR](https://www.twitch.tv/axl_sr) for all the constructive inputs for the "Competitive Mode".
+Thank you to scatter for sharing his [tracker](https://github.com/christianlegge/pmr-tracker-vue) sources with me. It helped me with my logic from the start.
 
-Big thanks to scatter for sharing his [tracker](https://pmr-tracker.christianlegge.dev/) [sources](https://github.com/christianlegge/pmr-tracker-vue) with me. I completed my logic with his tracker.
+Thank you to [Axl_SR](https://www.twitch.tv/axl_sr) for all the constructive inputs for the "Competitive Mode".
+
+Thank you to DanelerH for helping me complete the logic on the tracker. They sent me a ton of adjustments and it's really appreciated! :)

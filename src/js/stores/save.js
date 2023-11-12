@@ -196,6 +196,7 @@ export const useSaveStore = defineStore('save', () => {
 	});
 
 	const defaultRandomizerConfigs = {
+		required_star_spirits: 7,
 		prologue_open: false,
 		mt_rugged_open: false,
 		forever_forest_open: false,
@@ -208,7 +209,8 @@ export const useSaveStore = defineStore('save', () => {
 		magical_seed_required: 4,
 		starting_location: 65796,
 		star_hunt_enabled: false,
-		star_hunt_star_count: 120
+		star_hunt_star_count: 120,
+		star_hunt_ends_game: false
 	};
 
 	const defaultLogicConfigs = {
@@ -327,7 +329,7 @@ export const useSaveStore = defineStore('save', () => {
 			const pmr_endpoint = 'https://paper-mario-randomizer-server.ue.r.appspot.com/randomizer_settings/';
 			axios.get(pmr_endpoint + currentSave.randomizer_seed).then((response) => {
 				let randomizerData = response.data;
-				console.log(randomizerData);
+				// console.log(randomizerData);
 
 				resetConfigs();
 				resetSave();
@@ -360,7 +362,9 @@ export const useSaveStore = defineStore('save', () => {
 				currentSave.configs.randomizer.starting_location = randomizerData.StartingMap;
 				currentSave.configs.randomizer.star_hunt_enabled = randomizerData.StarHunt;
 				currentSave.configs.randomizer.star_hunt_star_count = randomizerData.StarHuntRequired;
+				currentSave.configs.randomizer.star_hunt_ends_game = randomizerData.StarHuntEndsGame;
 
+				currentSave.configs.logic.required_star_spirits = randomizerData.StarWaySpiritsNeededCnt;
 				currentSave.configs.logic.fast_bowser_castle = randomizerData.BowsersCastleMode != 0 ? true : false;
 				currentSave.configs.logic.shopsanity = randomizerData.IncludeShops;
 				currentSave.configs.logic.rowf_shop = randomizerData.ProgressionOnRowf;
@@ -865,6 +869,7 @@ export const useSaveStore = defineStore('save', () => {
 		() => currentSave.configs.randomizer.star_hunt_enabled,
 		(newValue, oldValue) => {
 			tracker.configs.randomizer.star_hunt_star_count.enabled = newValue;
+			tracker.configs.randomizer.star_hunt_ends_game.enabled = newValue;
 
 			tracker.items.stars.power_stars.enabled = newValue;
 			tracker.items.stars.starrod.enabled = !newValue;

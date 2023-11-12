@@ -770,6 +770,12 @@ export const useTrackerStore = defineStore('tracker', () => {
 	//Types = switch, select, number
 	const configs = reactive({
 		randomizer: {
+			// required_star_spirits: {
+			// 	enabled: true,
+			// 	type: 'number',
+			// 	min: 0,
+			// 	max: 7
+			// },
 			prologue_open: {
 				enabled: true,
 				type: 'switch'
@@ -861,6 +867,10 @@ export const useTrackerStore = defineStore('tracker', () => {
 				type: 'number',
 				min: 1,
 				max: 120
+			},
+			star_hunt_ends_game: {
+				enabled: false,
+				type: 'switch'
 			}
 		},
 		logic: {
