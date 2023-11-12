@@ -7146,16 +7146,6 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.dungeon_checks_available(3);
 							}
-						},
-						{
-							name: '? block near the Goomba',
-							icon: null,
-							exists: () => {
-								return true;
-							},
-							available: () => {
-								return flags.gusty_gulch() && flags.partner('parakarry');
-							}
 						}
 					]
 				}
