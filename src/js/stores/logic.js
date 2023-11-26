@@ -1971,7 +1971,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Super block',
+							name: 'Super Block',
 							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
@@ -2601,14 +2601,14 @@ export const useLogicStore = defineStore('logic', () => {
 					]
 				},
 				upgrade_block_behind_ultra_blocks: {
-					name: 'Super block',
+					name: 'Super Block',
 					x: 2,
 					y: 5,
 					w: 1,
 					h: 1,
 					checks: [
 						{
-							name: 'Super block behind ultra blocks',
+							name: 'Super Block behind ultra blocks',
 							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
@@ -2620,14 +2620,14 @@ export const useLogicStore = defineStore('logic', () => {
 					]
 				},
 				upgrade_block_after_elevator: {
-					name: 'Super block',
+					name: 'Super Block',
 					x: 4,
 					y: 4,
 					w: 1,
 					h: 1,
 					checks: [
 						{
-							name: 'Super block after you take the left elevator in the cieling in the elevator room',
+							name: 'Super Block after you take the left elevator in the cieling in the elevator room',
 							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
@@ -2752,7 +2752,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Super block',
+							name: 'Super Block',
 							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
@@ -4527,7 +4527,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Super block',
+							name: 'Super Block',
 							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
@@ -5095,7 +5095,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.dry_dry_desert() && flags.ground_blocks();
+								return flags.dry_dry_desert() && flags.ground_blocks() && flags.jump_coin_blocks();
 							}
 						},
 						{
@@ -5105,7 +5105,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.dry_dry_desert() && flags.ground_blocks();
+								return flags.dry_dry_desert() && flags.ground_blocks() && flags.jump_coin_blocks();
 							}
 						},
 						{
@@ -5115,7 +5115,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.dry_dry_desert() && flags.ground_blocks();
+								return flags.dry_dry_desert() && flags.ground_blocks() && flags.jump_coin_blocks();
 							}
 						}
 					]
@@ -5662,7 +5662,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Super block',
+							name: 'Super Block',
 							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
@@ -6193,7 +6193,7 @@ export const useLogicStore = defineStore('logic', () => {
 					h: 4,
 					checks: [
 						{
-							name: 'Super block',
+							name: 'Super Block',
 							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
@@ -6218,7 +6218,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.dry_dry_ruins() && save.data.items.ruins_key >= 3 && flags.partner('bombette');
+								return flags.dry_dry_ruins() && save.data.items.ruins_key >= 3 && flags.partner('bombette') && save.data.items.hammer >= 2;
 							}
 						}
 					]
@@ -7247,7 +7247,7 @@ export const useLogicStore = defineStore('logic', () => {
 					h: 2,
 					checks: [
 						{
-							name: 'Super block',
+							name: 'Super Block',
 							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
@@ -8296,10 +8296,10 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Super block',
+							name: 'Super Block',
 							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
-								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
+								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
 							available: () => {
 								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('parakarry');
@@ -8839,7 +8839,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Super block',
+							name: 'Super Block',
 							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
@@ -9811,7 +9811,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Super block',
+							name: 'Super Block',
 							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
@@ -9985,7 +9985,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Super block',
+							name: 'Super Block',
 							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
@@ -10473,7 +10473,7 @@ export const useLogicStore = defineStore('logic', () => {
 							}
 						},
 						{
-							name: 'Super block',
+							name: 'Super Block',
 							icon: '/images/checks/super_blocks.webp',
 							exists: () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
@@ -10682,7 +10682,13 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.crystal_palace() && (save.data.items.red_key || (save.data.items.blue_key && flags.partner('bombette'))) && save.data.items.boots >= 2;
+								return (
+									flags.crystal_palace() &&
+									(save.data.items.red_key || save.data.items.blue_key) &&
+									flags.partner('bombette') &&
+									save.data.items.hammer >= 1 &&
+									save.data.items.boots >= 2
+								);
 							}
 						}
 					]
@@ -10863,7 +10869,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.panels;
 							},
 							available: () => {
-								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette') && flags.partner('kooper') && flags.panels();
+								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette') && flags.partner('kooper') && save.data.items.hammer >= 1 && flags.panels();
 							}
 						},
 						{
@@ -10873,7 +10879,14 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette') && flags.partner('kooper') && flags.ultra_jump_blocks();
+								return (
+									flags.crystal_palace() &&
+									save.data.items.red_key &&
+									flags.partner('bombette') &&
+									flags.partner('kooper') &&
+									save.data.items.hammer >= 1 &&
+									flags.ultra_jump_blocks()
+								);
 							}
 						}
 					]
@@ -10900,7 +10913,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette') && flags.partner('kooper');
+								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette') && flags.partner('kooper') && save.data.items.hammer >= 1;
 							}
 						}
 					]
@@ -10919,7 +10932,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.panels;
 							},
 							available: () => {
-								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette') && flags.partner('kooper') && flags.panels();
+								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette') && flags.partner('kooper') && save.data.items.hammer >= 1 && flags.panels();
 							}
 						},
 						{
@@ -10929,7 +10942,14 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette') && flags.partner('kooper') && flags.ultra_jump_blocks();
+								return (
+									flags.crystal_palace() &&
+									save.data.items.red_key &&
+									flags.partner('bombette') &&
+									flags.partner('kooper') &&
+									save.data.items.hammer >= 1 &&
+									flags.ultra_jump_blocks()
+								);
 							}
 						}
 					]
@@ -10956,7 +10976,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette') && flags.partner('kooper');
+								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette') && flags.partner('kooper') && save.data.items.hammer >= 1;
 							}
 						}
 					]
@@ -10983,7 +11003,14 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.crystal_palace() && save.data.items.red_key && flags.partner('bombette') && flags.partner('kooper') && save.data.items.palace_key;
+								return (
+									flags.crystal_palace() &&
+									save.data.items.red_key &&
+									flags.partner('bombette') &&
+									flags.partner('kooper') &&
+									save.data.items.hammer >= 1 &&
+									save.data.items.palace_key
+								);
 							}
 						}
 					]
@@ -11106,7 +11133,7 @@ export const useLogicStore = defineStore('logic', () => {
 			},
 			maps: {
 				diaper_garage: {
-					name: 'Diaper Garage',
+					name: 'Garage',
 					x: 1,
 					y: 2,
 					w: 1,
