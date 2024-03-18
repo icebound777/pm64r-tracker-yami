@@ -359,6 +359,11 @@ export const useSaveStore = defineStore('save', () => {
 
 				currentSave.configs.randomizer.shuffle_dungeon_entrances = randomizerData.ShuffleDungeonEntrances;
 				currentSave.configs.randomizer.magical_seed_required = randomizerData.MagicalSeedsRequired;
+
+				if (currentSave.configs.randomizer.magical_seed_required > 4) {
+					currentSave.configs.randomizer.magical_seed_required = 4;
+				}
+
 				currentSave.configs.randomizer.starting_location = randomizerData.StartingMap;
 				currentSave.configs.randomizer.star_hunt_enabled = randomizerData.StarHunt;
 				currentSave.configs.randomizer.star_hunt_star_count = randomizerData.StarHuntRequired;
