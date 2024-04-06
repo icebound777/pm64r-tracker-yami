@@ -9080,7 +9080,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.lava_lava_island() && flags.partner('sushie');
+								return flags.lava_lava_island() && flags.partner('sushie') && save.data.items.hammer >= 1;
 							}
 						},
 						{
