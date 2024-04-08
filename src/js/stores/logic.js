@@ -8213,7 +8213,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.panels;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.panels();
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.panels() && save.data.items.hammer >= 1;
 							}
 						},
 						{
@@ -8223,7 +8223,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.hammer >= 1;
 							}
 						}
 					]
@@ -8242,7 +8242,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.hammer >= 1;
 							}
 						},
 						{
@@ -8252,7 +8252,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.hammer >= 1;
 							}
 						},
 						{
@@ -8262,7 +8262,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.coin_blocks;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.hammer >= 1;
 							}
 						},
 						{
@@ -8272,7 +8272,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.hammer >= 1;
 							}
 						},
 						{
@@ -8282,7 +8282,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.coin_blocks;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.hammer >= 1;
 							}
 						},
 						{
@@ -8292,7 +8292,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.hammer >= 1;
 							}
 						},
 						{
@@ -8302,7 +8302,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.super_and_multicoin_blocks_randomized || save.data.configs.tracker.always_show_super_blocks;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('parakarry');
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('parakarry') && save.data.items.hammer >= 1;
 							}
 						}
 					]
@@ -8321,7 +8321,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake;
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && save.data.items.hammer >= 1;
 							}
 						}
 					]
@@ -8345,7 +8345,8 @@ export const useLogicStore = defineStore('logic', () => {
 									save.data.items.toy_train &&
 									save.data.items.cake &&
 									flags.partner('bombette') &&
-									(save.data.items.boots >= 3 || (flags.toybox_jack_in_a_box() && flags.partner('kooper')))
+									(save.data.items.boots >= 3 || (flags.toybox_jack_in_a_box() && flags.partner('kooper'))) &&
+									save.data.items.hammer >= 1
 								);
 							}
 						},
@@ -8356,7 +8357,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.coin_blocks;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('bombette');
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('bombette') && save.data.items.hammer >= 1;
 							}
 						},
 						{
@@ -8366,7 +8367,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('bombette');
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('bombette') && save.data.items.hammer >= 1;
 							}
 						}
 					]
@@ -8393,7 +8394,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('bombette') && flags.partner('watt');
+								return flags.toybox() && save.data.items.toy_train && save.data.items.cake && flags.partner('bombette') && flags.partner('watt') && save.data.items.hammer >= 1;
 							}
 						}
 					]
@@ -9080,7 +9081,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.overworld_coins;
 							},
 							available: () => {
-								return flags.lava_lava_island() && flags.partner('sushie');
+								return flags.lava_lava_island() && flags.partner('sushie') && save.data.items.hammer >= 1;
 							}
 						},
 						{
