@@ -1490,6 +1490,11 @@
 					<a href="https://discord.gg/4Z5G69ZNJg" target="_blank">PMR Discord</a>
 					in the channel "Discussion & Support > pmr-tracker".
 				</p>
+				<p class="text-lg mt-3">Version 6</p>
+				<div class="ml-5">
+					<p>Hotfix - Logic fix in green station and NE jungle. Added hammer 1 in logic for some checks. (Thanks Icebound777! 😊)</p>
+					<p>If the magical seeds are set to 5 (random) by the randomizer, set the max to 4.</p>
+				</div>
 				<p class="text-lg mt-3">Version 5</p>
 				<div class="ml-5">
 					<p>Removing the dungeons in dungeon shuffle as proper "checks"</p>
@@ -1557,7 +1562,7 @@ const disableItemsModalVisible = ref(false);
 const tutorialModalVisible = ref(false);
 
 const version = ref(localStorage.getItem('version'));
-const currentVersion = 5;
+const currentVersion = 6;
 
 if (version.value == null || version.value <= currentVersion) {
 	tutorialModalVisible.value = true;
