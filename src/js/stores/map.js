@@ -3,10 +3,12 @@ import { computed, ref } from 'vue';
 
 import { useSaveStore } from './save';
 import { useLogicStore } from './logic';
+import { useArchipelagoStore } from './archipelago';
 
 export const useMapStore = defineStore('map', () => {
 	const save = useSaveStore();
 	const logic = useLogicStore();
+	const ap = useArchipelagoStore();
 
 	const currentMapCategory = ref('prologue');
 	const currentMap = ref(null);
@@ -276,6 +278,11 @@ export const useMapStore = defineStore('map', () => {
 					visible = false;
 				}
 				break;
+		}
+
+		if (panelKey == 'ap_hints') {
+			// && !ap.state.connected
+			visible = false;
 		}
 
 		return visible;

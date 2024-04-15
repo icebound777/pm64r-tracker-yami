@@ -7,7 +7,18 @@
 			</div>
 			<div class="flex justify-between">
 				<div class="flex flex-wrap">
-					<div class="flex flex-wrap gap-2 p-3 w-[260px] mr-0 2xl:mr-10">
+					<div class="flex flex-wrap gap-2 p-3 w-[320px] mr-0 2xl:mr-10">
+						<button
+							class="relative bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
+							type="button"
+							v-tooltip="{ content: ap.state.connected ? 'Archipelago.gg server infos' : 'Connect to Archipelago.gg', delay: { show: 0 } }"
+							@click="apModalVisible = true">
+							<img
+								class="w-4"
+								src="../assets/ap.webp"
+								:style="{ filter: ap.state.connected ? 'invert(56%) sepia(100%) saturate(376%) hue-rotate(90deg) brightness(92%) contrast(89%)' : 'brightness(0) invert(1)' }" />
+							<!-- <div v-if="ap.state.connected" class="absolute top-1 left-1 bg-green-700 w-3 h-3 rounded-full" /> -->
+						</button>
 						<button
 							class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
 							type="button"
@@ -18,7 +29,7 @@
 						<button class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3" type="button" v-tooltip="{ content: 'Export progress', delay: { show: 0 } }" @click="save.exportSave">
 							<font-awesome-icon :icon="['fas', 'floppy-disk']" />
 						</button>
-						<input ref="_importSaveFileInput" class="hidden" type="file" accept="application/json" @change="save.importSave" />
+						<input v-if="!ap.state.connected" ref="_importSaveFileInput" class="hidden" type="file" accept="application/json" @change="save.importSave" />
 						<button
 							class="bg-sky-950 hover:bg-sky-800 w-fit rounded-md p-3"
 							type="button"
@@ -1070,6 +1081,31 @@
 								<h2>Notes</h2>
 								<textarea class="text-white w-full h-full !font-serif bg-sky-700 p-1" v-model="save.data.notes"></textarea>
 							</template>
+							<!-- <template v-if="grid_item.i == 'ap_hints'">
+								<h2>Archipelago hints</h2>
+								<template v-for="hint in ap.state.hints" :key="hint.location">
+									<div class="mb-2 flex items-center" v-if="!hint.found && ap.searchAPId('item', hint.item).length">
+										<img
+											v-if="ap.searchAPId('item', hint.item).length == 3 && ap.searchAPId('item', hint.item)[0] != 'partners'"
+											class="w-6 mr-3"
+											:src="`images/${ap.searchAPId('item', hint.item)[0]}/${ap.searchAPId('item', hint.item)[1]}.webp`" />
+
+										<div v-if="ap.searchAPId('item', hint.item).length == 3 && ap.searchAPId('item', hint.item)[0] == 'partners'" class="w-6 mr-3 relative">
+											<img :src="`images/${ap.searchAPId('item', hint.item)[0]}/${ap.searchAPId('item', hint.item)[1]}.webp`" />
+											<img v-if="ap.apPartnerIsRankUp(hint.item)" class="absolute bottom-0 right-level1 h-[15px]" src="/images/partners/partner_level.webp" />
+										</div>
+										<img
+											v-else-if="ap.searchAPId('item', hint.item).length == 4 && ap.searchAPId('item', hint.item)[0] == 'items'"
+											class="w-6 mr-3"
+											:src="`images/${ap.searchAPId('item', hint.item)[0]}/${ap.searchAPId('item', hint.item)[1]}/${ap.searchAPId('item', hint.item)[2]}.webp`" />
+										<img
+											v-else-if="ap.searchAPId('item', hint.item).length == 4 && ap.searchAPId('item', hint.item)[0] == 'letters'"
+											class="w-6 mr-3"
+											:src="`images/${ap.searchAPId('item', hint.item)[0]}/${ap.searchAPId('item', hint.item)[2]}.webp`" />
+										<p>{{ ap.searchAPId('location', hint.location) }}</p>
+									</div>
+								</template>
+							</template> -->
 						</div>
 					</GridItem>
 				</template>
@@ -1235,6 +1271,73 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- Archipelago.gg Modal -->
+		<Modal :show="apModalVisible" @onClose="apModalVisible = false">
+			<div v-if="ap.state.connected" class="flex flex-col gap-4">
+				<div class="flex justify-between w-30">
+					<p>Connected to:</p>
+					<p>ws://{{ ap.connectionInfos.hostname }}:{{ ap.connectionInfos.port }}</p>
+				</div>
+				<div class="flex justify-between w-30">
+					<p>Player name:</p>
+					<p>{{ ap.connectionInfos.name }}</p>
+				</div>
+				<div class="flex justify-between w-30">
+					<p>Seed:</p>
+					<p>{{ ap.state.seed }}</p>
+				</div>
+				<div class="flex justify-between w-30">
+					<p>Hint points ({{ ap.state.hintReward }} per check):</p>
+					<p>{{ ap.state.hintPoints }} / Cost: {{ ap.state.hintCost }}</p>
+				</div>
+				<div class="flex justify-between w-30">
+					<p>Checked locations:</p>
+					<p>{{ ap.checkedLocationsCount }}</p>
+				</div>
+				<button class="bg-sky-600 hover:bg-sky-800 w-full rounded-md" type="button" @click="apDisconnect()">Disconnect</button>
+				<button class="bg-sky-600 hover:bg-sky-800 w-full rounded-md" type="button" @click="apSync()">Force sync</button>
+				<h2>Important notes</h2>
+				<p>- Chuck star pieces are concidered bonus star pieces, so archipelago don't send them to the tracker;</p>
+				<p>- To keep track of the item counts, the tracker resets them each sync. So if you check items manually, they will be reset and resynced;</p>
+				<p>- Archipelago does not send the checks for multicoin blocks, so you need to check them manually;</p>
+			</div>
+			<div v-else class="flex flex-col gap-4">
+				<p>
+					Connect to an
+					<a target="_blank" href="https://archipelago.gg">Archipelago.gg</a>
+					server to play with others.
+					<br />
+					Works on version 0.4.5 or greater.
+				</p>
+				<p>If you have a game to load, connect first, then load.</p>
+				<div class="flex justify-between w-30">
+					<p>Hostname / Server / IP:</p>
+					<input class="rounded-md" type="text" v-model="ap.connectionInfos.hostname" />
+				</div>
+				<div class="flex justify-between w-30">
+					<p>Port:</p>
+					<input class="rounded-md" type="number" min="1" max="65536" v-model="ap.connectionInfos.port" />
+				</div>
+				<div class="flex justify-between w-30">
+					<p>Password:</p>
+					<input class="rounded-md" type="password" v-model="ap.connectionInfos.password" />
+				</div>
+				<div class="flex justify-between w-30">
+					<p>Player name:</p>
+					<input class="rounded-md" type="text" v-model="ap.connectionInfos.name" />
+				</div>
+				<div class="flex justify-between w-30">
+					<p>Configs YAML:</p>
+					<input class="rounded-md w-64 text-white" type="file" accept=".yaml" @change="ap.setYaml" />
+				</div>
+
+				<button class="bg-sky-600 hover:bg-sky-800 w-full rounded-md" type="button" @click="apConnect()">Connect</button>
+				<h2>Important notes</h2>
+				<p>- The tracker will load configs from the yaml automatically. If no YAML is given, you'll have to set them manually;</p>
+				<p>- The tracker does not reset configs each connection. You don't have to import a YAML each time you connect if you're on the same run;</p>
+			</div>
+		</Modal>
 
 		<!-- New randomizer seed modal -->
 		<Modal :show="loadNewSeedModalVisible" @onClose="loadNewSeedModalVisible = false">
@@ -1490,6 +1593,11 @@
 					<a href="https://discord.gg/4Z5G69ZNJg" target="_blank">PMR Discord</a>
 					in the channel "Discussion & Support > pmr-tracker".
 				</p>
+				<p class="text-lg mt-3">Version 7</p>
+				<div class="ml-5">
+					<p>Hotfix - Logic fix in Koopa Village jumpless</p>
+					<p>ADDED ARCHIPELAGO SUPPORT!!!!!</p>
+				</div>
 				<p class="text-lg mt-3">Version 6</p>
 				<div class="ml-5">
 					<p>Hotfix - Logic fix in green station and NE jungle. Added hammer 1 in logic for some checks. (Thanks Icebound777! 😊)</p>
@@ -1544,6 +1652,7 @@ import { useTrackerStore } from '../stores/tracker';
 import { useLayoutStore } from '../stores/layout';
 import { useLogicStore } from '../stores/logic';
 import { useMapStore } from '../stores/map';
+import { useArchipelagoStore } from '../stores/archipelago';
 
 import Modal from './Modal.vue';
 import Item from './tracker/Item.vue';
@@ -1553,7 +1662,9 @@ const tracker = useTrackerStore();
 const layout = useLayoutStore();
 const logic = useLogicStore();
 const map = useMapStore();
+const ap = useArchipelagoStore();
 
+const apModalVisible = ref(false);
 const loadNewSeedModalVisible = ref(false);
 const randomizerSettingsModalVisible = ref(false);
 const logicSettingsModalVisible = ref(false);
@@ -1562,7 +1673,7 @@ const disableItemsModalVisible = ref(false);
 const tutorialModalVisible = ref(false);
 
 const version = ref(localStorage.getItem('version'));
-const currentVersion = 6;
+const currentVersion = 7;
 
 if (version.value == null || version.value <= currentVersion) {
 	tutorialModalVisible.value = true;
@@ -1647,7 +1758,6 @@ const trackerLeftClick = (event, key, configs, itemSubCategory = null) => {
 				}
 			}
 		} else {
-			console.log('asd');
 			if (save.data.items.hand_ins === undefined) {
 				save.data.items.hand_ins = {};
 			}
@@ -2062,4 +2172,16 @@ watch(
 
 tracker.items.misc.rip_cheato.max = save.data.configs.logic.rip_cheato;
 tracker.items.misc.rip_cheato.enabled = tracker.items.misc.rip_cheato.max >= 1;
+
+const apConnect = () => {
+	ap.connect();
+};
+
+const apDisconnect = () => {
+	ap.disconnect();
+};
+
+const apSync = () => {
+	ap.sync();
+};
 </script>

@@ -64,14 +64,14 @@ export const useSaveStore = defineStore('save', () => {
 			klevar_chapter_disabled: false,
 			kalmar_chapter_disabled: false,
 			starrod: false,
-			goombario: false,
-			kooper: false,
-			bombette: false,
-			parakarry: false,
-			bow: false,
-			watt: false,
-			sushie: false,
-			lakilester: false,
+			goombario: 0,
+			kooper: 0,
+			bombette: 0,
+			parakarry: 0,
+			bow: 0,
+			watt: 0,
+			sushie: 0,
+			lakilester: 0,
 			goombario_rank: 0,
 			kooper_rank: 0,
 			bombette_rank: 0,
@@ -81,8 +81,8 @@ export const useSaveStore = defineStore('save', () => {
 			sushie_rank: 0,
 			lakilester_rank: 0,
 			ultra_stone: false,
-			boots: 1,
-			hammer: 1,
+			boots: 0,
+			hammer: 0,
 			dolly: false,
 			fortress_key: 0,
 			kooper_shell: false,
@@ -280,8 +280,54 @@ export const useSaveStore = defineStore('save', () => {
 		}
 	};
 
-	const resetSave = () => {
+	const resetSave = (ap = false, noChecks = false, noItems = false) => {
 		const defaultSaveClone = JSON.parse(JSON.stringify(defaultSave));
+
+		if (ap) {
+			delete defaultSaveClone.merlow_items;
+			delete defaultSaveClone.hand_ins;
+			delete defaultSaveClone.notes;
+			delete defaultSaveClone.randomizer_seed;
+
+			delete defaultSaveClone.eldstar;
+			delete defaultSaveClone.mamar;
+			delete defaultSaveClone.skolar;
+			delete defaultSaveClone.muskular;
+			delete defaultSaveClone.misstar;
+			delete defaultSaveClone.klevar;
+			delete defaultSaveClone.kalmar;
+			delete defaultSaveClone.eldstar_difficulty;
+			delete defaultSaveClone.mamar_difficulty;
+			delete defaultSaveClone.skolar_difficulty;
+			delete defaultSaveClone.muskular_difficulty;
+			delete defaultSaveClone.misstar_difficulty;
+			delete defaultSaveClone.klevar_difficulty;
+			delete defaultSaveClone.kalmar_difficulty;
+			delete defaultSaveClone.eldstar_dungeon_shuffle;
+			delete defaultSaveClone.mamar_dungeon_shuffle;
+			delete defaultSaveClone.skolar_dungeon_shuffle;
+			delete defaultSaveClone.muskular_dungeon_shuffle;
+			delete defaultSaveClone.misstar_dungeon_shuffle;
+			delete defaultSaveClone.klevar_dungeon_shuffle;
+			delete defaultSaveClone.kalmar_dungeon_shuffle;
+			delete defaultSaveClone.eldstar_chapter_disabled;
+			delete defaultSaveClone.mamar_chapter_disabled;
+			delete defaultSaveClone.skolar_chapter_disabled;
+			delete defaultSaveClone.muskular_chapter_disabled;
+			delete defaultSaveClone.misstar_chapter_disabled;
+			delete defaultSaveClone.klevar_chapter_disabled;
+			delete defaultSaveClone.kalmar_chapter_disabled;
+			delete defaultSaveClone.starrod;
+		}
+
+		if (noChecks) {
+			delete defaultSaveClone.checks;
+		}
+
+		if (noItems) {
+			delete defaultSaveClone.items;
+		}
+
 		Object.assign(currentSave, defaultSaveClone);
 	};
 
@@ -367,7 +413,7 @@ export const useSaveStore = defineStore('save', () => {
 				currentSave.configs.randomizer.starting_location = randomizerData.StartingMap;
 				currentSave.configs.randomizer.star_hunt_enabled = randomizerData.StarHunt;
 				currentSave.configs.randomizer.star_hunt_star_count = randomizerData.StarHuntRequired;
-				currentSave.configs.randomizer.star_hunt_ends_game = randomizerData.StarHuntEndsGame;
+				// currentSave.configs.randomizer.star_hunt_ends_game = randomizerData.StarHuntEndsGame;
 
 				currentSave.configs.logic.required_star_spirits = randomizerData.StarWaySpiritsNeededCnt;
 				currentSave.configs.logic.fast_bowser_castle = randomizerData.BowsersCastleMode != 0 ? true : false;
@@ -874,7 +920,7 @@ export const useSaveStore = defineStore('save', () => {
 		() => currentSave.configs.randomizer.star_hunt_enabled,
 		(newValue, oldValue) => {
 			tracker.configs.randomizer.star_hunt_star_count.enabled = newValue;
-			tracker.configs.randomizer.star_hunt_ends_game.enabled = newValue;
+			// tracker.configs.randomizer.star_hunt_ends_game.enabled = newValue;
 
 			tracker.items.stars.power_stars.enabled = newValue;
 			tracker.items.stars.starrod.enabled = !newValue;

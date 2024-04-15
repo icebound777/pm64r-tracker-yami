@@ -36,6 +36,7 @@ export const useLayoutStore = defineStore('layout', () => {
 	const mapLayout = { x: 54, y: 0, w: 46, h: 100, i: 'map' };
 
 	const notesLayout = { x: 0, y: 112, w: 20, h: 20, i: 'notes' };
+	const apHintsLayout = { x: 0, y: 132, w: 20, h: 20, i: 'ap_hints' };
 
 	const restoreDefaultLayout = () => {
 		if (save.data.configs.tracker.compact_items_per_chapters || save.data.configs.tracker.compact_items) {
@@ -71,6 +72,8 @@ export const useLayoutStore = defineStore('layout', () => {
 		if (save.data.configs.tracker.notes) {
 			trackerLayout.value.push(Object.assign({}, notesLayout));
 		}
+
+		trackerLayout.value.push(Object.assign({}, apHintsLayout));
 	};
 
 	const loadLayout = () => {
@@ -131,6 +134,8 @@ export const useLayoutStore = defineStore('layout', () => {
 				if (save.data.configs.tracker.notes) {
 					trackerLayout.value.push(Object.assign({}, notesLayout));
 				}
+
+				trackerLayout.value.push(Object.assign({}, apHintsLayout));
 			} else {
 				//Add normal items layouts
 				if (!save.data.configs.tracker.compact_items) {

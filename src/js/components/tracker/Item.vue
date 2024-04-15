@@ -27,7 +27,7 @@
 		</p>
 		<template v-if="save.data.items.hand_ins !== undefined && save.data.items.hand_ins[itemKey] !== undefined && imageFolder != 'misc' && imageFolder != 'equipments' && imageFolder != 'partners'">
 			<div class="absolute top-0 right-0">
-				<div class="flex flex-wrap w-full w-10 justify-end">
+				<div class="flex flex-wrap w-full justify-end">
 					<font-awesome-icon v-for="i in save.data.items.hand_ins[itemKey]" :key="i" class="text-green-600" :icon="['fas', 'check']" />
 				</div>
 			</div>
@@ -40,7 +40,7 @@
 				save.data.items.hand_ins[imageFolder][itemKey] !== undefined
 			">
 			<div class="absolute top-0 right-0">
-				<div class="flex flex-wrap w-full w-10 justify-end">
+				<div class="flex flex-wrap w-full justify-end">
 					<font-awesome-icon v-for="i in save.data.items.hand_ins[imageFolder][itemKey]" :key="i" class="text-green-600" :icon="['fas', 'check']" />
 				</div>
 			</div>

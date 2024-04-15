@@ -55,66 +55,96 @@ export const useTrackerStore = defineStore('tracker', () => {
 			power_stars: {
 				name: 'Power Stars',
 				enabled: false,
-				max: 120
+				max: 120,
+				ap: [
+					8112000476, 8112000477, 8112000478, 8112000479, 8112000480, 8112000481, 8112000482, 8112000483, 8112000484, 8112000485, 8112000486, 8112000487, 8112000488, 8112000489, 8112000490,
+					8112000491, 8112000492, 8112000493, 8112000494, 8112000495, 8112000496, 8112000497, 8112000498, 8112000499, 8112000500, 8112000501, 8112000502, 8112000503, 8112000504, 8112000505,
+					8112000506, 8112000507, 8112000508, 8112000509, 8112000510, 8112000511, 8112000512, 8112000513, 8112000514, 8112000515, 8112000516, 8112000517, 8112000518, 8112000519, 8112000520,
+					8112000521, 8112000522, 8112000523, 8112000524, 8112000525, 8112000526, 8112000527, 8112000528, 8112000529, 8112000530, 8112000531, 8112000532, 8112000533, 8112000534, 8112000535,
+					8112000536, 8112000537, 8112000538, 8112000539, 8112000540, 8112000541, 8112000542, 8112000543, 8112000544, 8112000545, 8112000546, 8112000547, 8112000548, 8112000549, 8112000550,
+					8112000551, 8112000552, 8112000553, 8112000554, 8112000555, 8112000556, 8112000557, 8112000558, 8112000559, 8112000560, 8112000561, 8112000562, 8112000563, 8112000564, 8112000565,
+					8112000566, 8112000567, 8112000568, 8112000569, 8112000570, 8112000571, 8112000572, 8112000573, 8112000574, 8112000575, 8112000576, 8112000577, 8112000578, 8112000579, 8112000580,
+					8112000581, 8112000582, 8112000583, 8112000584, 8112000585, 8112000586, 8112000587, 8112000588, 8112000589, 8112000590, 8112000591, 8112000592, 8112000593, 8112000594, 8112000595,
+					8112000596, 8112000597, 8112000598, 8112000599, 8112000600, 8112000601, 8112000602, 8112000603
+				]
 			}
 		},
 		partners: {
 			goombario: {
 				name: 'Goombario',
 				enabled: true,
-				max: 1
+				max: 3,
+				ap: [8112000751],
+				ap_rank: [8112000733, 8112000742]
 			},
 			kooper: {
 				name: 'Kooper',
 				enabled: true,
-				max: 1
+				max: 3,
+				ap: [8112000752],
+				ap_rank: [8112000734, 8112000743]
 			},
 			bombette: {
 				name: 'Bombette',
 				enabled: true,
-				max: 1
+				max: 3,
+				ap: [8112000753],
+				ap_rank: [8112000735, 8112000744]
 			},
 			parakarry: {
 				name: 'Parakarry',
 				enabled: true,
-				max: 1
+				max: 3,
+				ap: [8112000754],
+				ap_rank: [8112000736, 8112000745]
 			},
 			bow: {
 				name: 'Bow',
 				enabled: true,
-				max: 1
+				max: 3,
+				ap: [8112000759],
+				ap_rank: [8112000741, 8112000750]
 			},
 			watt: {
 				name: 'Watt',
 				enabled: true,
-				max: 1
+				max: 3,
+				ap: [8112000756],
+				ap_rank: [8112000738, 8112000747]
 			},
 			sushie: {
 				name: 'Sushie',
 				enabled: true,
-				max: 1
+				max: 3,
+				ap: [8112000757],
+				ap_rank: [8112000739, 8112000748]
 			},
 			lakilester: {
 				name: 'Lakilester',
 				enabled: true,
-				max: 1
+				max: 3,
+				ap: [8112000758],
+				ap_rank: [8112000740, 8112000749]
 			},
 			ultra_stone: {
 				name: 'Ultra Stone',
 				enabled: true,
-				max: 1
+				max: 3,
+				ap: [8112000015]
 			}
 		},
 		equipments: {
 			boots: {
 				name: ['Jumpless', 'Boots', 'Super Boots', 'Ultra Boots'],
 				enabled: true,
-				max: 3
+				max: 3,
+				ap: [8112000707, 8112000708, 8112000709]
 			},
 			hammer: {
 				name: ['Hammerless', 'Hammer', 'Super Hammer', 'Ultra Hammer'],
 				enabled: true,
-				max: 3
+				max: 3,
+				ap: [8112000710, 8112000711, 8112000712]
 			}
 		},
 		items: {
@@ -123,7 +153,8 @@ export const useTrackerStore = defineStore('tracker', () => {
 					name: 'Dolly',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000086]
 				}
 			},
 			chapter1: {
@@ -131,13 +162,15 @@ export const useTrackerStore = defineStore('tracker', () => {
 					name: 'Fortress Key',
 					enabled: true,
 					max: 4,
-					required: true
+					required: true,
+					ap: [8112000365, 8112000366, 8112000367, 8112000368]
 				},
 				kooper_shell: {
 					name: 'Kooper Shell',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000025]
 				}
 			},
 			chapter2: {
@@ -145,43 +178,53 @@ export const useTrackerStore = defineStore('tracker', () => {
 					name: "Parakarry's Letters",
 					enabled: true,
 					max: 3,
-					required: false
+					required: false,
+					ap: [
+						8112000054, 8112000055, 8112000056, 8112000057, 8112000058, 8112000059, 8112000060, 8112000061, 8112000062, 8112000064, 8112000065, 8112000069, 8112000070, 8112000071,
+						8112000072, 8112000073, 8112000074, 8112000075, 8112000076, 8112000078, 8112000079, 8112000080, 8112000081, 8112000082, 8112000084
+					]
 				},
 				pulse_stone: {
 					name: 'Pulse Stone',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000018]
 				},
 				pyramid_stone: {
 					name: 'Pyramid Stone',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000022]
 				},
 				diamond_stone: {
 					name: 'Diamond Stone',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000023]
 				},
 				lunar_stone: {
 					name: 'Lunar Stone',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000021]
 				},
 				ruins_key: {
 					name: 'Ruins Key',
 					enabled: true,
 					max: 4,
-					required: true
+					required: true,
+					ap: [8112000369, 8112000370, 8112000371, 8112000372]
 				},
 				artifact: {
 					name: 'Artifact',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000083]
 				}
 			},
 			chapter3: {
@@ -189,31 +232,36 @@ export const useTrackerStore = defineStore('tracker', () => {
 					name: 'Forest Pass',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000027]
 				},
 				record: {
 					name: 'Record',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000034]
 				},
 				weight: {
 					name: 'Weight',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000028]
 				},
 				boo_portrait: {
 					name: "Boo's Portrait",
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000029]
 				},
 				tubba_castle_key: {
 					name: 'Tubba Castle Key',
 					enabled: true,
 					max: 3,
-					required: true
+					required: true,
+					ap: [8112000373, 8112000374, 8112000375]
 				}
 			},
 			chapter4: {
@@ -221,55 +269,64 @@ export const useTrackerStore = defineStore('tracker', () => {
 					name: 'Toy Train',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000033]
 				},
 				calculator: {
 					name: 'Calculator',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000048]
 				},
 				frying_pan: {
 					name: 'Frying Pan',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000035]
 				},
 				mailbag: {
 					name: 'Mailbag',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000105]
 				},
 				dictionary: {
 					name: 'Dictionary',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000036]
 				},
 				cake: {
 					name: 'Cake (Cook a Cake Mix)',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000193, 8112000170, 8112000698]
 				},
 				cookbook: {
 					name: 'Cookbook',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000041]
 				},
 				mystery_note: {
 					name: 'Mystery Note',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000037]
 				},
 				anti_guy: {
 					name: 'Anti Guy (Cake Mix + Lemon for Lemon Candy available)',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000208]
 				}
 			},
 			chapter5: {
@@ -277,13 +334,15 @@ export const useTrackerStore = defineStore('tracker', () => {
 					name: 'Jade Raven',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000042]
 				},
 				volcano_vase: {
 					name: 'Volcano Vase',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000091]
 				}
 			},
 			chapter6: {
@@ -291,82 +350,95 @@ export const useTrackerStore = defineStore('tracker', () => {
 					name: 'Red Magical Seed',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000043]
 				},
 				purple_magical_seed: {
 					name: 'Purple Magical Seed',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000044]
 				},
 				green_magical_seed: {
 					name: 'Blue Magical Seed',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000046]
 				},
 				yellow_magical_seed: {
 					name: 'Yellow Magical Seed',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000045]
 				},
 				red_berry: {
 					name: 'Red Berry',
 					enabled: true,
 					max: 1,
 					required: false,
-					initial: 'R'
+					initial: 'R',
+					ap: [8112000701, 8112000702]
 				},
 				yellow_berry: {
 					name: 'Yellow Berry',
 					enabled: true,
 					max: 1,
 					required: false,
-					initial: 'Y'
+					initial: 'Y',
+					ap: [8112000703, 8112000704]
 				},
 				blue_berry: {
 					name: 'Blue Berry',
 					enabled: true,
 					max: 2,
 					required: false,
-					initial: 'B'
+					initial: 'B',
+					ap: [8112000699, 8112000699, 8112000700, 8112000700]
 				},
 				bubble_berry: {
 					name: 'Bubble Berry',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000705, 8112000706]
 				},
 				crystal_berry: {
 					name: 'Crystal Berry',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000030]
 				},
 				water_stone: {
 					name: 'Water Stone',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000087]
 				},
 				magical_bean: {
 					name: 'Magical Bean',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000088]
 				},
 				fertile_soil: {
 					name: 'Fertile Soil',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000089]
 				},
 				miracle_water: {
 					name: 'Miracle Water',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000090]
 				}
 			},
 			chapter7: {
@@ -375,45 +447,52 @@ export const useTrackerStore = defineStore('tracker', () => {
 					enabled: true,
 					max: 1,
 					required: true,
-					initial: 'W'
+					initial: 'W',
+					ap: [8112000121]
 				},
 				scarf: {
 					name: 'Scarf',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000050]
 				},
 				bucket: {
 					name: 'Bucket',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000049]
 				},
 				star_stone: {
 					name: 'Star Stone',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000108]
 				},
 				red_key: {
 					name: 'Red Key',
 					enabled: true,
 					max: 1,
 					required: true,
-					initial: 'R'
+					initial: 'R',
+					ap: [8112000051]
 				},
 				blue_key: {
 					name: 'Blue Key',
 					enabled: true,
 					max: 1,
 					required: false,
-					initial: 'B'
+					initial: 'B',
+					ap: [8112000052]
 				},
 				palace_key: {
 					name: 'Palace Key',
 					enabled: true,
 					max: 1,
-					required: true
+					required: true,
+					ap: [8112000020]
 				}
 			},
 			chapter8: {
@@ -421,13 +500,15 @@ export const useTrackerStore = defineStore('tracker', () => {
 					name: 'Prison Key',
 					enabled: true,
 					max: 2,
-					required: true
+					required: true,
+					ap: [8112000381, 8112000382]
 				},
 				castle_key: {
 					name: "Bowser's Castle Key",
 					enabled: true,
 					max: 5,
-					required: true
+					required: true,
+					ap: [8112000376, 8112000377, 8112000378, 8112000379, 8112000380]
 				}
 			},
 			other: {
@@ -436,28 +517,32 @@ export const useTrackerStore = defineStore('tracker', () => {
 					enabled: true,
 					max: 1,
 					required: false,
-					initial: 'L'
+					initial: 'L',
+					ap: [8112000103]
 				},
 				melody: {
 					name: 'Melody',
 					enabled: true,
 					max: 1,
 					required: false,
-					initial: 'M'
+					initial: 'M',
+					ap: [8112000104]
 				},
 				odd_key: {
 					name: 'Odd Key',
 					enabled: true,
 					max: 1,
 					required: false,
-					initial: 'O'
+					initial: 'O',
+					ap: [8112000107]
 				},
 				storeroom_key: {
 					name: 'Storeroom Key',
 					enabled: true,
 					max: 1,
 					required: false,
-					initial: 'S'
+					initial: 'S',
+					ap: [8112000032]
 				}
 			}
 		},
@@ -467,13 +552,15 @@ export const useTrackerStore = defineStore('tracker', () => {
 					name: 'Goompa',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000055]
 				},
 				goompapa: {
 					name: 'Goompapa',
 					enabled: true,
 					max: 2,
-					required: false
+					required: false,
+					ap: [8112000064, 8112000082]
 				}
 			},
 			toad_town: {
@@ -481,55 +568,64 @@ export const useTrackerStore = defineStore('tracker', () => {
 					name: 'Merlon',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000054]
 				},
 				merlow: {
 					name: 'Merlow',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000059]
 				},
 				muss_t: {
 					name: 'Muss T.',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000070]
 				},
 				fice_t: {
 					name: 'Fice T.',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000060]
 				},
 				russ_t: {
 					name: 'Russ T.',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000057]
 				},
 				minh_t: {
 					name: 'Minh T.',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000062]
 				},
 				miss_t: {
 					name: 'Miss T.',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000075]
 				},
 				fishmael: {
 					name: 'Fishmael',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000072]
 				},
 				dane_t: {
 					name: 'Dane T.',
 					enabled: true,
 					max: 2,
-					required: false
+					required: false,
+					ap: [8112000078, 8112000080]
 				}
 			},
 			chapter1: {
@@ -537,19 +633,22 @@ export const useTrackerStore = defineStore('tracker', () => {
 					name: 'Kolorado',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000084]
 				},
 				mort_t: {
 					name: 'Mort T.',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000056]
 				},
 				koover: {
 					name: 'Koover',
 					enabled: true,
 					max: 2,
-					required: false
+					required: false,
+					ap: [8112000071, 8112000073]
 				}
 			},
 			chapter2: {
@@ -557,19 +656,22 @@ export const useTrackerStore = defineStore('tracker', () => {
 					name: 'Nomadimouse',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000061]
 				},
 				little_mouser: {
 					name: 'Little Mouser (Dry Dry Shop)',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000076]
 				},
 				mr_e: {
 					name: 'Mr. E',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000074]
 				}
 			},
 			chapter3: {
@@ -577,13 +679,15 @@ export const useTrackerStore = defineStore('tracker', () => {
 					name: 'Igor',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000065]
 				},
 				franky: {
 					name: 'Franky',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000069]
 				}
 			},
 			chapter6: {
@@ -591,7 +695,8 @@ export const useTrackerStore = defineStore('tracker', () => {
 					name: 'Red Yoshi Kid',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000079]
 				}
 			},
 			chapter7: {
@@ -599,13 +704,15 @@ export const useTrackerStore = defineStore('tracker', () => {
 					name: 'Mayor Penguin',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000058]
 				},
 				frost_t: {
 					name: 'Frost T.',
 					enabled: true,
 					max: 1,
-					required: false
+					required: false,
+					ap: [8112000081]
 				}
 			}
 		},
@@ -620,7 +727,16 @@ export const useTrackerStore = defineStore('tracker', () => {
 				name: 'Star Pieces',
 				enabled: true,
 				max: 96,
-				required: true
+				required: true,
+				ap: [
+					8112000389, 8112000390, 8112000391, 8112000392, 8112000393, 8112000394, 8112000395, 8112000396, 8112000397, 8112000398, 8112000399, 8112000400, 8112000401, 8112000402, 8112000403,
+					8112000404, 8112000405, 8112000406, 8112000407, 8112000408, 8112000409, 8112000410, 8112000411, 8112000412, 8112000413, 8112000414, 8112000415, 8112000416, 8112000417, 8112000418,
+					8112000419, 8112000420, 8112000421, 8112000422, 8112000423, 8112000424, 8112000425, 8112000426, 8112000427, 8112000428, 8112000429, 8112000430, 8112000431, 8112000432, 8112000433,
+					8112000434, 8112000435, 8112000436, 8112000437, 8112000438, 8112000439, 8112000440, 8112000441, 8112000442, 8112000443, 8112000444, 8112000445, 8112000446, 8112000447, 8112000448,
+					8112000449, 8112000450, 8112000451, 8112000452, 8112000453, 8112000454, 8112000455, 8112000456, 8112000457, 8112000458, 8112000459, 8112000460, 8112000461, 8112000462, 8112000463,
+					8112000464, 8112000465, 8112000466, 8112000467, 8112000468, 8112000469, 8112000470, 8112000471, 8112000471, 8112000471, 8112000472, 8112000472, 8112000472, 8112000473, 8112000473,
+					8112000473, 8112000474, 8112000474, 8112000474, 8112000475, 8112000475, 8112000475
+				]
 			},
 			rip_cheato: {
 				name: 'Rip Cheato',
@@ -634,115 +750,134 @@ export const useTrackerStore = defineStore('tracker', () => {
 				name: 'Koopa Legends',
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000110]
 			},
 			sleepy_sheep: {
 				name: 'Sleepy Sheep (Red/Yellow/Blue Berry + Strange Leaf)',
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000143]
 			},
 			tape: {
 				name: 'Tape',
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000092]
 			},
 			koopa_tea: {
 				name: 'Koopa Tea (Koopa Leaf)',
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000195]
 			},
 			luigi_autograph: {
 				name: "Luigi's Autograph",
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000111]
 			},
 			empty_wallet: {
 				name: 'Empty Wallet',
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000112]
 			},
 			tasty_tonic: {
 				name: 'Tasty Tonic (Red/Yellow/Blue Berry + Honey Syrup)',
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000137]
 			},
 			crystal_ball: {
 				name: 'Crystal Ball',
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000039]
 			},
 			merluvlee_autograph: {
 				name: "Merluvlee's Autograph",
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000113]
 			},
 			life_shroom: {
 				name: 'Life Shroom (Super Shroom or better + Koopa Leaf/Goomnut/Strange Leaf)',
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000149]
 			},
 			nutty_cake: {
 				name: 'Nutty Cake (Goomnut)',
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000214]
 			},
 			old_photo: {
 				name: 'Old Photo',
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000115]
 			},
 			koopasta: {
 				name: 'Koopasta (Dried Pasta + Koopa Leaf)',
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000181]
 			},
 			glasses: {
 				name: 'Glasses',
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000116]
 			},
 			lime: {
 				name: 'Lime',
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000157]
 			},
 			kooky_cookie: {
 				name: 'Kooky Cookie (Cake Mix + Koopa Leaf/Stinky Herb/Maple Syrup)',
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000211]
 			},
 			package: {
 				name: 'Package',
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000118]
 			},
 			coconut: {
 				name: 'Coconut',
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000172]
 			},
 			red_jar: {
 				name: 'Red Jar',
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000119]
 			}
 		},
 		trading_event_toad: {
@@ -750,19 +885,22 @@ export const useTrackerStore = defineStore('tracker', () => {
 				name: 'Koopa Leaf',
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000166]
 			},
 			coconut: {
 				name: 'Coconut',
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000172]
 			},
 			nutty_cake: {
 				name: 'Nutty Cake (Goomnut)',
 				enabled: true,
 				max: 1,
-				required: false
+				required: false,
+				ap: [8112000214]
 			}
 		}
 	});
@@ -867,11 +1005,11 @@ export const useTrackerStore = defineStore('tracker', () => {
 				type: 'number',
 				min: 1,
 				max: 120
-			},
-			star_hunt_ends_game: {
-				enabled: false,
-				type: 'switch'
 			}
+			// star_hunt_ends_game: {
+			// 	enabled: false,
+			// 	type: 'switch'
+			// }
 		},
 		logic: {
 			fast_bowser_castle: {
