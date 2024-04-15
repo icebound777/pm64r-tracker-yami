@@ -4842,7 +4842,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.koopa_bros_fortress() && (flags.partner('bombette') || save.data.items.fortress_key >= 2);
+								return flags.koopa_bros_fortress() && ((flags.partner('bombette') && save.data.items.fortress_key >= 1) || save.data.items.fortress_key >= 2);
 							},
 							ap: [8112000259]
 						}

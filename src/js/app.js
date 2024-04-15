@@ -9,6 +9,7 @@ import App from './components/App.vue';
 
 import { GridLayout, GridItem } from 'grid-layout-plus';
 import FloatingVue from 'floating-vue';
+import Vue3Toastify from 'vue3-toastify';
 
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -97,6 +98,12 @@ const app = createApp(App)
 				}
 			}
 		}
+	})
+	.use(Vue3Toastify, {
+		autoClose: 5000,
+		theme: 'colored',
+		type: 'default',
+		transition: 'slide'
 	})
 	.component('font-awesome-icon', FontAwesomeIcon)
 	.component('GridLayout', GridLayout)

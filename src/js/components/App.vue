@@ -1324,7 +1324,7 @@
 					<input class="rounded-md" type="password" v-model="ap.connectionInfos.password" />
 				</div>
 				<div class="flex justify-between w-30">
-					<p>Player name:</p>
+					<p>Player name (case sensitive):</p>
 					<input class="rounded-md" type="text" v-model="ap.connectionInfos.name" />
 				</div>
 				<div class="flex justify-between w-30">
@@ -1593,6 +1593,11 @@
 					<a href="https://discord.gg/4Z5G69ZNJg" target="_blank">PMR Discord</a>
 					in the channel "Discussion & Support > pmr-tracker".
 				</p>
+				<p class="text-lg mt-3">Version 8</p>
+				<div class="ml-5">
+					<p>Hotfix - Logic fix Koopa Bros Fortress. Jail could be accessed with no keys.</p>
+					<p>Added error management for the Archipelago connection.</p>
+				</div>
 				<p class="text-lg mt-3">Version 7</p>
 				<div class="ml-5">
 					<p>Hotfix - Logic fix in Koopa Village jumpless</p>
@@ -1673,7 +1678,7 @@ const disableItemsModalVisible = ref(false);
 const tutorialModalVisible = ref(false);
 
 const version = ref(localStorage.getItem('version'));
-const currentVersion = 7;
+const currentVersion = 8;
 
 if (version.value == null || version.value <= currentVersion) {
 	tutorialModalVisible.value = true;

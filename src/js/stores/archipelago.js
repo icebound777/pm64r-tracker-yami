@@ -3,6 +3,9 @@ import { computed, reactive, watch } from 'vue';
 import YAML from 'yaml';
 import { Client, ITEMS_HANDLING_FLAGS, SERVER_PACKET_TYPE, CLIENT_PACKET_TYPE, COMMON_TAGS } from 'archipelago.js';
 
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
+
 import { useSaveStore } from './save';
 import { useTrackerStore } from './tracker';
 import { useLogicStore } from './logic';
@@ -65,9 +68,12 @@ export const useArchipelagoStore = defineStore('archipelago', () => {
 	const connect = () => {
 		//Load configs
 		loadConfigs();
+		toast.success('Attempting to connect...', { duration: 5000 });
 
 		// Set up event listeners
 		client.addListener(SERVER_PACKET_TYPE.CONNECTED, (packet) => {
+			toast.success('Connected successfully!', { duration: 5000 });
+
 			state.connected = true;
 			state.checkedLocations = packet.checked_locations;
 			state.hintPoints = packet.hint_points;
@@ -119,6 +125,10 @@ export const useArchipelagoStore = defineStore('archipelago', () => {
 			}
 		});
 
+		client.addListener('close', (event) => {
+			console.log(event);
+		});
+
 		// Uncomment to get all locations and items by id on Connect
 		// client.addListener(SERVER_PACKET_TYPE.DATA_PACKAGE, (packet) => {
 		// 	console.log(packet);
@@ -129,12 +139,76 @@ export const useArchipelagoStore = defineStore('archipelago', () => {
 			.then(() => {})
 			.catch((error) => {
 				console.error('Failed to connect:', error);
+
+				let reason = 'Unknown error. See AP server for more details.';
+				// See https://www.rfc-editor.org/rfc/rfc6455#section-7.4.1
+				switch (error[0].code) {
+					case 1000:
+						reason = 'Normal closure, meaning that the purpose for which the connection was established has been fulfilled.';
+						break;
+
+					case 1001:
+						reason = 'An endpoint is "going away", such as a server going down or a browser having navigated away from a page.';
+						break;
+
+					case 1002:
+						reason = 'An endpoint is terminating the connection due to a protocol error';
+						break;
+
+					case 1003:
+						reason =
+							'An endpoint is terminating the connection because it has received a type of data it cannot accept (e.g., an endpoint that understands only text data MAY send this if it receives a binary message).';
+						break;
+
+					case 1004:
+						reason = 'Reserved. The specific meaning might be defined in the future.';
+						break;
+
+					case 1005:
+						reason = 'No status code was actually present.';
+						break;
+
+					case 1006:
+						reason = 'AP server could not be reached or the connection was closed abnormally, e.g., without sending or receiving a Close control frame.';
+						break;
+
+					case 1007:
+						reason =
+							'An endpoint is terminating the connection because it has received data within a message that was not consistent with the type of the message (e.g., non-UTF-8 [https://www.rfc-editor.org/rfc/rfc3629] data within a text message).';
+						break;
+
+					case 1008:
+						reason =
+							'An endpoint is terminating the connection because it has received a message that "violates its policy". This reason is given either if there is no other sutible reason, or if there is a need to hide specific details about the policy.';
+						break;
+
+					case 1009:
+						reason = 'An endpoint is terminating the connection because it has received a message that is too big for it to process.';
+						break;
+
+					case 1010:
+						// Note that this status code is not used by the server, because it can fail the WebSocket handshake instead.
+						reason =
+							"An endpoint (client) is terminating the connection because it has expected the server to negotiate one or more extension, but the server didn't return them in the response message of the WebSocket handshake. <br /> Specifically, the extensions that are needed are: " +
+							error.event.reason;
+						break;
+
+					case 1011:
+						reason = 'A server is terminating the connection because it encountered an unexpected condition that prevented it from fulfilling the request.';
+						break;
+
+					case 1015:
+						reason = "The connection was closed due to a failure to perform a TLS handshake (e.g., the server certificate can't be verified).";
+						break;
+				}
+
+				toast.error('Failed to connect to AP server. | ' + reason, { duration: 15000 });
 			});
 
 		window.addEventListener('beforeunload', () => {
 			client.disconnect();
 			state.connected = false;
-			console.info('Disconnected from AP server');
+			console.info('Disconnected from AP server.');
 		});
 	};
 
@@ -142,11 +216,13 @@ export const useArchipelagoStore = defineStore('archipelago', () => {
 		client.disconnect();
 		state.connected = false;
 		console.info('Disconnected from AP server');
+		toast.success('Disconnected from AP server.', { duration: 5000 });
 	};
 
 	const sync = () => {
 		client.send({ cmd: CLIENT_PACKET_TYPE.SYNC });
 		client.send({ cmd: CLIENT_PACKET_TYPE.GET, keys: [`_read_hints_${state.team}_${state.slot}`] });
+		toast.success('Synced.', { duration: 5000 });
 	};
 
 	// Sorry for this garbo function, I've tried to make it better but did not have the time... At least it works lol

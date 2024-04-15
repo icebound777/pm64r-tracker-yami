@@ -21,6 +21,14 @@
 	text-rendering: optimizeLegibility;
 }
 
+.Toastify__toast-body {
+	font-family: 'papermario';
+
+	color: white;
+	-webkit-text-stroke: none !important;
+	stroke: none !important;
+}
+
 // Scrollbar
 ::-webkit-scrollbar {
 	width: 6px;
