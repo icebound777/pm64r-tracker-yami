@@ -33,7 +33,7 @@ export const useArchipelagoStore = defineStore('archipelago', () => {
 
 	const connectionInfos = reactive({
 		protocol: 'ws',
-		hostname: 'localhost', // Replace with the actual AP server hostname.
+		hostname: 'archipelago.gg', // Replace with the actual AP server hostname.
 		port: 38281, // Replace with the actual AP server port.
 		game: 'Paper Mario', // Replace with the game name for this player.
 		name: '', // Replace with the player slot name.
@@ -133,6 +133,10 @@ export const useArchipelagoStore = defineStore('archipelago', () => {
 		// client.addListener(SERVER_PACKET_TYPE.DATA_PACKAGE, (packet) => {
 		// 	console.log(packet);
 		// });
+
+		if (connectionInfos.hostname == 'archipelago.gg') {
+			connectionInfos.protocol = 'wss';
+		}
 
 		client
 			.connect(connectionInfos)
