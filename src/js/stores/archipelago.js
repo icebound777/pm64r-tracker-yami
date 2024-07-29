@@ -34,8 +34,8 @@ export const useArchipelagoStore = defineStore('archipelago', () => {
 	});
 
 	const connectionInfos = reactive({
-		protocol: 'wss',
-		hostname: 'archipelago.gg', // Replace with the actual AP server hostname.
+		// protocol: 'wss',
+		hostname: 'localhost', // Replace with the actual AP server hostname.
 		port: 38281, // Replace with the actual AP server port.
 		game: 'Paper Mario', // Replace with the game name for this player.
 		name: '', // Replace with the player slot name.
@@ -111,18 +111,21 @@ export const useArchipelagoStore = defineStore('archipelago', () => {
 		});
 
 		client.addListener(SERVER_PACKET_TYPE.RECEIVED_ITEMS, (packet) => {
-			console.log('Received items:', packet);
+			// console.log('Received items:', packet);
 
 			if (debug) {
 				packet.items.forEach((item) => {
 					if (item.item != 8112000348 && Object.values(items_to_ids).indexOf(item.item) <= -1) {
-						console.log('Item not found:', item);
+						console.error('Item not found:', item);
 					}
 				});
 
-				console.log('--------------------');
+				// console.log('--------------------');
 			}
-			state.itemReceived = packet.items;
+
+			if (packet.index == 0) {
+				state.itemReceived = packet.items;
+			}
 		});
 
 		client.addListener(SERVER_PACKET_TYPE.RETRIEVED, (packet) => {
@@ -147,9 +150,9 @@ export const useArchipelagoStore = defineStore('archipelago', () => {
 			console.log(packet);
 		});
 
-		if (connectionInfos.hostname == 'localhost' || connectionInfos.hostname == '127.0.0.1') {
-			connectionInfos.protocol = 'ws';
-		}
+		// if (connectionInfos.hostname == 'localhost' || connectionInfos.hostname == '127.0.0.1') {
+		// 	connectionInfos.protocol = 'ws';
+		// }
 
 		client
 			.connect(connectionInfos)
@@ -239,6 +242,7 @@ export const useArchipelagoStore = defineStore('archipelago', () => {
 	const sync = () => {
 		client.send({ cmd: CLIENT_PACKET_TYPE.SYNC });
 		client.send({ cmd: CLIENT_PACKET_TYPE.GET, keys: [`_read_hints_${state.team}_${state.slot}`] });
+
 		toast.success('Synced.', { duration: 5000 });
 	};
 

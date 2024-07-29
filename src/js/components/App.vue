@@ -1593,6 +1593,13 @@
 					<a href="https://discord.gg/4Z5G69ZNJg" target="_blank">PMR Discord</a>
 					in the channel "Discussion & Support > pmr-tracker".
 				</p>
+				<p class="text-lg mt-3">Version 9</p>
+				<div class="ml-5">
+					<p>Archipelago: Fixed item ids bugfix when star beam was added.</p>
+					<p>Archipelago: Fixed seeds adding them all in the same item.</p>
+					<p>Archipelago: Fixed locations ids.</p>
+					<p>Archipelago: Fixed stars unchecking when an item got picked up.</p>
+				</div>
 				<p class="text-lg mt-3">Version 8</p>
 				<div class="ml-5">
 					<p>Hotfix - Logic fix Koopa Bros Fortress. Jail could be accessed with no keys.</p>
@@ -1678,7 +1685,7 @@ const disableItemsModalVisible = ref(false);
 const tutorialModalVisible = ref(false);
 
 const version = ref(localStorage.getItem('version'));
-const currentVersion = 8;
+const currentVersion = 9;
 
 if (version.value == null || version.value <= currentVersion) {
 	tutorialModalVisible.value = true;

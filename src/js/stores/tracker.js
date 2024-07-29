@@ -74,57 +74,57 @@ export const useTrackerStore = defineStore('tracker', () => {
 				name: 'Goombario',
 				enabled: true,
 				max: 3,
-				ap: [8112000751],
-				ap_rank: [8112000733, 8112000742]
+				ap: [8112000752],
+				ap_rank: [8112000734, 8112000743]
 			},
 			kooper: {
 				name: 'Kooper',
 				enabled: true,
 				max: 3,
-				ap: [8112000752],
-				ap_rank: [8112000734, 8112000743]
+				ap: [8112000753],
+				ap_rank: [8112000735, 8112000744]
 			},
 			bombette: {
 				name: 'Bombette',
 				enabled: true,
 				max: 3,
-				ap: [8112000753],
-				ap_rank: [8112000735, 8112000744]
+				ap: [8112000754],
+				ap_rank: [8112000736, 8112000745]
 			},
 			parakarry: {
 				name: 'Parakarry',
 				enabled: true,
 				max: 3,
-				ap: [8112000754],
-				ap_rank: [8112000736, 8112000745]
+				ap: [8112000755],
+				ap_rank: [8112000737, 8112000746]
 			},
 			bow: {
 				name: 'Bow',
 				enabled: true,
 				max: 3,
-				ap: [8112000759],
-				ap_rank: [8112000741, 8112000750]
+				ap: [8112000760],
+				ap_rank: [8112000742, 8112000751]
 			},
 			watt: {
 				name: 'Watt',
 				enabled: true,
 				max: 3,
-				ap: [8112000756],
-				ap_rank: [8112000738, 8112000747]
+				ap: [8112000757],
+				ap_rank: [8112000739, 8112000748]
 			},
 			sushie: {
 				name: 'Sushie',
 				enabled: true,
 				max: 3,
-				ap: [8112000757],
-				ap_rank: [8112000739, 8112000748]
+				ap: [8112000758],
+				ap_rank: [8112000740, 8112000749]
 			},
 			lakilester: {
 				name: 'Lakilester',
 				enabled: true,
 				max: 3,
-				ap: [8112000758],
-				ap_rank: [8112000740, 8112000749]
+				ap: [8112000759],
+				ap_rank: [8112000741, 8112000750]
 			},
 			ultra_stone: {
 				name: 'Ultra Stone',
@@ -346,34 +346,41 @@ export const useTrackerStore = defineStore('tracker', () => {
 				}
 			},
 			chapter6: {
-				pink_magical_seed: {
-					name: 'Red Magical Seed',
+				magical_seeds: {
+					name: 'Magical Seeds',
 					enabled: true,
-					max: 1,
+					max: 4,
 					required: true,
 					ap: [8112000043]
 				},
-				purple_magical_seed: {
-					name: 'Purple Magical Seed',
-					enabled: true,
-					max: 1,
-					required: true,
-					ap: [8112000044]
-				},
-				green_magical_seed: {
-					name: 'Blue Magical Seed',
-					enabled: true,
-					max: 1,
-					required: true,
-					ap: [8112000046]
-				},
-				yellow_magical_seed: {
-					name: 'Yellow Magical Seed',
-					enabled: true,
-					max: 1,
-					required: true,
-					ap: [8112000045]
-				},
+				// pink_magical_seed: {
+				// 	name: 'Red Magical Seed',
+				// 	enabled: true,
+				// 	max: 1,
+				// 	required: true,
+				// 	ap: [8112000043]
+				// },
+				// purple_magical_seed: {
+				// 	name: 'Purple Magical Seed',
+				// 	enabled: true,
+				// 	max: 1,
+				// 	required: true,
+				// 	ap: [8112000044]
+				// },
+				// green_magical_seed: {
+				// 	name: 'Blue Magical Seed',
+				// 	enabled: true,
+				// 	max: 1,
+				// 	required: true,
+				// 	ap: [8112000046]
+				// },
+				// yellow_magical_seed: {
+				// 	name: 'Yellow Magical Seed',
+				// 	enabled: true,
+				// 	max: 1,
+				// 	required: true,
+				// 	ap: [8112000045]
+				// },
 				red_berry: {
 					name: 'Red Berry',
 					enabled: true,

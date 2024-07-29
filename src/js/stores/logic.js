@@ -187,25 +187,27 @@ export const useLogicStore = defineStore('logic', () => {
 			}
 		},
 		magical_seeds_count: () => {
-			let magical_seeds = 0;
+			// let magical_seeds = 0;
 
-			if (save.data.items.pink_magical_seed) {
-				magical_seeds++;
-			}
+			// if (save.data.items.pink_magical_seed) {
+			// 	magical_seeds++;
+			// }
 
-			if (save.data.items.purple_magical_seed) {
-				magical_seeds++;
-			}
+			// if (save.data.items.purple_magical_seed) {
+			// 	magical_seeds++;
+			// }
 
-			if (save.data.items.green_magical_seed) {
-				magical_seeds++;
-			}
+			// if (save.data.items.green_magical_seed) {
+			// 	magical_seeds++;
+			// }
 
-			if (save.data.items.yellow_magical_seed) {
-				magical_seeds++;
-			}
+			// if (save.data.items.yellow_magical_seed) {
+			// 	magical_seeds++;
+			// }
 
-			return magical_seeds;
+			// return magical_seeds;
+
+			return save.data.items.magical_seeds;
 		},
 
 		//Dungeons Requirements
@@ -1419,7 +1421,7 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.goomba_village() && flags.deliver_letters() && save.data.items.letters.goompapa >= 1;
 							},
-							ap: [8112000005]
+							ap: [8112000006]
 						},
 						{
 							name: 'Goompapa 2',
@@ -1430,7 +1432,7 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.goomba_village() && flags.deliver_letters() && save.data.items.letters.goompapa >= 2;
 							},
-							ap: [8112000006]
+							ap: [8112000005]
 						},
 						{
 							name: 'Bottom right bush',
@@ -2793,7 +2795,7 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.toad_town() && flags.deliver_letters() && save.data.items.letters.dane_t >= 1 && save.data.items.boots >= 1;
 							},
-							ap: [8112000089]
+							ap: [8112000090]
 						},
 						{
 							name: 'Dane T. 2',
@@ -2804,7 +2806,7 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.toad_town() && flags.deliver_letters() && save.data.items.letters.dane_t >= 2 && save.data.items.boots >= 1;
 							},
-							ap: [8112000090]
+							ap: [8112000089]
 						}
 					]
 				}
@@ -3139,7 +3141,7 @@ export const useLogicStore = defineStore('logic', () => {
 									flags.partner('lakilester')
 								);
 							},
-							ap: [8112000143]
+							ap: [8112000142]
 						},
 						{
 							name: 'Invisible block between the first and second spiny',
@@ -3171,7 +3173,7 @@ export const useLogicStore = defineStore('logic', () => {
 									flags.partner('lakilester')
 								);
 							},
-							ap: [8112000142]
+							ap: [8112000143]
 						},
 						{
 							name: '? block next to the stone block',
@@ -3920,7 +3922,7 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.koopa_village() && flags.deliver_letters() && save.data.items.letters.koover >= 1 && save.data.items.hammer >= 1;
 							},
-							ap: [8112000193]
+							ap: [8112000194]
 						},
 						{
 							name: 'Koover 2 (Koopa at the west entrance)',
@@ -3931,7 +3933,7 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.koopa_village() && flags.deliver_letters() && save.data.items.letters.koover >= 2 && save.data.items.hammer >= 1;
 							},
-							ap: [8112000194]
+							ap: [8112000193]
 						},
 						{
 							name: 'Bush closest of the east exit (After Koopa Koot asks for his wallet)',
@@ -4741,7 +4743,7 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.koopa_bros_fortress() && save.data.items.fortress_key >= 1;
 							},
-							ap: [8112000257]
+							ap: [8112000258]
 						},
 						{
 							name: 'Right jail cell',
@@ -4752,7 +4754,7 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.koopa_bros_fortress() && save.data.items.fortress_key >= 1 && flags.partner('bombette');
 							},
-							ap: [8112000258]
+							ap: [8112000257]
 						}
 					]
 				},
@@ -5497,7 +5499,7 @@ export const useLogicStore = defineStore('logic', () => {
 					checks: []
 				},
 				2_5: {
-					name: '2 Blocks, 1 Tweester',
+					name: '3 Blocks, 1 Tweester',
 					x: 6,
 					y: 2,
 					w: 1,
@@ -5869,7 +5871,8 @@ export const useLogicStore = defineStore('logic', () => {
 							},
 							available: () => {
 								return flags.dry_dry_desert() && flags.trees();
-							}
+							},
+							ap: [8112000336]
 						},
 						{
 							name: 'Second tree from the left',
@@ -6473,7 +6476,7 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.dry_dry_desert() && save.data.items.boots >= 1;
 							},
-							ap: [8112000307]
+							ap: [8112000303]
 						},
 						{
 							name: 'Rooftop',
@@ -6484,7 +6487,7 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.dry_dry_desert() && flags.panels();
 							},
-							ap: [8112000303]
+							ap: [8112000307]
 						},
 						{
 							name: 'Mr E',
@@ -8091,7 +8094,7 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.toybox(false, false) && flags.jump_coin_blocks();
 							},
-							ap: [8112000443]
+							ap: [8112000444]
 						},
 						{
 							name: 'In front of the station',
@@ -8102,7 +8105,7 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.toybox(false) && flags.panels();
 							},
-							ap: [8112000444]
+							ap: [8112000443]
 						}
 					]
 				},
@@ -9779,7 +9782,7 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.lava_lava_island() && flags.partner('sushie');
 							},
-							ap: [8112000559]
+							ap: [8112000560]
 						},
 						{
 							name: 'Bush near the east exit',
@@ -9790,7 +9793,7 @@ export const useLogicStore = defineStore('logic', () => {
 							available: () => {
 								return flags.lava_lava_island() && flags.partner('sushie');
 							},
-							ap: [8112000560]
+							ap: [8112000559]
 						}
 					]
 				},
@@ -10406,7 +10409,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.flower_fields() && flags.jump_ledges() && (save.data.items.bubble_berry || flags.partner('lakilester'));
+								return flags.flower_fields() && flags.jump_ledges() && (save.data.items.bubble_berry || flags.partner('lakilester')) && flags.partner('bombette');
 							},
 							ap: [8112000608]
 						}
@@ -11054,7 +11057,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.letters_randomized;
 							},
 							available: () => {
-								return flags.shiver_city() && flags.deliver_letters() && save.data.items.letters.mayor_penguin;
+								return flags.shiver_city() && flags.deliver_letters() && save.data.items.letters.mayor_penguin && save.data.items.warehouse_key;
 							},
 							ap: [8112000632]
 						},

@@ -31,6 +31,7 @@ export const useSaveStore = defineStore('save', () => {
 	});
 
 	const defaultSave = reactive({
+		ap_new_save: true,
 		randomizer_seed: null,
 		randomizer_seed_hash_items: null,
 		notes: '',
@@ -109,6 +110,7 @@ export const useSaveStore = defineStore('save', () => {
 			anti_guy: false,
 			jade_raven: false,
 			volcano_vase: false,
+			magical_seeds: 0,
 			pink_magical_seed: false,
 			purple_magical_seed: false,
 			green_magical_seed: false,
@@ -284,40 +286,45 @@ export const useSaveStore = defineStore('save', () => {
 		const defaultSaveClone = JSON.parse(JSON.stringify(defaultSave));
 
 		if (ap) {
+			delete defaultSaveClone.ap_new_save;
+
 			delete defaultSaveClone.merlow_items;
 			delete defaultSaveClone.hand_ins;
 			delete defaultSaveClone.notes;
 			delete defaultSaveClone.randomizer_seed;
 
-			delete defaultSaveClone.eldstar;
-			delete defaultSaveClone.mamar;
-			delete defaultSaveClone.skolar;
-			delete defaultSaveClone.muskular;
-			delete defaultSaveClone.misstar;
-			delete defaultSaveClone.klevar;
-			delete defaultSaveClone.kalmar;
-			delete defaultSaveClone.eldstar_difficulty;
-			delete defaultSaveClone.mamar_difficulty;
-			delete defaultSaveClone.skolar_difficulty;
-			delete defaultSaveClone.muskular_difficulty;
-			delete defaultSaveClone.misstar_difficulty;
-			delete defaultSaveClone.klevar_difficulty;
-			delete defaultSaveClone.kalmar_difficulty;
-			delete defaultSaveClone.eldstar_dungeon_shuffle;
-			delete defaultSaveClone.mamar_dungeon_shuffle;
-			delete defaultSaveClone.skolar_dungeon_shuffle;
-			delete defaultSaveClone.muskular_dungeon_shuffle;
-			delete defaultSaveClone.misstar_dungeon_shuffle;
-			delete defaultSaveClone.klevar_dungeon_shuffle;
-			delete defaultSaveClone.kalmar_dungeon_shuffle;
-			delete defaultSaveClone.eldstar_chapter_disabled;
-			delete defaultSaveClone.mamar_chapter_disabled;
-			delete defaultSaveClone.skolar_chapter_disabled;
-			delete defaultSaveClone.muskular_chapter_disabled;
-			delete defaultSaveClone.misstar_chapter_disabled;
-			delete defaultSaveClone.klevar_chapter_disabled;
-			delete defaultSaveClone.kalmar_chapter_disabled;
-			delete defaultSaveClone.starrod;
+			defaultSaveClone.items.eldstar = currentSave.items.eldstar;
+			defaultSaveClone.items.mamar = currentSave.items.mamar;
+			defaultSaveClone.items.skolar = currentSave.items.skolar;
+			defaultSaveClone.items.muskular = currentSave.items.muskular;
+			defaultSaveClone.items.misstar = currentSave.items.misstar;
+			defaultSaveClone.items.klevar = currentSave.items.klevar;
+			defaultSaveClone.items.kalmar = currentSave.items.kalmar;
+			defaultSaveClone.items.eldstar_difficulty = currentSave.items.eldstar_difficulty;
+			defaultSaveClone.items.mamar_difficulty = currentSave.items.mamar_difficulty;
+			defaultSaveClone.items.skolar_difficulty = currentSave.items.skolar_difficulty;
+			defaultSaveClone.items.muskular_difficulty = currentSave.items.muskular_difficulty;
+			defaultSaveClone.items.misstar_difficulty = currentSave.items.misstar_difficulty;
+			defaultSaveClone.items.klevar_difficulty = currentSave.items.klevar_difficulty;
+			defaultSaveClone.items.kalmar_difficulty = currentSave.items.kalmar_difficulty;
+			defaultSaveClone.items.eldstar_dungeon_shuffle = currentSave.items.eldstar_dungeon_shuffle;
+			defaultSaveClone.items.mamar_dungeon_shuffle = currentSave.items.mamar_dungeon_shuffle;
+			defaultSaveClone.items.skolar_dungeon_shuffle = currentSave.items.skolar_dungeon_shuffle;
+			defaultSaveClone.items.muskular_dungeon_shuffle = currentSave.items.muskular_dungeon_shuffle;
+			defaultSaveClone.items.misstar_dungeon_shuffle = currentSave.items.misstar_dungeon_shuffle;
+			defaultSaveClone.items.klevar_dungeon_shuffle = currentSave.items.klevar_dungeon_shuffle;
+			defaultSaveClone.items.kalmar_dungeon_shuffle = currentSave.items.kalmar_dungeon_shuffle;
+			defaultSaveClone.items.eldstar_chapter_disabled = currentSave.items.eldstar_chapter_disabled;
+			defaultSaveClone.items.mamar_chapter_disabled = currentSave.items.mamar_chapter_disabled;
+			defaultSaveClone.items.skolar_chapter_disabled = currentSave.items.skolar_chapter_disabled;
+			defaultSaveClone.items.muskular_chapter_disabled = currentSave.items.muskular_chapter_disabled;
+			defaultSaveClone.items.misstar_chapter_disabled = currentSave.items.misstar_chapter_disabled;
+			defaultSaveClone.items.klevar_chapter_disabled = currentSave.items.klevar_chapter_disabled;
+			defaultSaveClone.items.kalmar_chapter_disabled = currentSave.items.kalmar_chapter_disabled;
+			defaultSaveClone.items.starrod = currentSave.items.starrod;
+
+			defaultSaveClone.items.rip_cheato = currentSave.items.rip_cheato;
+			defaultSaveClone.items.chuck_quizmo = currentSave.items.chuck_quizmo;
 		}
 
 		if (noChecks) {
@@ -899,15 +906,15 @@ export const useSaveStore = defineStore('save', () => {
 		}
 	);
 
-	watch(
-		() => currentSave.configs.randomizer.magical_seed_required,
-		(newValue, oldValue) => {
-			tracker.items.items.chapter6.yellow_magical_seed.enabled = newValue >= 1;
-			tracker.items.items.chapter6.green_magical_seed.enabled = newValue >= 2;
-			tracker.items.items.chapter6.purple_magical_seed.enabled = newValue >= 3;
-			tracker.items.items.chapter6.pink_magical_seed.enabled = newValue >= 4;
-		}
-	);
+	// watch(
+	// 	() => currentSave.configs.randomizer.magical_seed_required,
+	// 	(newValue, oldValue) => {
+	// 		// tracker.items.items.chapter6.yellow_magical_seed.enabled = newValue >= 1;
+	// 		// tracker.items.items.chapter6.green_magical_seed.enabled = newValue >= 2;
+	// 		// tracker.items.items.chapter6.purple_magical_seed.enabled = newValue >= 3;
+	// 		// tracker.items.items.chapter6.pink_magical_seed.enabled = newValue >= 4;
+	// 	}
+	// );
 
 	watch(
 		() => currentSave.configs.randomizer.blue_house_open,
@@ -1019,6 +1026,168 @@ export const useSaveStore = defineStore('save', () => {
 	watch(welcomeMessageShown, (newValue, oldValue) => {
 		localStorage.setItem('welcomeMessageShown', true);
 	});
+
+	//Watch max of items
+	watch(
+		() => currentSave.items.fortress_key,
+		(newValue, oldValue) => {
+			if (newValue > tracker.items.items.chapter1.fortress_key.max) {
+				currentSave.items.fortress_key = tracker.items.items.chapter1.fortress_key.max;
+			}
+		}
+	);
+
+	watch(
+		() => currentSave.items.ruins_key,
+		(newValue, oldValue) => {
+			if (newValue > tracker.items.items.chapter2.ruins_key.max) {
+				currentSave.items.ruins_key = tracker.items.items.chapter2.ruins_key.max;
+			}
+		}
+	);
+
+	watch(
+		() => currentSave.items.star_pieces,
+		(newValue, oldValue) => {
+			if (newValue > tracker.items.misc.star_pieces.max) {
+				currentSave.items.star_pieces = tracker.items.misc.star_pieces.max;
+			}
+		}
+	);
+
+	watch(
+		() => currentSave.items.tubba_castle_key,
+		(newValue, oldValue) => {
+			if (newValue > tracker.items.items.chapter3.tubba_castle_key.max) {
+				currentSave.items.tubba_castle_key = tracker.items.items.chapter3.tubba_castle_key.max;
+			}
+		}
+	);
+
+	watch(
+		() => currentSave.items.blue_berry,
+		(newValue, oldValue) => {
+			if (newValue > tracker.items.items.chapter6.blue_berry.max) {
+				currentSave.items.blue_berry = tracker.items.items.chapter6.blue_berry.max;
+			}
+		}
+	);
+
+	watch(
+		() => currentSave.items.prison_key,
+		(newValue, oldValue) => {
+			if (newValue > tracker.items.items.chapter8.prison_key.max) {
+				currentSave.items.prison_key = tracker.items.items.chapter8.prison_key.max;
+			}
+		}
+	);
+
+	watch(
+		() => currentSave.items.castle_key,
+		(newValue, oldValue) => {
+			if (newValue > tracker.items.items.chapter8.castle_key.max) {
+				currentSave.items.castle_key = tracker.items.items.chapter8.castle_key.max;
+			}
+		}
+	);
+
+	watch(
+		() => currentSave.items.letters,
+		(newValue, oldValue) => {
+			for (const [key, value] of Object.entries(newValue)) {
+				if (key == 'goompapa') {
+					if (value > tracker.items.letters.prologue.goompapa.max) {
+						currentSave.items.letters.goompapa = tracker.items.letters.prologue.goompapa.max;
+					}
+				}
+
+				if (key == 'koover') {
+					if (value > tracker.items.letters.chapter1.koover.max) {
+						currentSave.items.letters.koover = tracker.items.letters.chapter1.koover.max;
+					}
+				}
+
+				if (key == 'dane_t') {
+					if (value > tracker.items.letters.toad_town.dane_t.max) {
+						currentSave.items.letters.dane_t = tracker.items.letters.toad_town.dane_t.max;
+					}
+				}
+			}
+		},
+		{ deep: true }
+	);
+
+	watch(
+		() => currentSave.items.goombario,
+		(newValue, oldValue) => {
+			if (newValue > tracker.items.partners.goombario.max) {
+				currentSave.items.goombario = tracker.items.partners.goombario.max;
+			}
+		}
+	);
+
+	watch(
+		() => currentSave.items.kooper,
+		(newValue, oldValue) => {
+			if (newValue > tracker.items.partners.kooper.max) {
+				currentSave.items.kooper = tracker.items.partners.kooper.max;
+			}
+		}
+	);
+
+	watch(
+		() => currentSave.items.bombette,
+		(newValue, oldValue) => {
+			if (newValue > tracker.items.partners.bombette.max) {
+				currentSave.items.bombette = tracker.items.partners.bombette.max;
+			}
+		}
+	);
+
+	watch(
+		() => currentSave.items.parakarry,
+		(newValue, oldValue) => {
+			if (newValue > tracker.items.partners.parakarry.max) {
+				currentSave.items.parakarry = tracker.items.partners.parakarry.max;
+			}
+		}
+	);
+
+	watch(
+		() => currentSave.items.lakilester,
+		(newValue, oldValue) => {
+			if (newValue > tracker.items.partners.lakilester.max) {
+				currentSave.items.lakilester = tracker.items.partners.lakilester.max;
+			}
+		}
+	);
+
+	watch(
+		() => currentSave.items.bow,
+		(newValue, oldValue) => {
+			if (newValue > tracker.items.partners.bow.max) {
+				currentSave.items.bow = tracker.items.partners.bow.max;
+			}
+		}
+	);
+
+	watch(
+		() => currentSave.items.watt,
+		(newValue, oldValue) => {
+			if (newValue > tracker.items.partners.watt.max) {
+				currentSave.items.watt = tracker.items.partners.watt.max;
+			}
+		}
+	);
+
+	watch(
+		() => currentSave.items.sushie,
+		(newValue, oldValue) => {
+			if (newValue > tracker.items.partners.sushie.max) {
+				currentSave.items.sushie = tracker.items.partners.sushie.max;
+			}
+		}
+	);
 
 	return {
 		data: currentSave,
