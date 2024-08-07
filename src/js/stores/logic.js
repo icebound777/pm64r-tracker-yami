@@ -1758,7 +1758,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.letters_randomized;
 							},
 							available: () => {
-								return flags.toad_town() && flags.deliver_letters() && save.data.items.letters.merlow;
+								return flags.toad_town() && flags.jump_ledges() && flags.deliver_letters() && save.data.items.letters.merlow;
 							},
 							ap: [8112000163]
 						},
@@ -1791,7 +1791,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.merlow;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.star_pieces >= save.data.configs.logic.merlow_reward_cost_1;
+								return flags.toad_town() && flags.jump_ledges() && save.data.items.star_pieces >= save.data.configs.logic.merlow_reward_cost_1;
 							},
 							ap: [8112000179]
 						},
@@ -1802,7 +1802,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.merlow;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.star_pieces >= save.data.configs.logic.merlow_reward_cost_2;
+								return flags.toad_town() && flags.jump_ledges() && save.data.items.star_pieces >= save.data.configs.logic.merlow_reward_cost_2;
 							},
 							ap: [8112000180]
 						},
@@ -1813,7 +1813,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.merlow;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.star_pieces >= save.data.configs.logic.merlow_reward_cost_3;
+								return flags.toad_town() && flags.jump_ledges() && save.data.items.star_pieces >= save.data.configs.logic.merlow_reward_cost_3;
 							},
 							ap: [8112000181]
 						},
@@ -1824,7 +1824,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.merlow;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.star_pieces >= save.data.configs.logic.merlow_reward_cost_4;
+								return flags.toad_town() && flags.jump_ledges() && save.data.items.star_pieces >= save.data.configs.logic.merlow_reward_cost_4;
 							},
 							ap: [8112000182]
 						},
@@ -1835,7 +1835,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.merlow;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.star_pieces >= save.data.configs.logic.merlow_reward_cost_5;
+								return flags.toad_town() && flags.jump_ledges() && save.data.items.star_pieces >= save.data.configs.logic.merlow_reward_cost_5;
 							},
 							ap: [8112000183]
 						},
@@ -1846,7 +1846,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return save.data.configs.logic.merlow;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.star_pieces >= save.data.configs.logic.merlow_reward_cost_6;
+								return flags.toad_town() && flags.jump_ledges() && save.data.items.star_pieces >= save.data.configs.logic.merlow_reward_cost_6;
 							},
 							ap: [8112000184]
 						},
@@ -1857,7 +1857,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.star_pieces >= 1;
+								return flags.toad_town() && flags.jump_ledges() && save.data.items.star_pieces >= 1;
 							},
 							ap: [8112000164]
 						},
@@ -1868,7 +1868,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.star_pieces >= 1;
+								return flags.toad_town() && flags.jump_ledges() && save.data.items.star_pieces >= 1;
 							},
 							ap: [8112000165]
 						},
@@ -1879,7 +1879,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.star_pieces >= 2;
+								return flags.toad_town() && flags.jump_ledges() && save.data.items.star_pieces >= 2;
 							},
 							ap: [8112000166]
 						},
@@ -1890,7 +1890,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.star_pieces >= 2;
+								return flags.toad_town() && flags.jump_ledges() && save.data.items.star_pieces >= 2;
 							},
 							ap: [8112000167]
 						},
@@ -1901,7 +1901,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.star_pieces >= 4;
+								return flags.toad_town() && flags.jump_ledges() && save.data.items.star_pieces >= 4;
 							},
 							ap: [8112000168]
 						},
@@ -1912,7 +1912,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.star_pieces >= 4;
+								return flags.toad_town() && flags.jump_ledges() && save.data.items.star_pieces >= 4;
 							},
 							ap: [8112000169]
 						},
@@ -1923,7 +1923,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.star_pieces >= 6;
+								return flags.toad_town() && flags.jump_ledges() && save.data.items.star_pieces >= 6;
 							},
 							ap: [8112000170]
 						},
@@ -1934,7 +1934,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.star_pieces >= 6;
+								return flags.toad_town() && flags.jump_ledges() && save.data.items.star_pieces >= 6;
 							},
 							ap: [8112000171]
 						},
@@ -1945,7 +1945,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.star_pieces >= 8;
+								return flags.toad_town() && flags.jump_ledges() && save.data.items.star_pieces >= 8;
 							},
 							ap: [8112000172]
 						},
@@ -1956,7 +1956,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.star_pieces >= 8;
+								return flags.toad_town() && flags.jump_ledges() && save.data.items.star_pieces >= 8;
 							},
 							ap: [8112000173]
 						},
@@ -1967,7 +1967,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.star_pieces >= 10;
+								return flags.toad_town() && flags.jump_ledges() && save.data.items.star_pieces >= 10;
 							},
 							ap: [8112000174]
 						},
@@ -1978,7 +1978,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.star_pieces >= 10;
+								return flags.toad_town() && flags.jump_ledges() && save.data.items.star_pieces >= 10;
 							},
 							ap: [8112000175]
 						},
@@ -1989,7 +1989,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.star_pieces >= 15;
+								return flags.toad_town() && flags.jump_ledges() && save.data.items.star_pieces >= 15;
 							},
 							ap: [8112000176]
 						},
@@ -2000,7 +2000,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.star_pieces >= 15;
+								return flags.toad_town() && flags.jump_ledges() && save.data.items.star_pieces >= 15;
 							},
 							ap: [8112000177]
 						},
@@ -2011,7 +2011,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.toad_town() && save.data.items.star_pieces >= 20;
+								return flags.toad_town() && flags.jump_ledges() && save.data.items.star_pieces >= 20;
 							},
 							ap: [8112000178]
 						}
