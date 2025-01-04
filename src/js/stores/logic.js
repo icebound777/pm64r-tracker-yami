@@ -7623,7 +7623,7 @@ export const useLogicStore = defineStore('logic', () => {
 								return true;
 							},
 							available: () => {
-								return flags.gusty_gulch() && (flags.partner('kooper') || flags.partner('parakarry'));
+								return flags.gusty_gulch() && flags.partner('kooper');
 							},
 							ap: [8112000406]
 						},
